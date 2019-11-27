@@ -1,0 +1,89 @@
+public class Personnage {
+    // Les Statistiques des Personnages
+
+    // Les points de Vie. Quand ils tombent à 0, le personnage est considéré KO (il faut le réanimer à l'aide d'un objet ou dans une aire de repos).
+    private int HP;
+    // La statistique d'Attaque. Permet de calculer le nombre de dégats infligés lors des attaques.
+    private int ATK;
+    // La statistique de Defense. Permet de calculer le nombre de dégats recus lors des attaques ennemies.
+    private int DEF;
+    // La statistique de Vitesse. Permet d'effectuer plusieurs attaques par tour dans certaines conditions et d'autres choses.
+    private int SPEED;
+    // La statistique de Chance. Permet d'esquiver les attaques adverses ou de faire des attaques critiques.
+    private int LUCK;
+    // Le Niveau du personnage. Lors qu'il augmente, les statistiques sont augmentées.
+    private int LEVEL;
+    // L'expérience du personnage. Quand ils atteignent un certain seuil, le personnage monte de niveau.
+    private int EXP;
+    // L'expérience nécessaire pour que le personnage augmente de niveau.
+    private int neededEXP;
+    // Le nom du personnage.
+    private String name;
+
+    // Les statistiques minimales que peut avoir un personnage.
+    private final static int MIN_HP = 50;
+    private final static int MIN_ATK = 10;
+    private final static int MIN_DEF = 5;
+    private final static int MIN_SPEED = 7;
+    private final static int MIN_LEVEL = 1;
+    private final static int START_EXP = 0;
+    private final static int START_neededEXP = 100;
+
+    public Personnage(String name) {
+        this.HP = (int)(Math.random() * (MIN_HP * 0.2) + MIN_HP);
+        this.ATK = (int)(Math.random() * (MIN_ATK * 0.2) + MIN_ATK);
+        this.DEF = (int)(Math.random() * (MIN_DEF * 0.2) + MIN_DEF);
+        this.SPEED = (int)(Math.random() * (MIN_SPEED * 0.2) + MIN_DEF);
+        this.LUCK = (int)(Math.random() * 4);
+        this.LEVEL = MIN_LEVEL;
+        this.EXP = START_EXP;
+        this.neededEXP = START_neededEXP;
+        this.name = name;
+    }
+
+
+    // Partie de récupération des statistiques (utiles lors des combats, ...)
+
+    public int getHP() { return this.HP; }
+
+    public int getATK() { return this.ATK; }
+
+    public int getDEF() { return this.DEF; }
+
+    public int getSPEED() { return this.SPEED; }
+
+    public int getLUCK() { return this.LUCK; }
+
+    public int getLEVEL() { return this.LEVEL; }
+
+    public int getEXP() { return this.EXP; }
+
+    public int getNeededEXP() { return this.neededEXP; }
+
+    public String getName() { return this.name; }
+
+    // Partie de controle des statistiques (utiles lors des montée de niveaux, ...)
+
+    public void setHP(int hp) { this.HP = hp; }
+
+    public void setATK(int atk) { this.ATK = atk; }
+
+    public void setDEF(int def) { this.DEF = def; }
+
+    public void setSPEED(int speed) { this.SPEED = speed; }
+
+    public void setLUCK(int luck) { this.LUCK = luck; }
+
+    public void setLEVEL(int level) { this.LEVEL = level; }
+
+    public void setEXP(int exp) { this.EXP = exp; }
+
+    public void setNeededEXP(int neededexp) { this.neededEXP = neededexp; }
+
+    // Affichage en String du personnage
+
+    public String toString() {
+        return "Name - " + this.name + "\tLEVEL - " + this.LEVEL + "\nEXP  - " + this.EXP + "/" + this.neededEXP + "\nHthP - " + this.HP + "\tATK - " + this.ATK + "\nLUCK - " + this.LUCK + "\tDEF - " + this.DEF + "\n";
+    } 
+
+}
