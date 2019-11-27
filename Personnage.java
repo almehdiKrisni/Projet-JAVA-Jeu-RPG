@@ -30,11 +30,11 @@ public class Personnage {
     private final static int START_neededEXP = 100;
 
     public Personnage(String name) {
-        this.HP = (int)(Math.random() * (MIN_HP * 0.2) + MIN_HP);
-        this.ATK = (int)(Math.random() * (MIN_ATK * 0.2) + MIN_ATK);
-        this.DEF = (int)(Math.random() * (MIN_DEF * 0.2) + MIN_DEF);
-        this.SPEED = (int)(Math.random() * (MIN_SPEED * 0.2) + MIN_DEF);
-        this.LUCK = (int)(Math.random() * 4);
+        this.HP = (int)(Math.random() * (MIN_HP * 0.3) + MIN_HP);
+        this.ATK = (int)(Math.random() * (MIN_ATK * 0.5) + MIN_ATK);
+        this.DEF = (int)(Math.random() * (MIN_DEF * 0.3) + MIN_DEF);
+        this.SPEED = (int)(Math.random() * (MIN_SPEED * 0.5) + MIN_DEF);
+        this.LUCK = (int)(Math.random() * 6);
         this.LEVEL = MIN_LEVEL;
         this.EXP = START_EXP;
         this.neededEXP = START_neededEXP;
