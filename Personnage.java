@@ -1,4 +1,4 @@
-public class Personnage {
+public abstract class Personnage {
     // Les Statistiques des Personnages
 
     // Les points de Vie. Quand ils tombent à 0, le personnage est considéré KO (il faut le réanimer à l'aide d'un objet ou dans une aire de repos).
@@ -82,8 +82,9 @@ public class Personnage {
 
     // Affichage en String du personnage
 
-    public String toString() {
-        return "Name - " + this.name + "\tLEVEL - " + this.LEVEL + "\nEXP  - " + this.EXP + "/" + this.neededEXP + "\nHthP - " + this.HP + "\tATK - " + this.ATK + "\nLUCK - " + this.LUCK + "\tDEF - " + this.DEF + "\n";
-    } 
+    public abstract String toString();
 
+    // Action en combat du personnage
+
+    //public abstract void actionCombat();
 }
