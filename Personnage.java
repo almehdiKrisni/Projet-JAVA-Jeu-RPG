@@ -29,6 +29,9 @@ public abstract class Personnage {
     private final static int START_EXP = 0;
     private final static int START_neededEXP = 100;
 
+    // Le status des personnages (permet de gérer les combats)
+    private boolean isDead;
+
     public Personnage(String name) {
         this.HP = (int)(Math.random() * (MIN_HP * 0.3) + MIN_HP);
         this.ATK = (int)(Math.random() * (MIN_ATK * 0.5) + MIN_ATK);
@@ -39,6 +42,8 @@ public abstract class Personnage {
         this.EXP = START_EXP;
         this.neededEXP = START_neededEXP;
         this.name = name;
+
+        this.isDead = false;
     }
 
 
@@ -61,6 +66,8 @@ public abstract class Personnage {
     public int getNeededEXP() { return this.neededEXP; }
 
     public String getName() { return this.name; }
+
+    public Boolean getIsDead() { return this.isDead; }
 
     // Partie de controle des statistiques (utiles lors des montée de niveaux, ...)
 
@@ -86,5 +93,6 @@ public abstract class Personnage {
 
     // Action en combat du personnage
 
-    //public abstract void actionCombat();
+    public abstract void actionCombat();
+    
 }

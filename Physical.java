@@ -15,6 +15,10 @@ public abstract class Physical extends Personnage {
         return this.weapon;
     }
 
+    // Action en combat du personnage
+
+    public abstract void actionCombat();
+
     // Partie d'affichage des informations des personnages
 
     public abstract String toString();

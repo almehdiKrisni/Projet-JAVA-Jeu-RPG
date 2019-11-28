@@ -11,6 +11,12 @@ public class Healer extends Magic {
         return this.subClass;
     }
 
+    // Action en combat du personnage
+
+    public void actionCombat() {
+        return;
+    }
+
     // Partie d'affichage des personnages
 
     public String toString() {

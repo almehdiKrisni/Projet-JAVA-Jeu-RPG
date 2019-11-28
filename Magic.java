@@ -9,6 +9,10 @@ public abstract class Magic extends Personnage {
 
     public String getMainClass() { return this.MainClass; }
 
+    // Action en combat du personnage
+
+    public abstract void actionCombat();
+
     // Partie d'affichage des informations des personnages
 
     public abstract String toString();

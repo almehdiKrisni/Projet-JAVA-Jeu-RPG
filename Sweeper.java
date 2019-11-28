@@ -9,6 +9,12 @@ public class Sweeper extends Physical {
 
     public String getSubClass() { return this.subClass; }
 
+    // Action en combat du personnage
+
+    public void actionCombat() {
+        return;
+    }
+
     // Partie de l'affichage des personnages
 
     public String toString() {
