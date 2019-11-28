@@ -1,15 +1,17 @@
-public class Sweeper extends Physical {
-    private final String subClass = "Sweeper";
+public class Healer extends Magic {
+    private final String subClass = "Healer";
 
-    public Sweeper(String name) {
+    public Healer(String name) {
         super(name);
     }
 
     // Partie de récupération des informations des personnages
 
-    public String getSubClass() { return this.subClass; }
+    public String getSubClass() {
+        return this.subClass;
+    }
 
-    // Partie de l'affichage des personnages
+    // Partie d'affichage des personnages
 
     public String toString() {
         return "Name - " + this.getName() + "\nClass - " + this.getMainClass() + "\tSpecialized Class - " + this.getSubClass() + "\nLEVEL - " + this.getLEVEL() + "\tEXP  - " + this.getEXP() + "/" + this.getNeededEXP() + "\nHthP - " + this.getHP() + "\tATK - " + this.getATK() + "\nLUCK - " + this.getLUCK() + "\tDEF - " + this.getDEF() + "\n";
