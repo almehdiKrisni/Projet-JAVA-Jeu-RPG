@@ -1,4 +1,4 @@
-public abstract class Physical extends Personnage {
+public abstract class Physical extends Character {
     private final String MainClass = "Weapon User";
     private Weapon weapon;
 
@@ -13,6 +13,17 @@ public abstract class Physical extends Personnage {
 
     public Weapon getWeapon() {
         return this.weapon;
+    }
+
+    // Attribuer des armes aux personnages
+
+    public void giveWeapon(Weapon weapon) {
+        if (this.weapon != null) {
+            System.out.println("Le personnage tient déjà une arme.\n");
+            return;
+        }
+        this.weapon = weapon;
+        System.out.println("Le personnage tient désormais " + this.weapon.getName() +".\n");
     }
 
     // Action en combat du personnage

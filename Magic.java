@@ -1,4 +1,4 @@
-public abstract class Magic extends Personnage {
+public abstract class Magic extends Character {
     private final String MainClass = "Magic User";
 
     public Magic(String name) {

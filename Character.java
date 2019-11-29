@@ -1,4 +1,4 @@
-public abstract class Personnage {
+public abstract class Character {
     // Les Statistiques des Personnages
 
     // Les points de Vie. Quand ils tombent à 0, le personnage est considéré KO (il faut le réanimer à l'aide d'un objet ou dans une aire de repos).
@@ -32,7 +32,7 @@ public abstract class Personnage {
     // Le status des personnages (permet de gérer les combats)
     private boolean isDead;
 
-    public Personnage(String name) {
+    public Character(String name) {
         this.HP = (int)(Math.random() * (MIN_HP * 0.3) + MIN_HP);
         this.ATK = (int)(Math.random() * (MIN_ATK * 0.5) + MIN_ATK);
         this.DEF = (int)(Math.random() * (MIN_DEF * 0.3) + MIN_DEF);
@@ -91,8 +91,4 @@ public abstract class Personnage {
 
     public abstract String toString();
 
-    // Action en combat du personnage
-
-    public abstract void actionCombat();
-    
 }
