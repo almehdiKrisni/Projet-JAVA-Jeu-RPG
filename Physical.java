@@ -26,9 +26,21 @@ public abstract class Physical extends Character {
         System.out.println("Le personnage tient désormais " + this.weapon.getName() +".\n");
     }
 
+    public Weapon takeWeapon() {
+        if (this.weapon == null) {
+            System.out.println(this.getName() + "ne possede pas d'équipement.\n");
+            return null;
+        }
+        else {
+            Weapon ret = this.getWeapon();
+            this.giveWeapon(null);
+            return ret;
+        }
+    }
+
     // Action en combat du personnage
 
-    public abstract void actionCombat();
+    //public void actionCombat()
 
     // Partie d'affichage des informations des personnages
 
