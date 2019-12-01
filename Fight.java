@@ -37,7 +37,7 @@ public class Fight {
                     if (this.enemies.haveBeenDefeated()) {
                         double r = Math.random();
                         if (r < 0.33) System.out.println("The enemies have been defeated! Let's move on...\n");
-                        else if (r < 0.67) System.out.println("Victory! To the next figth...\n");
+                        else if (r < 0.67) System.out.println("Victory! To the next fight...\n");
                         else System.out.println("That settles it! It's crazy how strong we are...\n");
                         return;
                     }
