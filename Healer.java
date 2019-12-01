@@ -5,7 +5,7 @@ public class Healer extends Magic {
         super(name);
         this.HP = (int)(this.HP * 1.2);
         this.actualHP = this.HP;
-        this.DEF = (int)(this.HP * 0.7);
+        this.DEF = (int)(this.DEF * 0.7);
         this.LUCK = (int)(this.LUCK * 3);
     }
 
