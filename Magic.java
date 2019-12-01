@@ -1,5 +1,5 @@
 public abstract class Magic extends Character {
-    private final String MainClass = "Magic User";
+    protected final String MainClass = "Magic User";
 
     public Magic(String name) {
         super(name);

@@ -20,7 +20,7 @@ public class Mob {
 
     public Mob(int teamLevel) {
         double rand = Math.random();
-        if (rand < 0.3) {
+        if (rand < 0.4) {
             this.Name = "Goblin";
             this.HP = (int)(BASE_HP * 1/2) + 3 * teamLevel;
             this.ATK = (int)(BASE_ATK * 2/3) + 1 * teamLevel;
@@ -29,7 +29,7 @@ public class Mob {
             this.expDrop = BASE_expDrop;
             this.teamSPace = 1;
         }
-        else if (rand < 0.5) {
+        else if (rand < 0.6) {
             this.Name = "Giant";
             this.HP = (int)(BASE_HP * 2) + 10 * teamLevel;
             this.ATK = (int)(BASE_ATK * 1) + 1 * teamLevel;

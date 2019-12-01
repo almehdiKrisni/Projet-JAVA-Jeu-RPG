@@ -1,6 +1,6 @@
 public abstract class Physical extends Character {
-    private final String MainClass = "Weapon User";
-    private Weapon weapon;
+    protected final String MainClass = "Weapon User";
+    protected Weapon weapon;
 
     public Physical(String name) {
         super(name);

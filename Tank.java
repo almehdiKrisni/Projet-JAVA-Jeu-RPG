@@ -12,6 +12,12 @@ public class Tank extends Physical {
     // Partie de l'affichage des personnages
 
     public String toString() {
-        return "Name - " + this.getName() + "\nClass - " + this.getMainClass() + "\tSpecialized Class - " + this.getSubClass() + "\nLVL  - " + this.getLEVEL() + "\tEXP - " + this.getEXP() + "/" + this.getNeededEXP() + "\nHthP - " + this.getHP() + "\tATK - " + this.getATK() + "\nLUCK - " + this.getLUCK() + "\tDEF - " + this.getDEF() + "\n";
+        String text = "Name - " + this.Name + "\tLEVEL - " + this.LEVEL + "\nClass - " + this.MainClass + "\tSpecialized Class - " + this.subClass + "\nHP  - " + this.HP + "\tATK - " + this.ATK + "\tSPD - " + this.SPEED + "\nDEF - " + this.DEF + " \tLCK - " + this.LUCK + " \t(" + this.EXP + "/" + this.neededEXP + ")\n";
+        if (this.getWeapon() != null) {
+            return text + "Equiped Weapon - " + this.getWeapon().getName() + " (Migth - " + this.getWeapon().getMigth() + " , Weigth - " + this.getWeapon().getWeigth() + ")\n";
+        }
+        else {
+            return text + "Equiped Weapon - None\n";
+        }
     }
 }

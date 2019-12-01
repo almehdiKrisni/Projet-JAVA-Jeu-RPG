@@ -2,23 +2,23 @@ public abstract class Character {
     // Les Statistiques des Personnages
 
     // Les points de Vie. Quand ils tombent à 0, le personnage est considéré KO (il faut le réanimer à l'aide d'un objet ou dans une aire de repos).
-    private int HP;
+    protected int HP;
     // La statistique d'Attaque. Permet de calculer le nombre de dégats infligés lors des attaques.
-    private int ATK;
+    protected int ATK;
     // La statistique de Defense. Permet de calculer le nombre de dégats recus lors des attaques ennemies.
-    private int DEF;
+    protected int DEF;
     // La statistique de Vitesse. Permet d'effectuer plusieurs attaques par tour dans certaines conditions et d'autres choses.
-    private int SPEED;
+    protected int SPEED;
     // La statistique de Chance. Permet d'esquiver les attaques adverses ou de faire des attaques critiques.
-    private int LUCK;
+    protected int LUCK;
     // Le Niveau du personnage. Lors qu'il augmente, les statistiques sont augmentées.
-    private int LEVEL;
+    protected int LEVEL;
     // L'expérience du personnage. Quand ils atteignent un certain seuil, le personnage monte de niveau.
-    private int EXP;
+    protected int EXP;
     // L'expérience nécessaire pour que le personnage augmente de niveau.
-    private int neededEXP;
+    protected int neededEXP;
     // Le nom du personnage.
-    private String name;
+    protected String Name;
 
     // Les statistiques minimales que peut avoir un personnage.
     private final static int MIN_HP = 50;
@@ -30,7 +30,7 @@ public abstract class Character {
     private final static int START_neededEXP = 100;
 
     // Le status des personnages (permet de gérer les combats)
-    private boolean isDead;
+    protected boolean isDead;
 
     public Character(String name) {
         this.HP = (int)(Math.random() * (MIN_HP * 0.3) + MIN_HP);
@@ -41,7 +41,7 @@ public abstract class Character {
         this.LEVEL = MIN_LEVEL;
         this.EXP = START_EXP;
         this.neededEXP = START_neededEXP;
-        this.name = name;
+        this.Name = name;
 
         this.isDead = false;
     }
@@ -65,7 +65,7 @@ public abstract class Character {
 
     public int getNeededEXP() { return this.neededEXP; }
 
-    public String getName() { return this.name; }
+    public String getName() { return this.Name; }
 
     public Boolean getIsDead() { return this.isDead; }
 
