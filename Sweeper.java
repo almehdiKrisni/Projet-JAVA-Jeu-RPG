@@ -3,6 +3,9 @@ public class Sweeper extends Physical {
 
     public Sweeper(String name) {
         super(name);
+        this.ATK = (int)(this.ATK * 1.3);
+        this.SPEED = (int)(this.SPEED * 1.5);
+        this.DEF = (int)(this.DEF * 0.8);
     }
 
     // Partie de récupération des informations des personnages

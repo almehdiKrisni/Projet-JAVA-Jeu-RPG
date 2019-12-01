@@ -5,13 +5,28 @@ public class Enemies {
     private int teamSize;
     private ArrayList<Mob> enemies;
 
-    public Enemies(Party team) {
+    public Enemies(int lvl) {
         this.teamSize = (int)(Math.random() * 4) + 1;
+        this.enemies = new ArrayList<Mob>();
         int sn = 0;
         while (sn < this.teamSize) {
-            Mob m = new Mob(team.getAverageLevel());
+            Mob m = new Mob(lvl);
             while (m.getTeamSpace() + sn > teamSize) {
-                m = new Mob(team.getAverageLevel());
+                m = new Mob(lvl);
+            }
+            this.enemies.add(m);
+            sn = sn + m.getTeamSpace();
+        }
+    }
+
+    public Enemies(int lvl, int taille) {
+        this.teamSize = taille;
+        this.enemies = new ArrayList<Mob>();
+        int sn = 0;
+        while (sn < this.teamSize) {
+            Mob m = new Mob(lvl);
+            while (m.getTeamSpace() + sn > teamSize) {
+                m = new Mob(lvl);
             }
             this.enemies.add(m);
             sn = sn + m.getTeamSpace();
@@ -29,6 +44,10 @@ public class Enemies {
         }
         return text;
     }
+
+    // Supression d'un ennemi de l'équipe adverse (quand il est vaincu)
+
+    public void deleteMob(Mob m) { this.enemies.remove(m); }
 
     // Accesseurs aux monstres de l'équipe et à sa taille
 

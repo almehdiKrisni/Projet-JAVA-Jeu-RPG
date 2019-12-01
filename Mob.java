@@ -1,6 +1,7 @@
 public class Mob {
     // Les statistiques classiques de tout les monstres du jeu.
     private int HP;
+    private int actualHP;
     private int ATK;
     private int DEF;
     private int SPEED;
@@ -18,7 +19,8 @@ public class Mob {
 
     // Le créateur random de monstre.
 
-    public Mob(int teamLevel) {
+    public Mob(int lvl) {
+        int teamLevel = lvl - 1;
         double rand = Math.random();
         if (rand < 0.4) {
             this.Name = "Goblin";
@@ -65,6 +67,8 @@ public class Mob {
             this.expDrop = 1000;
             this.teamSPace = 1;
         }
+        this.LEVEL = lvl;
+        this.actualHP = this.HP;
     }
 
     // Les accesseurs aux statistiques des monstres
@@ -72,6 +76,8 @@ public class Mob {
     public String getName() { return this.Name; }
 
     public int getHP() { return this.HP; }
+
+    public int getActualHP() { return this.actualHP; }
 
     public int getATK() { return this.ATK; }
 
@@ -87,5 +93,5 @@ public class Mob {
 
     // Les attributeurs de valeurs aux statistiques des monstres (uniquement les HP, pour des raisons triviales)
 
-    public void setHP(int hp) { this.HP = hp; }
+    public void setActualHP(int hp) { this.actualHP = hp; }
 }

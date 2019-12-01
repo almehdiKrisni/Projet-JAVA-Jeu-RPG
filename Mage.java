@@ -3,6 +3,9 @@ public class Mage extends Magic {
 
     public Mage(String name) {
         super(name);
+        this.ATK = (int)(this.ATK * 1.5);
+        this.SPEED = (int)(this.SPEED * 0.8);
+        this.DEF = (int)(this.DEF * 0.8);
     }
 
     // Partie de récupération des informations des personnages

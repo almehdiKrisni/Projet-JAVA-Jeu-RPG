@@ -3,6 +3,10 @@ public class Healer extends Magic {
 
     public Healer(String name) {
         super(name);
+        this.HP = (int)(this.HP * 1.2);
+        this.actualHP = this.HP;
+        this.DEF = (int)(this.HP * 0.7);
+        this.LUCK = (int)(this.LUCK * 3);
     }
 
     // Partie de récupération des informations des personnages
