@@ -29,7 +29,8 @@ public abstract class Character {
     private final static int START_EXP = 0;
     private final static int START_neededEXP = 100;
 
-    // Le status des personnages (permet de gérer les combats)
+    // Le nombre de points de vie actuel et status des personnages (permet de gérer les combats)
+    protected int actualHP;
     protected boolean isDead;
 
     public Character(String name) {
@@ -44,6 +45,7 @@ public abstract class Character {
         this.Name = name;
 
         this.isDead = false;
+        this.actualHP = this.HP;
     }
 
 
@@ -69,9 +71,9 @@ public abstract class Character {
 
     public Boolean getIsDead() { return this.isDead; }
 
-    // Partie de controle des statistiques (utiles lors des montée de niveaux, ...)
+    public int getActualHP() { return this.actualHP; }
 
-    public void setHP(int hp) { this.HP = hp; }
+    // Partie de controle des statistiques (utiles lors des montée de niveaux, ...)
 
     public void setATK(int atk) { this.ATK = atk; }
 
@@ -86,6 +88,10 @@ public abstract class Character {
     public void setEXP(int exp) { this.EXP = exp; }
 
     public void setNeededEXP(int neededexp) { this.neededEXP = neededexp; }
+
+    public void setIsDead(Boolean alive) { this.isDead = alive; }
+
+    public void setActualHP (int hp) { this.actualHP = hp; }
 
     // Affichage en String du personnage
 

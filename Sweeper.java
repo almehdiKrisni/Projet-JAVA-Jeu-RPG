@@ -12,7 +12,7 @@ public class Sweeper extends Physical {
     // Partie de l'affichage des personnages
 
     public String toString() {
-        String text = "Name - " + this.Name + "\tLEVEL - " + this.LEVEL + "\nClass - " + this.MainClass + "\tSpecialized Class - " + this.subClass + "\nHP  - " + this.HP + "\tATK - " + this.ATK + "\tSPD - " + this.SPEED + "\nDEF - " + this.DEF + " \tLCK - " + this.LUCK + " \t(" + this.EXP + "/" + this.neededEXP + ")\n";
+        String text = "Name - " + this.Name + "\tLEVEL - " + this.LEVEL + "\nClass - " + this.MainClass + "\tSpecialized Class - " + this.subClass + "\nHP  - " + this.actualHP + "/" + this.HP +"\tATK - " + this.ATK + "\tSPD - " + this.SPEED + "\nDEF - " + this.DEF + " \tLCK - " + this.LUCK + " \t(" + this.EXP + "/" + this.neededEXP + ")\n";
         if (this.getWeapon() != null) {
             return text + "Equiped Weapon - " + this.getWeapon().getName() + " (Migth - " + this.getWeapon().getMigth() + " , Weigth - " + this.getWeapon().getWeigth() + ")\n";
         }

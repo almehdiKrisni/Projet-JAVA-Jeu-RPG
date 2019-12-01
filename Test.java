@@ -2,7 +2,7 @@ public class Test {
     public static void main(String[] args) {
         // Affichage des personnages
 
-        /*Character p1 = new Mage("Dimitri");
+        Character p1 = new Mage("Dimitri");
         Character p2 = new Sweeper("Jonathan");
         Character p3 = new Tank("Denis");
         Character p4 = new Healer("MNO");
@@ -10,7 +10,7 @@ public class Test {
         System.out.println(p1);
         System.out.println(p2);
         System.out.println(p3);
-        System.out.println(p4);*/
+        System.out.println(p4);
 
         // Affichage des armes
 
@@ -24,7 +24,7 @@ public class Test {
 
         // Affichage des soins
 
-        HealingItem h1 = new HealingItem("Potion", 5, 20);
+        /*HealingItem h1 = new HealingItem("Potion", 5, 20);
         HealingItem h2 = new HealingItem("Elixir", 1, 40);
         HealingItem h3 = new HealingItem("Bonbon", 1, 10);
 
@@ -39,7 +39,7 @@ public class Test {
         i1.addItem(h2);
         i1.addItem(h3);
 
-        System.out.println(i1);
+        System.out.println(i1);*/
 
         
     }
