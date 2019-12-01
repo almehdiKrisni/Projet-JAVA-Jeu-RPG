@@ -40,7 +40,28 @@ public abstract class Physical extends Character {
 
     // Action en combat du personnage
 
-    //public void actionCombat()
+    public void actionCombat(Enemies enemies, int pos){
+        Mob target = enemies.getMobInPos(pos);
+        int damage = 0;
+        if ((int)(Math.random() * 100) > this.LUCK) {
+            damage = Math.max(this.ATK - target.getDEF(), 0);
+            System.out.println(this.Name + " has inflicted " + damage + " damages to " + target.toString() + ".\n");
+            target.setActualHP(Math.max(0, target.getActualHP() - damage));
+            if (target.getActualHP() == 0) {
+                System.out.println(target.getName() + " has fainted.\n");
+                enemies.deleteMob(target);
+            }
+        }
+        else {
+            damage = this.ATK * 3;
+            System.out.println("CRITICAL HIT !!! " + this.Name + " has inflicted " + damage + " damages to " + target.toString() + ".\n");
+            target.setActualHP(Math.max(0, target.getActualHP() - damage));
+            if (target.getActualHP() == 0) {
+                System.out.println(target.toString() + "has fainted.\n");
+                enemies.deleteMob(target);
+            }
+        }
+    }
 
     // Partie d'affichage des informations des personnages
 

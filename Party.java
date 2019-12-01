@@ -44,8 +44,6 @@ public class Party {
         else if ( v == 2 ) { Tank c = new Tank(name); this.Team.add(c); }
         else if ( v == 3 ) { Mage c = new Mage(name); this.Team.add(c); }
         else { Healer c = new Healer(name); this.Team.add(c); }
-
-        scanner.close();
     }
 
     public void addMember(Character c) {
@@ -73,7 +71,7 @@ public class Party {
         for (Character c : this.Team) {
             l = l + c.getLEVEL();
         }
-        return (int)(l / 4);
+        return (int)(l / this.Team.size());
     }
 
     // Méthode toString de la classe

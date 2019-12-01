@@ -69,13 +69,20 @@ public class Enemies {
                 v = scan.next();
             }
 
-            scan.close();
-
             return this.enemies.get(Integer.parseInt(v.trim()) - 1);
         }
 
         return this.enemies.get(pos - 1);
     }
 
+    // Méthode pour obtenir la taille des monstres dans l'équipe adverse
+
     public int getTeamSize() { return this.teamSize; }
+
+    // Méthode servant à savoir si les ennemis ont été vaincus
+
+    public Boolean haveBeenDefeated() {
+        if (this.enemies.size() == 0) return true;
+        else return false;
+    }
 }

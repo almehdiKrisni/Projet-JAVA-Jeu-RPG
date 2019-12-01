@@ -97,4 +97,8 @@ public abstract class Character {
 
     public abstract String toString();
 
+    // Action en combat du personnage
+
+    public abstract void actionCombat(Enemies enemies, int pos);
+
 }

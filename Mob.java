@@ -24,7 +24,7 @@ public class Mob {
         double rand = Math.random();
         if (rand < 0.4) {
             this.Name = "Goblin";
-            this.HP = (int)(BASE_HP * 1/2) + 3 * teamLevel;
+            this.HP = (int)(BASE_HP * 2/3) + 3 * teamLevel;
             this.ATK = (int)(BASE_ATK * 2/3) + 1 * teamLevel;
             this.DEF = (int)(BASE_DEF * 1/2) + 1 * teamLevel;
             this.SPEED = (int)(BASE_SPEED * 7/5) + 2 * teamLevel;
@@ -94,4 +94,8 @@ public class Mob {
     // Les attributeurs de valeurs aux statistiques des monstres (uniquement les HP, pour des raisons triviales)
 
     public void setActualHP(int hp) { this.actualHP = hp; }
+
+    // La méthode toString des monstres
+
+    public String toString() { return this.Name + " (Level " + this.LEVEL + ")"; }
 }

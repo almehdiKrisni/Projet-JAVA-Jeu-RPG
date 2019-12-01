@@ -22,7 +22,7 @@ public class Mage extends Magic {
 
     // Action en combat du personnage
 
-    public void actionCombat() {
+    public void actionCombat(Enemies enemies, int pos) {
         return;
     }
 }

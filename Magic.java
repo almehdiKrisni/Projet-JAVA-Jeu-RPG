@@ -11,7 +11,7 @@ public abstract class Magic extends Character {
 
     // Action en combat du personnage
 
-    public abstract void actionCombat();
+    public abstract void actionCombat(Enemies enemies, int pos);
 
     // Partie d'affichage des informations des personnages
 
