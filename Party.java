@@ -35,6 +35,16 @@ public class Party {
 
     public Inventory getInventory() { return this.inventory; }
 
+    // Accès au niveau moyen de l'équipe
+
+    public int getAverageLevel() {
+        int l = 0;
+        for (Character c : this.Team) {
+            l = l + c.getLEVEL();
+        }
+        return (int)(l / 4);
+    }
+
     // Méthode toString de la classe
 
     public String toString() {
