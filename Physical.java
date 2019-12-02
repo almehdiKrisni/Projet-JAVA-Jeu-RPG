@@ -49,6 +49,7 @@ public abstract class Physical extends Character {
             target.setActualHP(Math.max(0, target.getActualHP() - damage));
             if (target.getActualHP() == 0) {
                 System.out.println(target.getName() + " has fainted.\n");
+                this.earnExp(target);
                 enemies.deleteMob(target);
             }
         }
@@ -58,6 +59,7 @@ public abstract class Physical extends Character {
             target.setActualHP(Math.max(0, target.getActualHP() - damage));
             if (target.getActualHP() == 0) {
                 System.out.println(target.toString() + "has fainted.\n");
+                this.earnExp(target);
                 enemies.deleteMob(target);
             }
         }
@@ -66,5 +68,9 @@ public abstract class Physical extends Character {
     // Partie d'affichage des informations des personnages
 
     public abstract String toString();
+
+    // Méthode de montée de niveau
+
+    public abstract void levelUP();
 
 }

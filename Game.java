@@ -8,7 +8,7 @@ public class Game {
 
         System.out.println(p1);
 
-        Enemies e1 = new Enemies(p1.getAverageLevel(), 1);
+        Enemies e1 = new Enemies(p1.getAverageLevel(), (int)(Math.random() * 4 + 1));
 
         Fight f1 = new Fight(p1, e1);
 

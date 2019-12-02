@@ -101,4 +101,19 @@ public abstract class Character {
 
     public abstract void actionCombat(Enemies enemies, int pos);
 
+    // Méthode de montée de niveau
+
+    public abstract void levelUP();
+
+    // Méthode de montée d'obtention d'expérience (après avoir tué un monstre)
+
+    public void earnExp(Mob m) { 
+        System.out.println(this.Name + " has earned " + m.getExpDrop() + " experience points.\n");
+        this.EXP = this.EXP + m.getExpDrop();
+        if (this.EXP >= this.neededEXP) {
+            this.EXP = this.EXP - this.neededEXP;
+            this.levelUP();
+        }
+    }
+
 }

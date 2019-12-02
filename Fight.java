@@ -22,9 +22,12 @@ public class Fight {
     // Méthode servant à simuler les combats
 
     public void actionFight() {
-        System.out.println("Turn" + this.Turn + "\n");
-        System.out.println(this.allies + "\n" + this.enemies);
+        System.out.println("################################## FIGHT ###################################\n");
         while (!this.enemies.haveBeenDefeated()) {
+            System.out.println("--------------------------------- TURN " + this.Turn + " -----------------------------------\n");
+            this.Turn++;
+
+            System.out.println(this.allies + "\n" + this.enemies);
             for (Character c : this.allies.getTeam()) {
                 if (c.getIsDead() == false) {
                     System.out.println(c.getName() + " is waiting for orders ...\n");
@@ -39,6 +42,8 @@ public class Fight {
                         if (r < 0.33) System.out.println("The enemies have been defeated! Let's move on...\n");
                         else if (r < 0.67) System.out.println("Victory! To the next fight...\n");
                         else System.out.println("That settles it! It's crazy how strong we are...\n");
+
+                        System.out.println("############################# END OF THE FIGHT #############################\n");
                         return;
                     }
                 }

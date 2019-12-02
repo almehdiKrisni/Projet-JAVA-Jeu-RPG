@@ -25,4 +25,27 @@ public class Mage extends Magic {
     public void actionCombat(Enemies enemies, int pos) {
         return;
     }
+
+    // Méthode pour les montées de niveau
+
+    public void levelUP() {
+        System.out.println(this.Name + " has leveled up!");
+        int bhp = (int)(Math.random() * 3);
+        this.HP = this.HP + bhp;
+        this.actualHP = this.actualHP + bhp;
+        System.out.println("HP  - " + this.HP + " (+" + bhp + ")");
+
+        int batk = (int)(Math.random() * 3);
+        this.ATK = this.ATK + batk;
+        System.out.println("ATK - " + this.ATK + " (+" + batk + ")");
+
+        int bdef = (int)(Math.random() * 2);
+        this.DEF = this.DEF + bdef;
+        System.out.println("DEF - " + this.DEF + " (+" + bdef + ")");
+
+        int bspd = (int)(Math.random() * 3);
+        this.SPEED = this.SPEED + bspd;
+        System.out.println("SPD - " + this.SPEED + " (+" + bspd + ")");
+
+    }
 }
