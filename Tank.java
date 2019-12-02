@@ -29,6 +29,8 @@ public class Tank extends Physical {
     // Méthode pour les montées de niveau
 
     public void levelUP() {
+        this.neededEXP = this.neededEXP + 50;
+        
         System.out.println(this.Name + " has leveled up!");
         int bhp = (int)(Math.random() * 6);
         this.HP = this.HP + bhp;

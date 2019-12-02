@@ -29,6 +29,8 @@ public class Mage extends Magic {
     // Méthode pour les montées de niveau
 
     public void levelUP() {
+        this.neededEXP = this.neededEXP + 50;
+        
         System.out.println(this.Name + " has leveled up!");
         int bhp = (int)(Math.random() * 3);
         this.HP = this.HP + bhp;

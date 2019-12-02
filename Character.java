@@ -111,7 +111,7 @@ public abstract class Character {
         System.out.println(this.Name + " has earned " + m.getExpDrop() + " experience points.\n");
         this.EXP = this.EXP + m.getExpDrop();
         if (this.EXP >= this.neededEXP) {
-            this.EXP = this.EXP - this.neededEXP;
+            this.EXP = 0;
             this.levelUP();
         }
     }
