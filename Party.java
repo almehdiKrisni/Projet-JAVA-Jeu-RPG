@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -24,26 +25,49 @@ public class Party {
             return;
         }
 
+        Runtime rt = Runtime.getRuntime();
+        Process proc;
+
         Scanner scanner = new Scanner(System.in);
         ArrayList<Integer> liste_choix = new ArrayList<Integer>();
         for (int v = 1; v <= 4; v++) { liste_choix.add(v); }
-
         
         System.out.println("Enter your name :");
         String name = scanner.next();
 
+        try {
+            proc = rt.exec("clear");
+        }
+        catch (IOException e){
+            System.out.println("Erreur de commande.\n");
+        }
+
         System.out.println("\nChoose your class :\n1 - Sweeper (High base Speed and Attack)\n2 - Tank (High base HP and Defense)\n3 - Mage (Ignore the enemy's defense, low base HP and DEF)\n4 - Healer (Heals an ally or inflict low damage to enemies)\n");
         int v = scanner.nextInt();
+
+        try {
+            proc = rt.exec("clear");
+        }
+        catch (IOException e){
+            System.out.println("Erreur de commande.\n");
+        }
 
         while ( liste_choix.contains(v) == false) {
             System.out.println("\nError while choosing your class (wrong value chosen)\nChoose your class :\n1 - Sweeper (High base Speed and Attack)\n2 - Tank (High base HP and Defense)\n3 - Mage (Ignore the enemy's defense, low base HP and DEF)\n4 - Healer (Heals an ally or inflict low damage to enemies)\n");
             v = scanner.nextInt();
         }
 
-        if ( v == 1) { Sweeper c = new Sweeper(name); this.Team.add(c); }
-        else if ( v == 2 ) { Tank c = new Tank(name); this.Team.add(c); }
-        else if ( v == 3 ) { Mage c = new Mage(name); this.Team.add(c); }
-        else { Healer c = new Healer(name); this.Team.add(c); }
+        if ( v == 1) { Sweeper c = new Sweeper(name); this.Team.add(c); System.out.println(c.getName() + " has joined the team !\n"); }
+        else if ( v == 2 ) { Tank c = new Tank(name); this.Team.add(c); System.out.println(c.getName() + " has joined the team !\n"); }
+        else if ( v == 3 ) { Mage c = new Mage(name); this.Team.add(c); System.out.println(c.getName() + " has joined the team !\n"); }
+        else { Healer c = new Healer(name); this.Team.add(c); System.out.println(c.getName() + " has joined the team !\n"); }
+
+        try {
+            proc = rt.exec("clear");
+        }
+        catch (IOException e){
+            System.out.println("Erreur de commande.\n");
+        }
     }
 
     public void addMember(Character c) {
