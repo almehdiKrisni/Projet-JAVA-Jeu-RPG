@@ -1,10 +1,25 @@
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.awt.GridBagLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import java.awt.event.*;
+import javax.swing.JOptionPane;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
+import java.awt.Insets;
 
 public class Party {
     private ArrayList<Character> Team;
+    private ArrayList<Physical> physicalFighters;
+    private ArrayList<Magic> magicalFighters;
     private Inventory inventory;
+    private ArrayList<Weapon> armory;
 
     // Je limite l'équipe à 4 membres
 
@@ -15,6 +30,9 @@ public class Party {
     public Party() {
         this.inventory = new Inventory();
         this.Team = new ArrayList<Character>();
+        this.physicalFighters = new ArrayList<Physical>();
+        this.magicalFighters = new ArrayList<Magic>();
+        this.armory = new ArrayList<Weapon>();
     }
 
     // Méthodes de la classe (ajout de personnages ou d'objets)
@@ -25,61 +43,214 @@ public class Party {
             return;
         }
 
-        Runtime rt = Runtime.getRuntime();
-        Process proc;
-
         Scanner scanner = new Scanner(System.in);
         ArrayList<Integer> liste_choix = new ArrayList<Integer>();
         for (int v = 1; v <= 4; v++) { liste_choix.add(v); }
         
-        System.out.println("Enter your name :");
+        System.out.println("Enter your name :"); System.out.println();
         String name = scanner.next();
 
-        try {
-            proc = rt.exec("clear");
-        }
-        catch (IOException e){
-            System.out.println("Erreur de commande.\n");
-        }
-
-        System.out.println("\nChoose your class :\n1 - Sweeper (High base Speed and Attack)\n2 - Tank (High base HP and Defense)\n3 - Mage (Ignore the enemy's defense, low base HP and DEF)\n4 - Healer (Heals an ally or inflict low damage to enemies)\n");
-        int v = scanner.nextInt();
-
-        try {
-            proc = rt.exec("clear");
-        }
-        catch (IOException e){
-            System.out.println("Erreur de commande.\n");
-        }
+        System.out.println("\nChoose your class (choose a number) :\n1 - Sweeper (High base Speed and Attack)\n2 - Tank (High base HP and Defense)\n3 - Mage (Ignore the enemy's defense, low base HP and DEF)\n4 - Healer (Heals an ally or inflict low damage to enemies)\n");
+        int v = scanner.nextInt(); System.out.println();
 
         while ( liste_choix.contains(v) == false) {
             System.out.println("\nError while choosing your class (wrong value chosen)\nChoose your class :\n1 - Sweeper (High base Speed and Attack)\n2 - Tank (High base HP and Defense)\n3 - Mage (Ignore the enemy's defense, low base HP and DEF)\n4 - Healer (Heals an ally or inflict low damage to enemies)\n");
-            v = scanner.nextInt();
+            v = scanner.nextInt(); System.out.println();
         }
 
-        if ( v == 1) { Sweeper c = new Sweeper(name); this.Team.add(c); System.out.println(c.getName() + " has joined the team !\n"); }
-        else if ( v == 2 ) { Tank c = new Tank(name); this.Team.add(c); System.out.println(c.getName() + " has joined the team !\n"); }
-        else if ( v == 3 ) { Mage c = new Mage(name); this.Team.add(c); System.out.println(c.getName() + " has joined the team !\n"); }
-        else { Healer c = new Healer(name); this.Team.add(c); System.out.println(c.getName() + " has joined the team !\n"); }
-
-        try {
-            proc = rt.exec("clear");
-        }
-        catch (IOException e){
-            System.out.println("Erreur de commande.\n");
-        }
+        if ( v == 1) { Sweeper c = new Sweeper(name); this.Team.add(c); this.physicalFighters.add(c); System.out.println(c.getName() + " has joined the team !\n"); }
+        else if ( v == 2 ) { Tank c = new Tank(name); this.Team.add(c); this.physicalFighters.add(c); System.out.println(c.getName() + " has joined the team !\n"); }
+        else if ( v == 3 ) { Mage c = new Mage(name); this.Team.add(c); this.magicalFighters.add(c); System.out.println(c.getName() + " has joined the team !\n"); }
+        else { Healer c = new Healer(name); this.Team.add(c); this.magicalFighters.add(c); System.out.println(c.getName() + " has joined the team !\n"); }
     }
 
-    public void addMember(Character c) {
-        if (this.Team.size() == maxTeamSize) System.out.println("The team is already full (only 4 members are accepted).\n");
-        else {
-            this.Team.add(c);
-            System.out.println(c.getName() + " has joined the team !\n");
-        }
+    public String addMember(Character c) {
+        this.Team.add(c);
+        return c.getName() + " has joined your team!\n";
+    }
+
+    public void addMember(String name, String wannabe) {
+        if (wannabe == "Healer") { Healer h = new Healer(name); this.Team.add(h); this.magicalFighters.add(h); }
+        else if (wannabe == "Mage") { Mage m = new Mage(name); this.Team.add(m); this.magicalFighters.add(m); }
+        else if (wannabe == "Sweeper") { Sweeper s = new Sweeper(name); this.Team.add(s); this.physicalFighters.add(s); }
+        else { Tank t = new Tank(name); this.Team.add(t); this.physicalFighters.add(t); }
+    }
+
+    public void addMembers(JFrame inActionFrame) {
+        Party party = this;
+
+        JOptionPane.showMessageDialog(null, "When creating your team, keep this in mind :\nSweepers have High Base Attack and Speed but can't take a lot of damage\nTanks have Very High Base HP and Defense but Low Base Speed\nMages' attacks are not affected by the enemy's defense when attacking but are very fragile\nHealers can deal low damage to enemies or heal allies");
+
+        JFrame usedFrame = inActionFrame;
+        usedFrame.getContentPane().removeAll();
+        usedFrame.repaint();
+
+        // On cree les espaces pour la création de tout les personnages
+
+        JLabel create1 = new JLabel("Character 1");
+        JLabel create2 = new JLabel("Character 2");
+        JLabel create3 = new JLabel("Character 3");
+        JLabel create4 = new JLabel("Character 4");
+
+        String[] choices = {"Healer", "Mage", "Sweeper", "Tank"};
+        JComboBox<String> classChoice1 = new JComboBox<String>(choices);
+        JComboBox<String> classChoice2 = new JComboBox<String>(choices);
+        JComboBox<String> classChoice3 = new JComboBox<String>(choices);
+        JComboBox<String> classChoice4 = new JComboBox<String>(choices);
+
+        JTextField enterName1 = new JTextField(15);
+        JTextField enterName2 = new JTextField(15);
+        JTextField enterName3 = new JTextField(15);
+        JTextField enterName4 = new JTextField(15);
+
+        JLabel enterYourName1 = new JLabel("Enter the name");
+        JLabel enterYourName2 = new JLabel("Enter the name");
+        JLabel enterYourName3 = new JLabel("Enter the name");
+        JLabel enterYourName4 = new JLabel("Enter the name");
+
+        JLabel choiceMessage1 = new JLabel("Select the class");
+        JLabel choiceMessage2 = new JLabel("Select the class");
+        JLabel choiceMessage3 = new JLabel("Select the class");
+        JLabel choiceMessage4 = new JLabel("Select the class");
+
+        JButton createButton = new JButton("Create the team");
+
+        createButton.addActionListener (new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (enterName1.getText().length() > 0) {
+                    String name1 = enterName1.getText().toString();
+                    String choice1 = classChoice1.getSelectedItem().toString();
+                    party.addMember(name1, choice1);
+                }
+
+                if (enterName2.getText().length() > 0) {
+                    String name2 = enterName2.getText().toString();
+                    String choice2 = classChoice2.getSelectedItem().toString();
+                    party.addMember(name2, choice2);
+                }
+
+                if (enterName3.getText().length() > 0) {
+                    String name3 = enterName3.getText().toString();
+                    String choice3 = classChoice3.getSelectedItem().toString();
+                    party.addMember(name3, choice3);
+                }
+
+                if (enterName4.getText().length() > 0) {
+                    String name4 = enterName4.getText().toString();
+                    String choice4 = classChoice4.getSelectedItem().toString();
+                    party.addMember(name4, choice4);
+                }
+
+                JOptionPane.showMessageDialog(null, "The team has been correctly created!");
+
+                usedFrame.getContentPane().removeAll();
+                usedFrame.repaint();
+            }
+        });
+
+        JPanel creationPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.anchor = GridBagConstraints.PAGE_START;
+        constraints.insets = new Insets(10, 10, 10, 10);
+
+        // Creation du personnage 1
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        creationPanel.add(create1, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        creationPanel.add(enterYourName1, constraints);
+
+        constraints.gridx = 1;
+        creationPanel.add(enterName1, constraints);
+
+        constraints.gridy = 2;
+        constraints.gridx = 0;
+        creationPanel.add(choiceMessage1, constraints);
+
+        constraints.gridx = 1;
+        creationPanel.add(classChoice1, constraints);
+
+        // Creation du personnage 2
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        creationPanel.add(create2, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        creationPanel.add(enterYourName2, constraints);
+
+        constraints.gridx = 1;
+        creationPanel.add(enterName2, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 5;
+        creationPanel.add(choiceMessage2, constraints);
+
+        constraints.gridx = 1;
+        creationPanel.add(classChoice2, constraints);
+
+        // Creation du personnage 3
+        constraints.gridy = 6;
+        constraints.gridx = 0;
+        creationPanel.add(create3, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 7;
+        creationPanel.add(enterYourName3, constraints);
+
+        constraints.gridx = 1;
+        creationPanel.add(enterName3, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 8;
+        creationPanel.add(choiceMessage3, constraints);
+
+        constraints.gridx = 1;
+        creationPanel.add(classChoice3, constraints);
+
+        // Creation du personnage 4
+        constraints.gridy = 9;
+        constraints.gridx = 0;
+        creationPanel.add(create4, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 10;
+        creationPanel.add(enterYourName4, constraints);
+
+        constraints.gridx = 1;
+        creationPanel.add(enterName4, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 11;
+        creationPanel.add(choiceMessage4, constraints);
+
+        constraints.gridx = 1;
+        creationPanel.add(classChoice4, constraints);
+
+        // Bouton de validation des choix
+        constraints.gridx = 0;
+        constraints.gridy = 12;
+        creationPanel.add(new JLabel(""));
+
+        constraints.gridx = 1;
+        creationPanel.add(createButton);
+
+        usedFrame.setContentPane(creationPanel);
+        usedFrame.repaint();
+        usedFrame.revalidate();
     }
 
     public void addItem(Item i) {
+        System.out.println("You have received " + i.getName() + ".\n");
         this.inventory.addItem(i);
+    }
+
+    public void addWeapon(Weapon w) {
+        System.out.println("You have received " + w.toString() + ".\n");
+        this.armory.add(w);
     }
 
     // Accesseurs aux éléments d'un objet de la class Party
@@ -87,6 +258,19 @@ public class Party {
     public ArrayList<Character> getTeam() { return this.Team; }
 
     public Inventory getInventory() { return this.inventory; }
+
+    public ArrayList<Weapon> getArmory() { return this.armory; }
+
+    // Savoir si l'équipe entière a été vaincu
+
+    public Boolean haveLost() {
+        for (Character c : this.Team) {
+            if (c.isDead == false) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     // Accès au niveau moyen de l'équipe
 
@@ -105,6 +289,40 @@ public class Party {
         for (Character c : this.Team) {
             text = text + c.toString() + "\n";
         }
-        return text + this.inventory.toString();
+        return text;
+    }
+
+    // Equiper une arme sur un personnage si c'est possible
+
+    public void equipWeapon(Weapon w) {
+        if (this.physicalFighters.size() == 0) { System.out.println("No one in your team can hold a weapon. The weapon will be stored in your armory.\n"); this.addWeapon(w); }
+        else {
+            System.out.println("Who should hold the weapon?\n");
+            int n = 1;
+            for (Physical p : this.physicalFighters) {
+                System.out.println(p.getName() + " (" + n + ")");
+                n++;
+            }
+            Scanner scan = new Scanner(System.in);
+            System.out.println(); int choice = scan.nextInt(); System.out.println();
+
+            while ((choice <= 1) && (choice > this.physicalFighters.size())) {
+                System.out.println("I don't understand. Could you repeat ?\n");
+                for (Physical p : this.physicalFighters) {
+                    System.out.println(p.getName() + " (" + n + ")");
+                    n++;
+                }
+                System.out.println(); choice = scan.nextInt(); System.out.println();
+            }
+
+            if (this.physicalFighters.get(choice).getWeapon() != null) {
+                Weapon ret = this.physicalFighters.get(choice).takeWeapon();
+                this.addWeapon(ret);
+                this.physicalFighters.get(choice).giveWeapon(w);
+            }
+            else {
+                this.physicalFighters.get(choice).giveWeapon(w);
+            }
+        }
     }
 }

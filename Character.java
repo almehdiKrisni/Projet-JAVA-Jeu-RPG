@@ -21,7 +21,7 @@ public abstract class Character {
     protected String Name;
 
     // Les statistiques minimales que peut avoir un personnage.
-    private final static int MIN_HP = 50;
+    private final static int MIN_HP = 35;
     private final static int MIN_ATK = 10;
     private final static int MIN_DEF = 5;
     private final static int MIN_SPEED = 7;
@@ -99,7 +99,11 @@ public abstract class Character {
 
     // Action en combat du personnage
 
-    public abstract void actionCombat(Enemies enemies, int pos);
+    public abstract void actionCombat(Enemies enemies);
+
+    // Utilisation d'un objet en combat
+
+    public void useItem() { }
 
     // Méthode de montée de niveau
 
@@ -110,6 +114,15 @@ public abstract class Character {
     public void earnExp(Mob m) { 
         System.out.println(this.Name + " has earned " + m.getExpDrop() + " experience points.\n");
         this.EXP = this.EXP + m.getExpDrop();
+        if (this.EXP >= this.neededEXP) {
+            this.EXP = 0;
+            this.levelUP();
+        }
+    }
+
+    public void earnExp(int earn) {
+        System.out.println(this.Name + " has earned " + earn + " experience points.\n");
+        this.EXP = this.EXP + earn;
         if (this.EXP >= this.neededEXP) {
             this.EXP = 0;
             this.levelUP();

@@ -12,8 +12,8 @@ public class Mob {
 
     // Les statistiques de base des monstres.
     private static final int BASE_HP = 30;
-    private static final int BASE_ATK = 6;
-    private static final int BASE_DEF = 4;
+    private static final int BASE_ATK = 9;
+    private static final int BASE_DEF = 6;
     private static final int BASE_SPEED = 5;
     private static final int BASE_expDrop = 20;
 
@@ -40,7 +40,7 @@ public class Mob {
             this.expDrop = (int)(BASE_expDrop * 1.5);
             this.teamSPace = 2;
         }
-        else if (rand < 0.9) {
+        else if (rand < 0.97) {
             this.Name = "Slime";
             this.HP = (int)(BASE_HP) + 5 * teamLevel;
             this.ATK = (int)(BASE_ATK) + 2 * teamLevel;
@@ -49,23 +49,56 @@ public class Mob {
             this.expDrop = (int)(BASE_expDrop * 1.5);
             this.teamSPace = 2;
         }
-        else if (rand < 0.95) {
-            this.Name = "Dragon";
-            this.HP = (int)(BASE_HP * 10/3) + 15 * teamLevel;
-            this.ATK = (int)(BASE_ATK * 4) + 3 * teamLevel;
-            this.DEF = (int)(BASE_DEF * 2.5) + 2 * teamLevel;
-            this.SPEED = (int)(BASE_SPEED) + (int)(1.4 * teamLevel);
-            this.expDrop = (int)(BASE_expDrop * 5) + 50 * teamLevel;
-            this.teamSPace = 4;
-        }
         else {
             this.Name = "Silver Slime";
             this.HP = 1;
             this.ATK = 1;
-            this.DEF = 10000;
+            this.DEF = 9999;
             this.SPEED = 1;
             this.expDrop = 1000;
             this.teamSPace = 1;
+        }
+        this.LEVEL = lvl;
+        this.actualHP = this.HP;
+    }
+
+    public Mob(int lvl, String name) {
+        int teamLevel = lvl - 1;
+        if (name == "Dragon") {
+            this.Name = "Dragon (Dangerous enemy)";
+            this.HP = (int)(BASE_HP * 10) + 30 * teamLevel;
+            this.ATK = (int)(BASE_ATK * 4) + 4 * teamLevel;
+            this.DEF = (int)(BASE_DEF * 2) + 2 * teamLevel;
+            this.SPEED = (int)(BASE_SPEED * 0.7) + (int)(1.4 * teamLevel);
+            this.expDrop = (int)(BASE_expDrop * 10) + 50 * teamLevel;
+            this.teamSPace = 4;
+        }
+        else if (name == "Armored Beast") {
+            this.Name = "Armored Beast (Dangerous enemy)";
+            this.HP = (int)(BASE_HP * 20) + 50 * teamLevel;
+            this.ATK = (int)(BASE_ATK * 2) + 4 * teamLevel;
+            this.DEF = (int)(BASE_DEF * 3) + 2 * teamLevel;
+            this.SPEED = (int)(BASE_SPEED * 0.2) + (int)(0.5 * teamLevel);
+            this.expDrop = (int)(BASE_expDrop * 10) + 50 * teamLevel;
+            this.teamSPace = 4;
+        }
+        else if (name == "Death") {
+            this.Name = "Death (Run)";
+            this.HP = 9999;
+            this.ATK = 9999;
+            this.DEF = 9999;
+            this.SPEED = 9999;
+            this.expDrop = 1;
+            this.teamSPace = 4;
+        }
+        else {
+            this.Name = "Brigand Boss (Dangerous enemy)";
+            this.HP = (int)(BASE_HP * 5) + 20 * teamLevel;
+            this.ATK = (int)(BASE_ATK * 2.3) + 4 * teamLevel;
+            this.DEF = (int)(BASE_DEF * 3) + 2 * teamLevel;
+            this.SPEED = (int)(BASE_SPEED * 1.2) + (int)(1.1 * teamLevel);
+            this.expDrop = (int)(BASE_expDrop * 5) + 50 * teamLevel;
+            this.teamSPace = 4;
         }
         this.LEVEL = lvl;
         this.actualHP = this.HP;
@@ -98,4 +131,43 @@ public class Mob {
     // La méthode toString des monstres
 
     public String toString() { return this.Name + " (Level " + this.LEVEL + ")"; }
+
+    // Action en combat d'un monstre
+
+    public void actionCombat(Party p1) {
+        System.out.println("______________________________________________________________________________\n");
+        System.out.println(this.Name + " is attacking ...");
+        int choice = (int)(Math.random() * p1.getTeam().size());
+        Character target = p1.getTeam().get(choice);
+        System.out.println(this.Name + " attacks " + target.getName() + "!");
+
+        if (this.SPEED - target.getSPEED() < 5) {
+            int damage = Math.max(this.ATK - target.getDEF(), 0);
+            System.out.println(this.Name + " has inflicted " + damage + " damages to " + target.getName() + "!");
+            target.setActualHP(Math.max(0, target.getActualHP() - damage));
+            if (target.getActualHP() == 0) {
+                System.out.println("\n" + target.getName() + " is down!\n");
+                target.setIsDead(true);
+            }
+        }
+        else {
+            int n = 0;
+            while ((target.actualHP != 0) && (n < 2)) {
+                if (n == 1) {
+                    choice = (int)(Math.random() * p1.getTeam().size() + 1);
+                    target = p1.getTeam().get(choice);
+                    System.out.println(this.Name + " attacks " + target.getName() + "!");
+                }
+                int damage = Math.max(this.ATK - target.getDEF(), 0);
+                System.out.println(this.Name + " has inflicted " + damage + " damages to " + target.getName() + "!");
+                target.setActualHP(Math.max(0, target.getActualHP() - damage));
+                if (target.getActualHP() == 0) {
+                    System.out.println("\n" + target.getName() + " is down!\n");
+                    target.setIsDead(true);
+                }
+                if (n == 0) System.out.println(this.Name + " attacks again ...");
+                n++;
+            }
+        }
+    }
 }

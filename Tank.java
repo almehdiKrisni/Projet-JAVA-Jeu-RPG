@@ -35,19 +35,20 @@ public class Tank extends Physical {
         int bhp = (int)(Math.random() * 6);
         this.HP = this.HP + bhp;
         this.actualHP = this.actualHP + bhp;
-        System.out.println("HP  - " + this.HP + " (+" + bhp + ")");
+        System.out.println("HP  - " + this.HP + "\t(+" + bhp + ")");
 
         int batk = (int)(Math.random() * 2);
         this.ATK = this.ATK + batk;
-        System.out.println("ATK - " + this.ATK + " (+" + batk + ")");
+        System.out.println("ATK - " + this.ATK + "\t(+" + batk + ")");
 
         int bdef = (int)(Math.random() * 3);
         this.DEF = this.DEF + bdef;
-        System.out.println("DEF - " + this.DEF + " (+" + bdef + ")");
+        System.out.println("DEF - " + this.DEF + "\t(+" + bdef + ")");
 
         int bspd = (int)(Math.random() * 2);
         this.SPEED = this.SPEED + bspd;
-        System.out.println("SPD - " + this.SPEED + " (+" + bspd + ")");
+        System.out.println("SPD - " + this.SPEED + "\t(+" + bspd + ")");
 
+        System.out.println();
     }
 }

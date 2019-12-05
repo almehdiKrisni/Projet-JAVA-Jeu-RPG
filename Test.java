@@ -43,8 +43,8 @@ public class Test {
 
         // Affichage d'une Party
 
-        Party team1 = new Party();
-        team1.addMember(p1);
+        //Party team1 = new Party();
+        /*team1.addMember(p1);
         team1.addMember(p2);
         team1.addMember(p3);
         team1.addMember(p4);
@@ -59,6 +59,6 @@ public class Test {
         System.out.println(team1);
 
         Enemies e1 = new Enemies(1, 4);
-        System.out.println(e1);
+        System.out.println(e1);*/
     }
 }

@@ -19,6 +19,12 @@ public class Enemies {
         }
     }
 
+    public Enemies(int lvl, String name) {
+        this.teamSize = 4;
+        this.enemies = new ArrayList<Mob>();
+        this.enemies.add(new Mob(lvl, name));
+    }
+
     public Enemies(int lvl, int taille) {
         this.teamSize = taille;
         this.enemies = new ArrayList<Mob>();
@@ -84,5 +90,21 @@ public class Enemies {
     public Boolean haveBeenDefeated() {
         if (this.enemies.size() == 0) return true;
         else return false;
+    }
+
+    // Obtention de l'expérience moyenne
+
+    public int getAverageExp() {
+        int exp = 0;
+        for (Mob b : this.enemies) {
+            exp = exp + b.getExpDrop();
+        }
+        return exp / this.enemies.size();
+    }
+
+    // Obtention de l'équipe d'ennemis
+
+    public ArrayList<Mob> getEnemies() {
+        return this.enemies;
     }
 }

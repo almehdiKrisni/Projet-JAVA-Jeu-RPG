@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public abstract class Physical extends Character {
     protected final String MainClass = "Weapon User";
     protected Weapon weapon;
@@ -19,16 +21,16 @@ public abstract class Physical extends Character {
 
     public void giveWeapon(Weapon weapon) {
         if (this.weapon != null) {
-            System.out.println("Le personnage tient déjà une arme.\n");
+            System.out.println("This character already holds a weapon.\n");
             return;
         }
         this.weapon = weapon;
-        System.out.println("Le personnage tient désormais " + this.weapon.getName() +".\n");
+        System.out.println("This character now holds " + this.weapon.getName() +".\n");
     }
 
     public Weapon takeWeapon() {
         if (this.weapon == null) {
-            System.out.println(this.getName() + "ne possede pas d'équipement.\n");
+            System.out.println(this.getName() + " doesn't hold a weapon.\n");
             return null;
         }
         else {
@@ -37,57 +39,77 @@ public abstract class Physical extends Character {
             return ret;
         }
     }
-
+    
     // Action en combat du personnage
 
-    public void actionCombat(Enemies enemies, int pos){
-        Mob target = enemies.getMobInPos(pos);
-        int damage = 0;
-        if (this.SPEED - target.getSPEED() >= 5) {
-            if ((int)(Math.random() * 100) > this.LUCK) {
-                damage = Math.max(this.ATK - target.getDEF(), 0);
-                System.out.println(this.Name + " has inflicted " + damage + " damages to " + target.toString() + ".\n");
-                target.setActualHP(Math.max(0, target.getActualHP() - damage));
-                if (target.getActualHP() == 0) {
-                    System.out.println(target.getName() + " has fainted.\n");
-                    this.earnExp(target);
-                    enemies.deleteMob(target);
-                }
+    public void actionCombat(Enemies enemies){
+        System.out.println("______________________________________________________________________________\n");
+        System.out.println(this.getName() + " is waiting for orders ...\n(1 - Attack)\t(2 - Use Item)\n");
+
+        Scanner scan = new Scanner(System.in);
+        // On choisit l'option de combat
+        int choice = scan.nextInt(); System.out.println();
+
+        // Dans le cas ou on attaque
+        if (choice == 1 ) {
+            System.out.println("Enemies in sight ...\n" + enemies);
+            int pos = scan.nextInt(); System.out.println();
+
+            while ((pos > enemies.getEnemies().size()) || (pos < 1)) {
+                System.out.println("Hey, I'll give you an advice... Choose a number between the options next to the enemies name.\n" + enemies.toString());
+                pos = scan.nextInt(); System.out.println();;
             }
-            else {
-                damage = this.ATK * 3;
-                System.out.println("CRITICAL HIT !!! " + this.Name + " has inflicted " + damage + " damages to " + target.toString() + ".\n");
-                target.setActualHP(Math.max(0, target.getActualHP() - damage));
-                if (target.getActualHP() == 0) {
-                    System.out.println(target.toString() + "has fainted.\n");
-                    this.earnExp(target);
-                    enemies.deleteMob(target);
-                }
-            }
-        }
-        else {
-            for (int n = 0; n < 2; n++) {
+            
+            Mob target = enemies.getMobInPos(pos);
+            int damage = 0;
+            if (this.SPEED - target.getSPEED() < 5) {
                 if ((int)(Math.random() * 100) > this.LUCK) {
                     damage = Math.max(this.ATK - target.getDEF(), 0);
-                    System.out.println(this.Name + " has inflicted " + damage + " damages to " + target.toString() + ".\n");
+                    System.out.println(this.Name + " has inflicted " + damage + " damages to " + target.toString() + ".");
                     target.setActualHP(Math.max(0, target.getActualHP() - damage));
                     if (target.getActualHP() == 0) {
-                        System.out.println(target.getName() + " has fainted.\n");
+                        System.out.println("\n" + target.getName() + " has fainted.\n");
                         this.earnExp(target);
                         enemies.deleteMob(target);
                     }
                 }
                 else {
                     damage = this.ATK * 3;
-                    System.out.println("CRITICAL HIT !!! " + this.Name + " has inflicted " + damage + " damages to " + target.toString() + ".\n");
+                    System.out.println("CRITICAL HIT !!! " + this.Name + " has inflicted " + damage + " damages to " + target.toString() + ".");
                     target.setActualHP(Math.max(0, target.getActualHP() - damage));
                     if (target.getActualHP() == 0) {
-                        System.out.println(target.toString() + "has fainted.\n");
+                        System.out.println(target.toString() + " has fainted.\n");
                         this.earnExp(target);
                         enemies.deleteMob(target);
                     }
                 }
-                if (n == 0) System.out.println(this.Name + " attacks again!");
+            }
+            else {
+                int n = 0;
+                while ((target.getActualHP() != 0) && (n < 2)) {
+                    if ((int)(Math.random() * 100) > this.LUCK) {
+                        damage = Math.max(this.ATK - target.getDEF(), 0);
+                        System.out.println(this.Name + " has inflicted " + damage + " damages to " + target.toString() + ".");
+                        target.setActualHP(Math.max(0, target.getActualHP() - damage));
+                        if (target.getActualHP() == 0) {
+                            System.out.println(target.getName() + " has fainted.\n");
+                            this.earnExp(target);
+                            enemies.deleteMob(target);
+                        }
+                    }
+                    else {
+                        damage = this.ATK * 3;
+                        System.out.println("CRITICAL HIT !!! " + this.Name + " has inflicted " + damage + " damages to " + target.toString() + ".");
+                        target.setActualHP(Math.max(0, target.getActualHP() - damage));
+                        if (target.getActualHP() == 0) {
+                            System.out.println(target.toString() + "has fainted.\n");
+                            this.earnExp(target);
+                            enemies.deleteMob(target);
+                        }
+                    }
+                    if (n == 0) System.out.println(this.Name + " attacks again!");
+                    n++;
+                }
             }
         }
     }
