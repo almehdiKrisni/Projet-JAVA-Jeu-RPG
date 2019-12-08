@@ -119,6 +119,8 @@ public abstract class Character {
 
     public abstract void levelUP();
 
+    public abstract String levelUpForWindow();
+
     // Méthode de montée d'obtention d'expérience (après avoir tué un monstre)
 
     public void earnExp(Mob m) { 

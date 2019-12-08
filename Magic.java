@@ -17,4 +17,6 @@ public abstract class Magic extends Character {
 
     public abstract String toString();
 
+    public abstract String levelUpForWindow();
+
 }

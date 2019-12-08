@@ -413,7 +413,7 @@ public class Fight {
         String infoBattle = a.getName() + " attacks " + t.getName() + "!";
 
         JLabel info = new JLabel(infoBattle);
-
+        menuBar.add(info);
         JButton continueButton = new JButton("Continue ...");
         continueButton.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -421,8 +421,6 @@ public class Fight {
             }
         });
         menuBar.add(continueButton);
-
-        menuBar.add(info);
         menuBar.setBounds(0, 500, 600, 100);
         background.add(menuBar);
         usedFrame.getContentPane().add(background);
@@ -513,7 +511,7 @@ public class Fight {
             t.setActualHP(Math.max(0, t.getActualHP() - damage));
 
             JLabel info = new JLabel(infoBattle);
-
+            menuBar.add(info);
             JButton continueButton = new JButton("Continue ...");
             continueButton.addActionListener (new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
@@ -529,8 +527,6 @@ public class Fight {
                 }
             });
             menuBar.add(continueButton);
-
-            menuBar.add(info);
             menuBar.setBounds(0, 500, 600, 100);
             background.add(menuBar);
             usedFrame.getContentPane().add(background);
@@ -614,7 +610,6 @@ public class Fight {
             t.setActualHP(Math.max(0, t.getActualHP() - damage));
 
             JLabel info = new JLabel(infoBattle);
-
             JButton continueButton = new JButton("Continue ...");
             continueButton.addActionListener (new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
@@ -630,7 +625,6 @@ public class Fight {
                 }
             });
             menuBar.add(continueButton);
-
             menuBar.add(info);
             menuBar.setBounds(0, 500, 600, 100);
             background.add(menuBar);
@@ -723,7 +717,6 @@ public class Fight {
             t.setActualHP(Math.max(0, t.getActualHP() - damage));
 
             JLabel info = new JLabel(infoBattle);
-
             JButton continueButton = new JButton("Continue ...");
             continueButton.addActionListener (new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
@@ -734,7 +727,6 @@ public class Fight {
                 }
             });
             menuBar.add(continueButton);
-
             menuBar.add(info);
             menuBar.setBounds(0, 500, 600, 100);
             background.add(menuBar);
@@ -819,7 +811,7 @@ public class Fight {
             t.setActualHP(Math.max(0, t.getActualHP() - damage));
 
             JLabel info = new JLabel(infoBattle);
-
+            menuBar.add(info);
             JButton continueButton = new JButton("Continue ...");
             continueButton.addActionListener (new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
@@ -830,8 +822,6 @@ public class Fight {
                 }
             });
             menuBar.add(continueButton);
-
-            menuBar.add(info);
             menuBar.setBounds(0, 500, 600, 100);
             background.add(menuBar);
             usedFrame.getContentPane().add(background);
@@ -843,10 +833,186 @@ public class Fight {
     // En cas de victoire contre un adversaire
 
     public static void defeatedEnemy(JFrame mainFrame, String backgroundFile, int attacker, int target, Party p, Enemies e, Fight f) {
+        Character a = p.getTeam().get(attacker);
+        Mob t = e.getEnemies().get(target);
+        int expG = t.getExpDrop();
 
+        JFrame usedFrame = mainFrame;
+        usedFrame.getContentPane().removeAll();
+
+        GamePanel background = new GamePanel();
+        background.setSize(600, 600);
+        background.setLayout(null);
+
+        JLabel backscreen = new JLabel(new ImageIcon(backgroundFile));
+        backscreen.setBounds(0, 0, 600, 500);
+        background.add(backscreen);
+
+        GamePanel menuBar = new GamePanel();
+        menuBar.setLayout(new FlowLayout());
+        menuBar.setSize(600, 100);
+        menuBar.setBackground(Color.WHITE);
+
+        // On ajoute les sprites des alliés (à condition qu'ils ne soient pas à terre) et des ennemis à l'écran
+
+        JLabel[] imagePList = new JLabel[(p.getTeam().size())];
+        for (int i = 0; i < p.getTeam().size(); i++) {
+            imagePList[i] = p.getTeam().get(i).getImageN();
+        }
+
+        int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+        for (int i = 0; i < imagePList.length; i++) {
+            if (p.getTeam().get(i).getIsDead() == false) {
+                imagePList[i].setBounds(x, y, largeur, longueur);
+                usedFrame.add(imagePList[i]);
+                y = y + 100;
+            }
+        }
+
+        JLabel[] imageEList = new JLabel[e.getEnemies().size()];
+        for (int i = 0; i < e.getEnemies().size(); i++) {
+            imageEList[i] = e.getEnemies().get(i).getImageN();
+        }
+
+        x = 455; y = 105; largeur = 90; longueur = 90;
+        for (int i = 0; i < imageEList.length; i++) {
+            if (e.getEnemies().get(i).equals(t)) {
+
+            }
+            else {
+                imageEList[i].setBounds(x, y, largeur, longueur);
+                usedFrame.add(imageEList[i]);
+                y = y + 100;
+            }
+        }
+
+        // Les boutons suivants permettent de se repérer pendant le combat
+
+        JButton partyS = new JButton("Party Side");
+        partyS.setBounds(55, 20, 90, 60);
+        usedFrame.add(partyS);
+
+        JButton fightS = new JButton("Fight Scene");
+        fightS.setBounds(255, 20, 90, 60);
+        usedFrame.add(fightS);
+
+        JButton enemyS = new JButton("Enemy Side");
+        enemyS.setBounds(455, 20, 90, 60);
+        usedFrame.add(enemyS);
+
+        // On crée le menu des actions
+
+        a.setEXP(Math.min(a.getNeededEXP(), a.getEXP() + expG));
+        menuBar.add(new JLabel(a.getName() + " has defeated " + t.getName() + "! " + a.getName() + " has earned " + expG + " experience points!\n"));
+        e.deleteMob(t);
+        JButton continueButton = new JButton("Continue ...");
+            continueButton.addActionListener (new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    if (a.getEXP() == a.getNeededEXP()) {
+                        JOptionPane.showMessageDialog(null, a.levelUpForWindow());
+                    }
+                    if (e.haveBeenDefeated()) {
+                        f.victory(mainFrame, backgroundFile, p, f);
+                    }
+                    else {
+                        f.chooseTeamAttack(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                    }
+                }
+            });
+        menuBar.setBounds(0, 500, 600, 100);
+        background.add(menuBar);
+        usedFrame.getContentPane().add(background);
+        usedFrame.repaint();
+        usedFrame.revalidate();
     }
 
+    // Fonction servant à gérer les cas de victoire
 
+    public static void victory(JFrame mainFrame, String backgroundFile, Party p, Fight f) {
+        JFrame usedFrame = mainFrame;
+        usedFrame.getContentPane().removeAll();
+
+        GamePanel background = new GamePanel();
+        background.setSize(600, 600);
+        background.setLayout(null);
+
+        JLabel backscreen = new JLabel(new ImageIcon(backgroundFile));
+        backscreen.setBounds(0, 0, 600, 500);
+        background.add(backscreen);
+
+        GamePanel menuBar = new GamePanel();
+        menuBar.setLayout(new FlowLayout());
+        menuBar.setSize(600, 100);
+        menuBar.setBackground(Color.WHITE);
+
+        // On ajoute les sprites des alliés (à condition qu'ils ne soient pas à terre) et des ennemis à l'écran
+
+        JLabel[] imagePList = new JLabel[(p.getTeam().size())];
+        for (int i = 0; i < p.getTeam().size(); i++) {
+            imagePList[i] = p.getTeam().get(i).getImageN();
+        }
+
+        int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+        for (int i = 0; i < imagePList.length; i++) {
+            if (p.getTeam().get(i).getIsDead() == false) {
+                imagePList[i].setBounds(x, y, largeur, longueur);
+                usedFrame.add(imagePList[i]);
+                y = y + 100;
+            }
+        }
+
+        // On affiche un message de victoire dans le menu
+
+        int expG = (int)((Math.random() * 11) * p.getAverageLevel());
+        JLabel message;
+        double r = Math.random();
+        if (r < 0.33) {
+            message = new JLabel("Victory! To the next fight...\nEveryone has earned " + expG + "experience points.");
+        }
+        else if (r < 0.66) {
+            message = new JLabel("VThe enemies have been defeated! Let's move on...\nEveryone has earned " + expG + "experience points.");
+        }
+        else {
+            message = new JLabel("It's almost crazy how strong we are...\nEveryone has earned " + expG + "experience points.");
+        }
+        menuBar.add(message);
+        JButton continueButton = new JButton("Continue ...");
+        continueButton.addActionListener (new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                for (Character c : p.getTeam()) {
+                    c.setEXP(Math.min(c.getNeededEXP(), c.getEXP() + expG));
+                    if (c.getEXP() >= c.neededEXP) JOptionPane.showMessageDialog(null, c.levelUpForWindow());
+                }
+                f.endOfFight(mainFrame);
+            }
+        });
+        
+        menuBar.setBounds(0, 500, 600, 100);
+        background.add(menuBar);
+        usedFrame.getContentPane().add(background);
+        usedFrame.repaint();
+        usedFrame.revalidate();
+    }
+
+    public static void endOfFight(JFrame usedFrame) {
+        usedFrame.getContentPane().removeAll();
+
+        GamePanel panel = new GamePanel();
+        panel.setSize(600, 600);
+
+        panel.setBackground(Color.WHITE);
+        panel.setLayout(null);
+        JLabel img = new JLabel(new ImageIcon("Images/Victory.png"));
+        img.setBounds(150, 150, 300, 300);
+        panel.add(img);
+
+        usedFrame.setLayout(null);
+        panel.setBounds(0, 0, 600, 600);
+        usedFrame.getContentPane().add(panel);
+
+        usedFrame.repaint();
+        usedFrame.revalidate();
+    }
 
     // On affiche l'écran de défaite en cas de Game Over
 

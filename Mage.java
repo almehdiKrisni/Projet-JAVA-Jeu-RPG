@@ -116,4 +116,29 @@ public class Mage extends Magic {
 
         System.out.println();
     }
+
+    public String levelUpForWindow() {
+        this.EXP = 0;
+        this.neededEXP = (int)(this.neededEXP * 1.5);
+
+        String text = this.Name + " has leveled up!\n";
+        int bhp = (int)(Math.random() * 3);
+        this.HP = this.HP + bhp;
+        this.actualHP = this.actualHP + bhp;
+        text = text + "HP  - " + this.HP + "\t(+" + bhp + ")\n";
+
+        int batk = (int)(Math.random() * 3);
+        this.ATK = this.ATK + batk;
+        text = text + "ATK - " + this.ATK + "\t(+" + batk + ")\n";
+
+        int bdef = (int)(Math.random() * 2);
+        this.DEF = this.DEF + bdef;
+        text = text + "DEF - " + this.DEF + "\t(+" + bdef + ")\n";
+
+        int bspd = (int)(Math.random() * 3);
+        this.SPEED = this.SPEED + bspd;
+        text = text + "SPD - " + this.SPEED + "\t(+" + bspd + ")\n";
+
+        return text;
+    }
 }

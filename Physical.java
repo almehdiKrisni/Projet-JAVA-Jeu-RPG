@@ -122,4 +122,6 @@ public abstract class Physical extends Character {
 
     public abstract void levelUP();
 
+    public abstract String levelUpForWindow();
+
 }
