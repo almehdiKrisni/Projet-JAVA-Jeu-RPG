@@ -43,10 +43,8 @@ public class Enemies {
 
     public String toString() {
         String text = "";
-        int n = 1;
         for (Mob m : this.enemies) {
-            text = text + m.getName() + " (Level " + m.getLEVEL() + ") {" + n + "}\n";
-            n++;
+            text = text + m.getName() + " (Level " + m.getLEVEL() + ")\n";
         }
         return text;
     }

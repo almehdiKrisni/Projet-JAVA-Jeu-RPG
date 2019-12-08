@@ -93,8 +93,12 @@ public class GameOnWindow {
         try { Thread.sleep(1000); } catch (InterruptedException e) { System.out.println("Error"); }
 
         if (choice.getValue() == 2) {
-            Fight f1 = new Fight(p, new Enemies(p.getAverageLevel(), 1));
-            f1.fightOnScreen(f1, mainFrame, "Images/Forest_Background.png");
+            Fight f1 = new Fight(p, new Enemies(p.getAverageLevel()));
+
+            // Il existe differentes type de fonds d'écran pour les combats (il faut remplacer le mot avant '_Background.png' dans les paramètres)
+            // On peut choisir entre : Space, Forest
+
+            f1.fightOnScreen(f1, mainFrame, "Images/Space_Background.png");
         }
     }
 }

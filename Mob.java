@@ -52,7 +52,7 @@ public class Mob {
             this.DEF = (int)(BASE_DEF) + 2 * teamLevel;
             this.SPEED = (int)(BASE_SPEED) + (int)(1.75 * teamLevel);
             this.expDrop = (int)(BASE_expDrop * 1.5);
-            this.teamSPace = 2;
+            this.teamSPace = 1;
             this.imageN = new JLabel(new ImageIcon("Enemy_Sprites/Slime.png"));
         }
         else {
@@ -134,16 +134,16 @@ public class Mob {
     public int getTeamSpace() { return this.teamSPace; }
 
     public JLabel getImageN() { return this.imageN; }
-    
+
     // Les attributeurs de valeurs aux statistiques des monstres (uniquement les HP, pour des raisons triviales)
 
-    public void setActualHP(int hp) { this.actualHP = hp; }
+    public void setActualHP(int hp) { this.actualHP = Math.max(0, hp); }
 
     // La méthode toString des monstres
 
     public String toString() { return this.Name + " (Level " + this.LEVEL + ")"; }
 
-    // Action en combat d'un monstre
+    // Action en combat d'un monstre (en version Terminal)
 
     public void actionCombat(Party p1) {
         System.out.println("______________________________________________________________________________\n");
