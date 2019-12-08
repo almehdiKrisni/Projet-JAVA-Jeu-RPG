@@ -44,7 +44,7 @@ public class Enemies {
     public String toString() {
         String text = "";
         for (Mob m : this.enemies) {
-            text = text + m.getName() + " (Level " + m.getLEVEL() + ")\n";
+            text = text + m.getName() + " (Level " + m.getLEVEL() + ") + (HP - " + m.getActualHP() + "/" + m.getHP() + ")\n";
         }
         return text;
     }

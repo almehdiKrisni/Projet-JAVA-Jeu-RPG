@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.awt.GridBagConstraints;
 import java.awt.BorderLayout;
 import java.awt.Insets;
+import javax.swing.Timer;
 
 public class Fight {
     private int Turn;
@@ -142,7 +143,12 @@ public class Fight {
 
 
     public static void basicFightScreen(JFrame mainFrame, String backgroundFile, Party p, Enemies e, int order, Fight f) {
+        
         // On ajoute le fond de combat et la barre de menu
+
+        if (order >= p.getTeam().size()) {
+            f.basicFightScreen(mainFrame, backgroundFile, p, e, 0, f);
+        }
 
         if (p.getTeam().get(order).getIsDead()) {
             if (order < p.getTeam().size() - 1) f.basicFightScreen(mainFrame, backgroundFile, p, e, order + 1, f);
@@ -319,7 +325,7 @@ public class Fight {
             JButton button = new JButton(m.toString());
             button.addActionListener (new ActionListener() {
                 public void actionPerformed(ActionEvent a) {
-                    attackTeam(mainFrame, backgroundFile, e.posMob(m), Turn, p, e, f);
+                    f.attackTeam(mainFrame, backgroundFile, e.posMob(m), Turn, p, e, f);
                 }
             });
             menuBar.add(button);
@@ -332,14 +338,12 @@ public class Fight {
         usedFrame.revalidate();
     }
 
-
-
     // Fonction d'attaque
 
     public static void attackTeam(JFrame mainFrame, String backgroundFile, int target, int attacker, Party p, Enemies e, Fight f) {
         System.out.println("Hey");
 
-        int damage = Math.min(p.getTeam().get(attacker).getATK() - e.getEnemies().get(target).getDEF(), 0);
+        int damage = Math.max(p.getTeam().get(attacker).getATK() - e.getEnemies().get(target).getDEF(), 0);
 
         if (p.getTeam().get(attacker).getSPEED() >= e.getEnemies().get(target).getSPEED() + 5) {
             System.out.print("Superior speed");
@@ -424,103 +428,518 @@ public class Fight {
             usedFrame1.repaint();
             usedFrame1.revalidate();
 
-            try { Thread.sleep(3000); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
+            if ((int)(Math.random() * 100) > p.getTeam().get(attacker).getLUCK()) {
 
-            /*if ((int)(Math.random() * 100) > p.getTeam().get(attacker).getLUCK()) {
-                usedFrame.add(combatEffect);
-                String infoBattle2 = p.getTeam().get(attacker).getName() + " attacks " + e.getEnemies().get(target).getName() + " for " + damage + " damages!";
-                e.getEnemies().get(target).setActualHP(Math.max(e.getEnemies().get(target).getActualHP() - damage, 0));
+                JFrame usedFrame2 = mainFrame;
+                usedFrame2.getContentPane().removeAll();
+                usedFrame2.setLayout(null);
+
+                GamePanel background2 = new GamePanel();
+                background2.setSize(600, 600);
+                background2.setLayout(null);
+
+                JLabel backscreen2 = new JLabel(new ImageIcon(backgroundFile));
+                backscreen2.setBounds(0, 0, 600, 500);
+                background2.add(backscreen2);
+
+                GamePanel menuBar2 = new GamePanel();
+                menuBar2.setLayout(new FlowLayout());
+                menuBar2.setSize(600, 100);
+                menuBar2.setBackground(Color.WHITE);
+
+                // Les boutons suivants permettent de se repérer pendant le combat
+
+                JButton partyS2 = new JButton("Party Side");
+                partyS2.setBounds(55, 20, 90, 60);
+                usedFrame2.add(partyS2);
+
+                JButton fightS2 = new JButton("Fight Scene");
+                fightS2.setBounds(255, 20, 90, 60);
+                usedFrame2.add(fightS2);
+
+                JButton enemyS2 = new JButton("Enemy Side");
+                enemyS2.setBounds(455, 20, 90, 60);
+                usedFrame2.add(enemyS2);
+
+                // On affiche les sprites des alliés
+
+                JLabel[] imagePList2 = new JLabel[(p.getTeam().size())];
+                for (int i = 0; i < p.getTeam().size(); i++) {
+                    imagePList2[i] = p.getTeam().get(i).getImageN();
+                }
+
+                for (int i = 0; i < imagePList2.length; i++) {
+                    int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                    if (p.getTeam().get(i).getIsDead() == false) {
+                        if (i == attacker) {
+                            imagePList2[i].setBounds(305, (105 + target * 100), 90, 90);
+                            usedFrame2.add(imagePList2[i]);
+                            y = y + 100;
+                        }
+                        else {
+                            imagePList2[i].setBounds(x, y, largeur, longueur);
+                            usedFrame2.add(imagePList2[i]);
+                            y = y + 100;
+                        }
+                    }
+                }
+
+                JLabel[] imageEList2 = new JLabel[e.getEnemies().size()];
+                for (int i = 0; i < e.getEnemies().size(); i++) {
+                    imageEList2[i] = e.getEnemies().get(i).getImageN();
+                }
+
+                for (int i = 0; i < imageEList2.length; i++) {
+                    int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                    imageEList2[i].setBounds(x, y, largeur, longueur);
+                    usedFrame2.add(imageEList2[i]);
+                    y = y + 100;
+                }
+
+                JLabel combatEffect2 = new JLabel(new ImageIcon("Images/Hit.png"));
+                combatEffect2.setBounds(395, 120 + (100 * target), 60, 60);
+                usedFrame2.add(combatEffect2);
+
+                String infoBattle2 = p.getTeam().get(attacker).getName() + " attacks " + e.getEnemies().get(target).getName() + " for " + damage + "!";
+
                 JLabel info2 = new JLabel(infoBattle2);
-                menuBar.add(info2);
-
-                usedFrame.repaint();
-                usedFrame.revalidate();
-
-                try { Thread.sleep(500); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
-
-                usedFrame.remove(combatEffect);
-
-                usedFrame.repaint();
-                usedFrame.revalidate();
-                
-                menuBar.remove(info2);
-
-                try { Thread.sleep(3000); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
+                menuBar2.add(info2);
+                menuBar2.setBounds(0, 500, 600, 100);
+                background2.add(menuBar2);
+                usedFrame2.getContentPane().add(background2);
+                usedFrame2.repaint();
+                usedFrame2.revalidate();
 
                 if (e.getEnemies().get(target).getActualHP() != 0) {
+
                     if ((int)(Math.random() * 100) > p.getTeam().get(attacker).getLUCK()) {
-                        usedFrame.add(combatEffect);
-                        String infoBattle3 = p.getTeam().get(attacker).getName() + " attacks " + e.getEnemies().get(target).getName() + " for " + damage + " damages!";
-                        e.getEnemies().get(target).setActualHP(Math.max(e.getEnemies().get(target).getActualHP() - damage, 0));
+
+                        JFrame usedFrame3 = mainFrame;
+                        usedFrame3.getContentPane().removeAll();
+                        usedFrame3.setLayout(null);
+
+                        GamePanel background3 = new GamePanel();
+                        background3.setSize(600, 600);
+                        background3.setLayout(null);
+
+                        JLabel backscreen3 = new JLabel(new ImageIcon(backgroundFile));
+                        backscreen3.setBounds(0, 0, 600, 500);
+                        background3.add(backscreen3);
+
+                        GamePanel menuBar3 = new GamePanel();
+                        menuBar3.setLayout(new FlowLayout());
+                        menuBar3.setSize(600, 100);
+                        menuBar3.setBackground(Color.WHITE);
+
+                        // Les boutons suivants permettent de se repérer pendant le combat
+
+                        JButton partyS3 = new JButton("Party Side");
+                        partyS3.setBounds(55, 20, 90, 60);
+                        usedFrame3.add(partyS3);
+
+                        JButton fightS3 = new JButton("Fight Scene");
+                        fightS3.setBounds(255, 20, 90, 60);
+                        usedFrame3.add(fightS3);
+
+                        JButton enemyS3 = new JButton("Enemy Side");
+                        enemyS3.setBounds(455, 20, 90, 60);
+                        usedFrame3.add(enemyS3);
+
+                        // On affiche les sprites des alliés
+
+                        JLabel[] imagePList3 = new JLabel[(p.getTeam().size())];
+                        for (int i = 0; i < p.getTeam().size(); i++) {
+                            imagePList3[i] = p.getTeam().get(i).getImageN();
+                        }
+
+                        for (int i = 0; i < imagePList3.length; i++) {
+                            int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                            if (p.getTeam().get(i).getIsDead() == false) {
+                                if (i == attacker) {
+                                    imagePList3[i].setBounds(305, (105 + target * 100), 90, 90);
+                                    usedFrame3.add(imagePList3[i]);
+                                    y = y + 100;
+                                }
+                                else {
+                                    imagePList3[i].setBounds(x, y, largeur, longueur);
+                                    usedFrame3.add(imagePList3[i]);
+                                    y = y + 100;
+                                }
+                            }
+                        }
+
+                        JLabel[] imageEList3 = new JLabel[e.getEnemies().size()];
+                        for (int i = 0; i < e.getEnemies().size(); i++) {
+                            imageEList3[i] = e.getEnemies().get(i).getImageN();
+                        }
+
+                        for (int i = 0; i < imageEList3.length; i++) {
+                            int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                            imageEList3[i].setBounds(x, y, largeur, longueur);
+                            usedFrame3.add(imageEList3[i]);
+                            y = y + 100;
+                        }
+
+                        JLabel combatEffect3 = new JLabel(new ImageIcon("Images/Hit.png"));
+                        combatEffect3.setBounds(395, 120 + (100 * target), 60, 60);
+                        usedFrame3.add(combatEffect3);
+
+                        String infoBattle3 = p.getTeam().get(attacker).getName() + " attacks " + e.getEnemies().get(target).getName() + " again for " + damage + "!";
+
                         JLabel info3 = new JLabel(infoBattle3);
-                        menuBar.add(info3);
+                        menuBar3.add(info3);
+                        menuBar3.setBounds(0, 500, 600, 100);
+                        background3.add(menuBar3);
+                        usedFrame3.getContentPane().add(background3);
+                        usedFrame3.repaint();
+                        usedFrame3.revalidate();
+
+                        if (e.getEnemies().get(target).getActualHP() == 0) {
+
+                            JFrame usedFrame4 = mainFrame;
+                            usedFrame4.getContentPane().removeAll();
+                            usedFrame4.setLayout(null);
         
-                        usedFrame.repaint();
-                        usedFrame.revalidate();
+                            GamePanel background4 = new GamePanel();
+                            background4.setSize(600, 600);
+                            background4.setLayout(null);
         
-                        try { Thread.sleep(500); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
+                            JLabel backscreen4 = new JLabel(new ImageIcon(backgroundFile));
+                            backscreen4.setBounds(0, 0, 600, 500);
+                            background4.add(backscreen4);
         
-                        usedFrame.remove(combatEffect);
+                            GamePanel menuBar4 = new GamePanel();
+                            menuBar4.setLayout(new FlowLayout());
+                            menuBar4.setSize(600, 100);
+                            menuBar4.setBackground(Color.WHITE);
         
-                        usedFrame.repaint();
-                        usedFrame.revalidate();
-                        
-                        menuBar.remove(info3);
+                            // Les boutons suivants permettent de se repérer pendant le combat
         
-                        try { Thread.sleep(3000); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
+                            JButton partyS4 = new JButton("Party Side");
+                            partyS4.setBounds(55, 20, 90, 60);
+                            usedFrame4.add(partyS4);
+        
+                            JButton fightS4 = new JButton("Fight Scene");
+                            fightS4.setBounds(255, 20, 90, 60);
+                            usedFrame4.add(fightS4);
+        
+                            JButton enemyS4 = new JButton("Enemy Side");
+                            enemyS4.setBounds(455, 20, 90, 60);
+                            usedFrame4.add(enemyS4);
+        
+                            // On affiche les sprites des alliés
+        
+                            JLabel[] imagePList4 = new JLabel[(p.getTeam().size())];
+                            for (int i = 0; i < p.getTeam().size(); i++) {
+                                imagePList4[i] = p.getTeam().get(i).getImageN();
+                            }
+        
+                            for (int i = 0; i < imagePList4.length; i++) {
+                                int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                                if (p.getTeam().get(i).getIsDead() == false) {
+                                    if (i == attacker) {
+                                        imagePList4[i].setBounds(305, (105 + target * 100), 90, 90);
+                                        usedFrame4.add(imagePList4[i]);
+                                        y = y + 100;
+                                    }
+                                    else {
+                                        imagePList4[i].setBounds(x, y, largeur, longueur);
+                                        usedFrame4.add(imagePList4[i]);
+                                        y = y + 100;
+                                    }
+                                }
+                            }
+        
+                            JLabel[] imageEList4 = new JLabel[e.getEnemies().size()];
+                            for (int i = 0; i < e.getEnemies().size(); i++) {
+                                imageEList4[i] = e.getEnemies().get(i).getImageN();
+                            }
+        
+                            for (int i = 0; i < imageEList4.length; i++) {
+                                int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                                if (i != target) {
+                                    imageEList4[i].setBounds(x, y, largeur, longueur);
+                                    usedFrame4.add(imageEList4[i]);
+                                    y = y + 100;
+                                }
+                                else {
+                                    y = y + 100;
+                                }
+                            }
+        
+                            String infoBattle4 = e.getEnemies().get(target).getName() + " has been defeated! " + p.getTeam().get(attacker).getName() + " has earned " + e.getEnemies().get(target).getExpDrop() + " experience points!";
+                            // Ajouter la nouvelle fonction pour les montées de niveau
+                            e.deleteMob(e.getEnemies().get(target));
+        
+                            JLabel info4 = new JLabel(infoBattle4);
+                            menuBar4.add(info4);
+                            menuBar4.setBounds(0, 500, 600, 100);
+                            background4.add(menuBar4);
+                            usedFrame4.getContentPane().add(background4);
+                            usedFrame4.repaint();
+                            usedFrame4.revalidate();
+
+                            f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                        }
+                        else {
+
+                            JFrame usedFrame4 = mainFrame;
+                            usedFrame4.getContentPane().removeAll();
+                            usedFrame4.setLayout(null);
+        
+                            GamePanel background4 = new GamePanel();
+                            background4.setSize(600, 600);
+                            background4.setLayout(null);
+        
+                            JLabel backscreen4 = new JLabel(new ImageIcon(backgroundFile));
+                            backscreen4.setBounds(0, 0, 600, 500);
+                            background4.add(backscreen4);
+        
+                            GamePanel menuBar4 = new GamePanel();
+                            menuBar4.setLayout(new FlowLayout());
+                            menuBar4.setSize(600, 100);
+                            menuBar4.setBackground(Color.WHITE);
+        
+                            // Les boutons suivants permettent de se repérer pendant le combat
+        
+                            JButton partyS4 = new JButton("Party Side");
+                            partyS4.setBounds(55, 20, 90, 60);
+                            usedFrame4.add(partyS4);
+        
+                            JButton fightS4 = new JButton("Fight Scene");
+                            fightS4.setBounds(255, 20, 90, 60);
+                            usedFrame4.add(fightS4);
+        
+                            JButton enemyS4 = new JButton("Enemy Side");
+                            enemyS4.setBounds(455, 20, 90, 60);
+                            usedFrame4.add(enemyS4);
+        
+                            // On affiche les sprites des alliés
+        
+                            JLabel[] imagePList4 = new JLabel[(p.getTeam().size())];
+                            for (int i = 0; i < p.getTeam().size(); i++) {
+                                imagePList4[i] = p.getTeam().get(i).getImageN();
+                            }
+        
+                            for (int i = 0; i < imagePList4.length; i++) {
+                                int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                                if (p.getTeam().get(i).getIsDead() == false) {
+                                    if (i == attacker) {
+                                        imagePList4[i].setBounds(305, (105 + target * 100), 90, 90);
+                                        usedFrame4.add(imagePList4[i]);
+                                        y = y + 100;
+                                    }
+                                    else {
+                                        imagePList4[i].setBounds(x, y, largeur, longueur);
+                                        usedFrame4.add(imagePList4[i]);
+                                        y = y + 100;
+                                    }
+                                }
+                            }
+        
+                            JLabel[] imageEList4 = new JLabel[e.getEnemies().size()];
+                            for (int i = 0; i < e.getEnemies().size(); i++) {
+                                imageEList4[i] = e.getEnemies().get(i).getImageN();
+                            }
+        
+                            for (int i = 0; i < imageEList3.length; i++) {
+                                int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                                imageEList4[i].setBounds(x, y, largeur, longueur);
+                                usedFrame4.add(imageEList4[i]);
+                                y = y + 100;
+                            }
+        
+                            String infoBattle4 = "Waiting for the next turn...";
+        
+                            JLabel info4 = new JLabel(infoBattle4);
+                            menuBar4.add(info4);
+                            menuBar4.setBounds(0, 500, 600, 100);
+                            background4.add(menuBar4);
+                            usedFrame4.getContentPane().add(background4);
+                            usedFrame4.repaint();
+                            usedFrame4.revalidate();
+        
+                            f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                        }
                     }
                     
                     else {
-                        usedFrame.add(combatEffect);
-                        damage = damage * 3;
-                        String infoBattle3 = "CRITICAL HIT!!! " + p.getTeam().get(attacker).getName() + " attacks again " + e.getEnemies().get(target).getName() + " for " + damage + " damages!";
-                        e.getEnemies().get(target).setActualHP(Math.max(e.getEnemies().get(target).getActualHP() - damage, 0));
-                        damage = damage / 3;
-                        JLabel info3 = new JLabel(infoBattle3);
-                        menuBar.add(info3);
 
-                        usedFrame.repaint();
-                        usedFrame.revalidate();
+                        JFrame usedFrame3 = mainFrame;
+                        usedFrame3.getContentPane().removeAll();
+                        usedFrame3.setLayout(null);
 
-                        try { Thread.sleep(500); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
+                        GamePanel background3 = new GamePanel();
+                        background3.setSize(600, 600);
+                        background3.setLayout(null);
 
-                        usedFrame.remove(combatEffect);
+                        JLabel backscreen3 = new JLabel(new ImageIcon(backgroundFile));
+                        backscreen3.setBounds(0, 0, 600, 500);
+                        background3.add(backscreen3);
 
-                        usedFrame.repaint();
-                        usedFrame.revalidate();
-                        
-                        menuBar.remove(info3);
-                    }
+                        GamePanel menuBar3 = new GamePanel();
+                        menuBar3.setLayout(new FlowLayout());
+                        menuBar3.setSize(600, 100);
+                        menuBar3.setBackground(Color.WHITE);
 
-                    if (e.getEnemies().get(target).getActualHP() == 0) {
-                        int exp = e.getEnemies().get(target).getExpDrop();
-                        String infoBattle4 = p.getTeam().get(attacker).getName() + " has defeated " + e.getEnemies().get(target).getName() + "!\n" + p.getTeam().get(attacker).getName() + " has earned " + exp + " experience points!";
-                        p.getTeam().get(attacker).earnExp(exp);
-                        e.getEnemies().remove(target);
-                        JLabel info4 = new JLabel(infoBattle4);
-                        menuBar.add(info4);
+                        // Les boutons suivants permettent de se repérer pendant le combat
 
-                        usedFrame.repaint();
-                        usedFrame.revalidate();
+                        JButton partyS3 = new JButton("Party Side");
+                        partyS3.setBounds(55, 20, 90, 60);
+                        usedFrame3.add(partyS3);
 
-                        JButton follow = new JButton("Next turn");
-                        follow.addActionListener (new ActionListener() {
-                            public void actionPerformed(ActionEvent a) {
-                                if (attacker < p.getTeam().size() - 1) f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                        JButton fightS3 = new JButton("Fight Scene");
+                        fightS3.setBounds(255, 20, 90, 60);
+                        usedFrame3.add(fightS3);
+
+                        JButton enemyS3 = new JButton("Enemy Side");
+                        enemyS3.setBounds(455, 20, 90, 60);
+                        usedFrame3.add(enemyS3);
+
+                        // On affiche les sprites des alliés
+
+                        JLabel[] imagePList3 = new JLabel[(p.getTeam().size())];
+                        for (int i = 0; i < p.getTeam().size(); i++) {
+                            imagePList3[i] = p.getTeam().get(i).getImageN();
+                        }
+
+                        for (int i = 0; i < imagePList3.length; i++) {
+                            int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                            if (p.getTeam().get(i).getIsDead() == false) {
+                                if (i == attacker) {
+                                    imagePList3[i].setBounds(305, (105 + target * 100), 90, 90);
+                                    usedFrame3.add(imagePList3[i]);
+                                    y = y + 100;
+                                }
                                 else {
-                                    System.out.println("THIS IS TE LIMIT");
-                                    usedFrame.dispatchEvent(new WindowEvent(usedFrame, WindowEvent.WINDOW_CLOSING));
+                                    imagePList3[i].setBounds(x, y, largeur, longueur);
+                                    usedFrame3.add(imagePList3[i]);
+                                    y = y + 100;
                                 }
                             }
-                        });
+                        }
+
+                        JLabel[] imageEList3 = new JLabel[e.getEnemies().size()];
+                        for (int i = 0; i < e.getEnemies().size(); i++) {
+                            imageEList3[i] = e.getEnemies().get(i).getImageN();
+                        }
+
+                        for (int i = 0; i < imageEList3.length; i++) {
+                            int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                            imageEList3[i].setBounds(x, y, largeur, longueur);
+                            usedFrame3.add(imageEList3[i]);
+                            y = y + 100;
+                        }
+
+                        JLabel combatEffect3 = new JLabel(new ImageIcon("Images/Hit.png"));
+                        combatEffect3.setBounds(395, 120 + (100 * target), 60, 60);
+                        usedFrame3.add(combatEffect3);
+
+                        String infoBattle3 = p.getTeam().get(attacker).getName() + " attacks " + e.getEnemies().get(target).getName() + " again for " + damage + "!";
+
+                        JLabel info3 = new JLabel(infoBattle3);
+                        menuBar3.add(info3);
+                        menuBar3.setBounds(0, 500, 600, 100);
+                        background3.add(menuBar3);
+                        usedFrame3.getContentPane().add(background3);
+                        usedFrame3.repaint();
+                        usedFrame3.revalidate();
                     }
                 }
-            }*/
+                else {
+
+                    JFrame usedFrame4 = mainFrame;
+                    usedFrame4.getContentPane().removeAll();
+                    usedFrame4.setLayout(null);
+        
+                    GamePanel background4 = new GamePanel();
+                    background4.setSize(600, 600);
+                    background4.setLayout(null);
+        
+                    JLabel backscreen4 = new JLabel(new ImageIcon(backgroundFile));
+                    backscreen4.setBounds(0, 0, 600, 500);
+                    background4.add(backscreen4);
+        
+                    GamePanel menuBar4 = new GamePanel();
+                    menuBar4.setLayout(new FlowLayout());
+                    menuBar4.setSize(600, 100);
+                    menuBar4.setBackground(Color.WHITE);
+        
+                    // Les boutons suivants permettent de se repérer pendant le combat
+        
+                    JButton partyS4 = new JButton("Party Side");
+                    partyS4.setBounds(55, 20, 90, 60);
+                    usedFrame4.add(partyS4);
+        
+                    JButton fightS4 = new JButton("Fight Scene");
+                    fightS4.setBounds(255, 20, 90, 60);
+                    usedFrame4.add(fightS4);
+        
+                    JButton enemyS4 = new JButton("Enemy Side");
+                    enemyS4.setBounds(455, 20, 90, 60);
+                    usedFrame4.add(enemyS4);
+        
+                    // On affiche les sprites des alliés
+        
+                    JLabel[] imagePList4 = new JLabel[(p.getTeam().size())];
+                    for (int i = 0; i < p.getTeam().size(); i++) {
+                        imagePList4[i] = p.getTeam().get(i).getImageN();
+                    }
+        
+                    for (int i = 0; i < imagePList4.length; i++) {
+                        int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                        if (p.getTeam().get(i).getIsDead() == false) {
+                            if (i == attacker) {
+                            imagePList4[i].setBounds(305, (105 + target * 100), 90, 90);
+                            usedFrame4.add(imagePList4[i]);
+                            y = y + 100;
+                            }
+                            else {
+                            imagePList4[i].setBounds(x, y, largeur, longueur);
+                            usedFrame4.add(imagePList4[i]);
+                            y = y + 100;
+                            }
+                        }
+                    }
+        
+                    JLabel[] imageEList4 = new JLabel[e.getEnemies().size()];
+                    for (int i = 0; i < e.getEnemies().size(); i++) {
+                        imageEList4[i] = e.getEnemies().get(i).getImageN();
+                    }
+        
+                    for (int i = 0; i < imageEList4.length; i++) {
+                        int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                        if (i != target) {
+                            imageEList4[i].setBounds(x, y, largeur, longueur);
+                            usedFrame4.add(imageEList4[i]);
+                              y = y + 100;
+                        }
+                        else {
+                            y = y + 100;
+                        }
+                    }
+        
+                    String infoBattle4 = e.getEnemies().get(target).getName() + " has been defeated! " + p.getTeam().get(attacker).getName() + " has earned " + e.getEnemies().get(target).getExpDrop() + " experience points!";
+                    // Ajouter la nouvelle fonction pour les montées de niveau
+                    e.deleteMob(e.getEnemies().get(target));
+        
+                    JLabel info4 = new JLabel(infoBattle4);
+                    menuBar4.add(info4);
+                    menuBar4.setBounds(0, 500, 600, 100);
+                    background4.add(menuBar4);
+                    usedFrame4.getContentPane().add(background4);
+                    usedFrame4.repaint();
+                    usedFrame4.revalidate();
+
+                    f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                }
+            }
 
         }
         else {
+
             System.out.print("Inferior speed");
-            
+
             JFrame usedFrame1 = mainFrame;
             usedFrame1.getContentPane().removeAll();
             usedFrame1.setLayout(null);
@@ -601,7 +1020,1024 @@ public class Fight {
             usedFrame1.repaint();
             usedFrame1.revalidate();
             
+            if ((int)(Math.random() * 100) > p.getTeam().get(attacker).getLUCK()) {
+
+                int damage2 = damage;
+                e.getEnemies().get(target).setActualHP(Math.max(0, e.getEnemies().get(target).getActualHP() - damage2));
+
+                JFrame usedFrame2 = mainFrame;
+                usedFrame2.getContentPane().removeAll();
+                usedFrame2.setLayout(null);
+
+                GamePanel background2 = new GamePanel();
+                background2.setSize(600, 600);
+                background2.setLayout(null);
+
+                JLabel backscreen2 = new JLabel(new ImageIcon(backgroundFile));
+                backscreen2.setBounds(0, 0, 600, 500);
+                background2.add(backscreen2);
+
+                GamePanel menuBar2 = new GamePanel();
+                menuBar2.setLayout(new FlowLayout());
+                menuBar2.setSize(600, 100);
+                menuBar2.setBackground(Color.WHITE);
+
+                // Les boutons suivants permettent de se repérer pendant le combat
+
+                JButton partyS2 = new JButton("Party Side");
+                partyS2.setBounds(55, 20, 90, 60);
+                usedFrame2.add(partyS2);
+
+                JButton fightS2 = new JButton("Fight Scene");
+                fightS2.setBounds(255, 20, 90, 60);
+                usedFrame2.add(fightS2);
+
+                JButton enemyS2 = new JButton("Enemy Side");
+                enemyS2.setBounds(455, 20, 90, 60);
+                usedFrame2.add(enemyS2);
+
+                // On affiche les sprites des alliés
+
+                JLabel[] imagePList2 = new JLabel[(p.getTeam().size())];
+                for (int i = 0; i < p.getTeam().size(); i++) {
+                    imagePList2[i] = p.getTeam().get(i).getImageN();
+                }
+
+                for (int i = 0; i < imagePList2.length; i++) {
+                    int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                    if (p.getTeam().get(i).getIsDead() == false) {
+                        if (i == attacker) {
+                            imagePList2[i].setBounds(305, (105 + target * 100), 90, 90);
+                            usedFrame2.add(imagePList2[i]);
+                            y = y + 100;
+                        }
+                        else {
+                            imagePList2[i].setBounds(x, y, largeur, longueur);
+                            usedFrame2.add(imagePList2[i]);
+                            y = y + 100;
+                        }
+                    }
+                }
+
+                JLabel[] imageEList2 = new JLabel[e.getEnemies().size()];
+                for (int i = 0; i < e.getEnemies().size(); i++) {
+                    imageEList2[i] = e.getEnemies().get(i).getImageN();
+                }
+
+                for (int i = 0; i < imageEList2.length; i++) {
+                    int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                    imageEList2[i].setBounds(x, y, largeur, longueur);
+                    usedFrame2.add(imageEList2[i]);
+                    y = y + 100;
+                }
+
+                JLabel combatEffect2 = new JLabel(new ImageIcon("Images/Hit.png"));
+                combatEffect2.setBounds(395, 120 + (100 * target), 60, 60);
+                usedFrame2.add(combatEffect2);
+
+                String infoBattle2 = p.getTeam().get(attacker).getName() + " attacks " + e.getEnemies().get(target).getName() + " for " + damage + "!";
+
+                JLabel info2 = new JLabel(infoBattle2);
+                menuBar2.add(info2);
+                menuBar2.setBounds(0, 500, 600, 100);
+                background2.add(menuBar2);
+                usedFrame2.getContentPane().add(background2);
+                usedFrame2.repaint();
+                usedFrame2.revalidate();
+
+                if (e.getEnemies().get(target).getActualHP() == 0) {
+
+                    JFrame usedFrame3 = mainFrame;
+                    usedFrame3.getContentPane().removeAll();
+                    usedFrame3.setLayout(null);
+
+                    GamePanel background3 = new GamePanel();
+                    background3.setSize(600, 600);
+                    background3.setLayout(null);
+
+                    JLabel backscreen3 = new JLabel(new ImageIcon(backgroundFile));
+                    backscreen3.setBounds(0, 0, 600, 500);
+                    background3.add(backscreen3);
+
+                    GamePanel menuBar3 = new GamePanel();
+                    menuBar3.setLayout(new FlowLayout());
+                    menuBar3.setSize(600, 100);
+                    menuBar3.setBackground(Color.WHITE);
+
+                    // Les boutons suivants permettent de se repérer pendant le combat
+
+                    JButton partyS3 = new JButton("Party Side");
+                    partyS3.setBounds(55, 20, 90, 60);
+                    usedFrame3.add(partyS3);
+
+                    JButton fightS3 = new JButton("Fight Scene");
+                    fightS3.setBounds(255, 20, 90, 60);
+                    usedFrame3.add(fightS3);
+
+                    JButton enemyS3 = new JButton("Enemy Side");
+                    enemyS3.setBounds(455, 20, 90, 60);
+                    usedFrame3.add(enemyS3);
+
+                    // On affiche les sprites des alliés
+
+                    JLabel[] imagePList3 = new JLabel[(p.getTeam().size())];
+                    for (int i = 0; i < p.getTeam().size(); i++) {
+                        imagePList3[i] = p.getTeam().get(i).getImageN();
+                    }
+
+                    for (int i = 0; i < imagePList3.length; i++) {
+                        int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                        if (p.getTeam().get(i).getIsDead() == false) {
+                            if (i == attacker) {
+                                imagePList3[i].setBounds(305, (105 + target * 100), 90, 90);
+                                usedFrame3.add(imagePList3[i]);
+                                y = y + 100;
+                            }
+                            else {
+                                imagePList3[i].setBounds(x, y, largeur, longueur);
+                                usedFrame3.add(imagePList3[i]);
+                                y = y + 100;
+                            }
+                        }
+                    }
+
+                    JLabel[] imageEList3 = new JLabel[e.getEnemies().size()];
+                    for (int i = 0; i < e.getEnemies().size(); i++) {
+                        imageEList3[i] = e.getEnemies().get(i).getImageN();
+                    }
+
+                    for (int i = 0; i < imageEList3.length; i++) {
+                        int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                        if (i != target) {
+                            imageEList3[i].setBounds(x, y, largeur, longueur);
+                            usedFrame3.add(imageEList3[i]);
+                            y = y + 100;
+                        }
+                        else {
+                            y = y + 100;
+                        }
+                    }
+
+                    String infoBattle3 = e.getEnemies().get(target).getName() + " has been defeated! " + p.getTeam().get(attacker).getName() + " has earned " + e.getEnemies().get(target).getExpDrop() + " experience points!";
+                    // Ajouter la nouvelle fonction pour les montées de niveau
+                    e.deleteMob(e.getEnemies().get(target));
+
+                    JLabel info3 = new JLabel(infoBattle3);
+                    menuBar3.add(info3);
+                    menuBar3.setBounds(0, 500, 600, 100);
+                    background3.add(menuBar3);
+                    usedFrame3.getContentPane().add(background3);
+                    usedFrame3.repaint();
+                    usedFrame3.revalidate();
+
+                    f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                }
+                else {
+
+                    JFrame usedFrame3 = mainFrame;
+                    usedFrame3.getContentPane().removeAll();
+                    usedFrame3.setLayout(null);
+
+                    GamePanel background3 = new GamePanel();
+                    background3.setSize(600, 600);
+                    background3.setLayout(null);
+
+                    JLabel backscreen3 = new JLabel(new ImageIcon(backgroundFile));
+                    backscreen3.setBounds(0, 0, 600, 500);
+                    background3.add(backscreen3);
+
+                    GamePanel menuBar3 = new GamePanel();
+                    menuBar3.setLayout(new FlowLayout());
+                    menuBar3.setSize(600, 100);
+                    menuBar3.setBackground(Color.WHITE);
+
+                    // Les boutons suivants permettent de se repérer pendant le combat
+
+                    JButton partyS3 = new JButton("Party Side");
+                    partyS3.setBounds(55, 20, 90, 60);
+                    usedFrame3.add(partyS3);
+
+                    JButton fightS3 = new JButton("Fight Scene");
+                    fightS3.setBounds(255, 20, 90, 60);
+                    usedFrame3.add(fightS3);
+
+                    JButton enemyS3 = new JButton("Enemy Side");
+                    enemyS3.setBounds(455, 20, 90, 60);
+                    usedFrame3.add(enemyS3);
+
+                    // On affiche les sprites des alliés
+
+                    JLabel[] imagePList3 = new JLabel[(p.getTeam().size())];
+                    for (int i = 0; i < p.getTeam().size(); i++) {
+                        imagePList3[i] = p.getTeam().get(i).getImageN();
+                    }
+
+                    for (int i = 0; i < imagePList3.length; i++) {
+                        int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                        if (p.getTeam().get(i).getIsDead() == false) {
+                            if (i == attacker) {
+                                imagePList3[i].setBounds(305, (105 + target * 100), 90, 90);
+                                usedFrame3.add(imagePList3[i]);
+                                y = y + 100;
+                            }
+                            else {
+                                imagePList3[i].setBounds(x, y, largeur, longueur);
+                                usedFrame3.add(imagePList3[i]);
+                                y = y + 100;
+                            }
+                        }
+                    }
+
+                    JLabel[] imageEList3 = new JLabel[e.getEnemies().size()];
+                    for (int i = 0; i < e.getEnemies().size(); i++) {
+                        imageEList3[i] = e.getEnemies().get(i).getImageN();
+                    }
+
+                    for (int i = 0; i < imageEList3.length; i++) {
+                        int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                        imageEList3[i].setBounds(x, y, largeur, longueur);
+                        usedFrame3.add(imageEList3[i]);
+                        y = y + 100;
+                    }
+
+                    String infoBattle3 = "Waiting for the next turn...";
+
+                    JLabel info3 = new JLabel(infoBattle3);
+                    menuBar3.add(info3);
+                    menuBar3.setBounds(0, 500, 600, 100);
+                    background3.add(menuBar3);
+                    usedFrame3.getContentPane().add(background3);
+                    usedFrame3.repaint();
+                    usedFrame3.revalidate();
+
+                    f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                }
+            }
+            else {
+
+                int damage2 = damage * 3;
+                e.getEnemies().get(target).setActualHP(Math.max(0, e.getEnemies().get(target).getActualHP() - damage2));
+
+                JFrame usedFrame2 = mainFrame;
+                usedFrame2.getContentPane().removeAll();
+                usedFrame2.setLayout(null);
+
+                GamePanel background2 = new GamePanel();
+                background2.setSize(600, 600);
+                background2.setLayout(null);
+
+                JLabel backscreen2 = new JLabel(new ImageIcon(backgroundFile));
+                backscreen2.setBounds(0, 0, 600, 500);
+                background2.add(backscreen2);
+
+                GamePanel menuBar2 = new GamePanel();
+                menuBar2.setLayout(new FlowLayout());
+                menuBar2.setSize(600, 100);
+                menuBar2.setBackground(Color.WHITE);
+
+                // Les boutons suivants permettent de se repérer pendant le combat
+
+                JButton partyS2 = new JButton("Party Side");
+                partyS2.setBounds(55, 20, 90, 60);
+                usedFrame2.add(partyS2);
+
+                JButton fightS2 = new JButton("Fight Scene");
+                fightS2.setBounds(255, 20, 90, 60);
+                usedFrame2.add(fightS2);
+
+                JButton enemyS2 = new JButton("Enemy Side");
+                enemyS2.setBounds(455, 20, 90, 60);
+                usedFrame2.add(enemyS2);
+
+                // On affiche les sprites des alliés
+
+                JLabel[] imagePList2 = new JLabel[(p.getTeam().size())];
+                for (int i = 0; i < p.getTeam().size(); i++) {
+                    imagePList2[i] = p.getTeam().get(i).getImageN();
+                }
+
+                for (int i = 0; i < imagePList2.length; i++) {
+                    int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                    if (p.getTeam().get(i).getIsDead() == false) {
+                        if (i == attacker) {
+                            imagePList2[i].setBounds(305, (105 + target * 100), 90, 90);
+                            usedFrame2.add(imagePList2[i]);
+                            y = y + 100;
+                        }
+                        else {
+                            imagePList2[i].setBounds(x, y, largeur, longueur);
+                            usedFrame2.add(imagePList2[i]);
+                            y = y + 100;
+                        }
+                    }
+                }
+
+                JLabel[] imageEList2 = new JLabel[e.getEnemies().size()];
+                for (int i = 0; i < e.getEnemies().size(); i++) {
+                    imageEList2[i] = e.getEnemies().get(i).getImageN();
+                }
+
+                for (int i = 0; i < imageEList2.length; i++) {
+                    int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                    imageEList2[i].setBounds(x, y, largeur, longueur);
+                    usedFrame2.add(imageEList2[i]);
+                    y = y + 100;
+                }
+
+                JLabel combatEffect2 = new JLabel(new ImageIcon("Images/Hit.png"));
+                combatEffect2.setBounds(395, 120 + (100 * target), 60, 60);
+                usedFrame2.add(combatEffect2);
+
+                String infoBattle2 = "CRITICAL HIT!!! " + p.getTeam().get(attacker).getName() + " attacks " + e.getEnemies().get(target).getName() + " for " + damage + "!";
+
+                JLabel info2 = new JLabel(infoBattle2);
+                menuBar2.add(info2);
+                menuBar2.setBounds(0, 500, 600, 100);
+                background2.add(menuBar2);
+                usedFrame2.getContentPane().add(background2);
+                usedFrame2.repaint();
+                usedFrame2.revalidate();
+
+                if (e.getEnemies().get(target).getActualHP() == 0) {
+
+                    JFrame usedFrame3 = mainFrame;
+                    usedFrame3.getContentPane().removeAll();
+                    usedFrame3.setLayout(null);
+
+                    GamePanel background3 = new GamePanel();
+                    background3.setSize(600, 600);
+                    background3.setLayout(null);
+
+                    JLabel backscreen3 = new JLabel(new ImageIcon(backgroundFile));
+                    backscreen3.setBounds(0, 0, 600, 500);
+                    background3.add(backscreen3);
+
+                    GamePanel menuBar3 = new GamePanel();
+                    menuBar3.setLayout(new FlowLayout());
+                    menuBar3.setSize(600, 100);
+                    menuBar3.setBackground(Color.WHITE);
+
+                    // Les boutons suivants permettent de se repérer pendant le combat
+
+                    JButton partyS3 = new JButton("Party Side");
+                    partyS3.setBounds(55, 20, 90, 60);
+                    usedFrame3.add(partyS3);
+
+                    JButton fightS3 = new JButton("Fight Scene");
+                    fightS3.setBounds(255, 20, 90, 60);
+                    usedFrame3.add(fightS3);
+
+                    JButton enemyS3 = new JButton("Enemy Side");
+                    enemyS3.setBounds(455, 20, 90, 60);
+                    usedFrame3.add(enemyS3);
+
+                    // On affiche les sprites des alliés
+
+                    JLabel[] imagePList3 = new JLabel[(p.getTeam().size())];
+                    for (int i = 0; i < p.getTeam().size(); i++) {
+                        imagePList3[i] = p.getTeam().get(i).getImageN();
+                    }
+
+                    for (int i = 0; i < imagePList3.length; i++) {
+                        int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                        if (p.getTeam().get(i).getIsDead() == false) {
+                            if (i == attacker) {
+                                imagePList3[i].setBounds(305, (105 + target * 100), 90, 90);
+                                usedFrame3.add(imagePList3[i]);
+                                y = y + 100;
+                            }
+                            else {
+                                imagePList3[i].setBounds(x, y, largeur, longueur);
+                                usedFrame3.add(imagePList3[i]);
+                                y = y + 100;
+                            }
+                        }
+                    }
+
+                    JLabel[] imageEList3 = new JLabel[e.getEnemies().size()];
+                    for (int i = 0; i < e.getEnemies().size(); i++) {
+                        imageEList3[i] = e.getEnemies().get(i).getImageN();
+                    }
+
+                    for (int i = 0; i < imageEList3.length; i++) {
+                        int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                        if (i != target) {
+                            imageEList3[i].setBounds(x, y, largeur, longueur);
+                            usedFrame3.add(imageEList3[i]);
+                            y = y + 100;
+                        }
+                        else {
+                            y = y + 100;
+                        }
+                    }
+
+                    String infoBattle3 = e.getEnemies().get(target).getName() + " has been defeated! " + p.getTeam().get(attacker).getName() + " has earned " + e.getEnemies().get(target).getExpDrop() + " experience points!";
+                    // Ajouter la nouvelle fonction pour les montées de niveau
+                    e.deleteMob(e.getEnemies().get(target));
+
+                    JLabel info3 = new JLabel(infoBattle3);
+                    menuBar3.add(info3);
+                    menuBar3.setBounds(0, 500, 600, 100);
+                    background3.add(menuBar3);
+                    usedFrame3.getContentPane().add(background3);
+                    usedFrame3.repaint();
+                    usedFrame3.revalidate();
+
+                    f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                }
+                else {
+
+                    JFrame usedFrame3 = mainFrame;
+                    usedFrame3.getContentPane().removeAll();
+                    usedFrame3.setLayout(null);
+
+                    GamePanel background3 = new GamePanel();
+                    background3.setSize(600, 600);
+                    background3.setLayout(null);
+
+                    JLabel backscreen3 = new JLabel(new ImageIcon(backgroundFile));
+                    backscreen3.setBounds(0, 0, 600, 500);
+                    background3.add(backscreen3);
+
+                    GamePanel menuBar3 = new GamePanel();
+                    menuBar3.setLayout(new FlowLayout());
+                    menuBar3.setSize(600, 100);
+                    menuBar3.setBackground(Color.WHITE);
+
+                    // Les boutons suivants permettent de se repérer pendant le combat
+
+                    JButton partyS3 = new JButton("Party Side");
+                    partyS3.setBounds(55, 20, 90, 60);
+                    usedFrame3.add(partyS3);
+
+                    JButton fightS3 = new JButton("Fight Scene");
+                    fightS3.setBounds(255, 20, 90, 60);
+                    usedFrame3.add(fightS3);
+
+                    JButton enemyS3 = new JButton("Enemy Side");
+                    enemyS3.setBounds(455, 20, 90, 60);
+                    usedFrame3.add(enemyS3);
+
+                    // On affiche les sprites des alliés
+
+                    JLabel[] imagePList3 = new JLabel[(p.getTeam().size())];
+                    for (int i = 0; i < p.getTeam().size(); i++) {
+                        imagePList3[i] = p.getTeam().get(i).getImageN();
+                    }
+
+                    for (int i = 0; i < imagePList3.length; i++) {
+                        int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                        if (p.getTeam().get(i).getIsDead() == false) {
+                            if (i == attacker) {
+                                imagePList3[i].setBounds(305, (105 + target * 100), 90, 90);
+                                usedFrame3.add(imagePList3[i]);
+                                y = y + 100;
+                            }
+                            else {
+                                imagePList3[i].setBounds(x, y, largeur, longueur);
+                                usedFrame3.add(imagePList3[i]);
+                                y = y + 100;
+                            }
+                        }
+                    }
+
+                    JLabel[] imageEList3 = new JLabel[e.getEnemies().size()];
+                    for (int i = 0; i < e.getEnemies().size(); i++) {
+                        imageEList3[i] = e.getEnemies().get(i).getImageN();
+                    }
+
+                    for (int i = 0; i < imageEList3.length; i++) {
+                        int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                        imageEList3[i].setBounds(x, y, largeur, longueur);
+                        usedFrame3.add(imageEList3[i]);
+                        y = y + 100;
+                    }
+
+                    String infoBattle3 = "Waiting for the next turn...";
+
+                    JLabel info3 = new JLabel(infoBattle3);
+                    menuBar3.add(info3);
+                    menuBar3.setBounds(0, 500, 600, 100);
+                    background3.add(menuBar3);
+                    usedFrame3.getContentPane().add(background3);
+                    usedFrame3.repaint();
+                    usedFrame3.revalidate();
+
+                    f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                }
+            }
         }
+    }
+
+    // Mise en place de l'attaque
+
+    public static void attackPrep(JFrame mainFrame, String backgroundFile, int attacker, int target, Party p, Enemies e, Fight f) {
+        Character a = p.getTeam().get(attacker);
+        Mob t = e.getEnemies().get(target);
+
+        JFrame usedFrame = mainFrame;
+        usedFrame.getContentPane().removeAll();
+        usedFrame.setLayout(null);
+
+        GamePanel background = new GamePanel();
+        background.setSize(600, 600);
+        background.setLayout(null);
+
+        JLabel backscreen = new JLabel(new ImageIcon(backgroundFile));
+        backscreen.setBounds(0, 0, 600, 500);
+        background.add(backscreen);
+
+        GamePanel menuBar = new GamePanel();
+        menuBar.setLayout(new FlowLayout());
+        menuBar.setSize(600, 100);
+        menuBar.setBackground(Color.WHITE);
+
+        // Les boutons suivants permettent de se repérer pendant le combat
+
+        JButton partyS = new JButton("Party Side");
+        partyS.setBounds(55, 20, 90, 60);
+        usedFrame.add(partyS);
+
+        JButton fightS = new JButton("Fight Scene");
+        fightS.setBounds(255, 20, 90, 60);
+        usedFrame.add(fightS);
+
+        JButton enemyS = new JButton("Enemy Side");
+        enemyS.setBounds(455, 20, 90, 60);
+        usedFrame.add(enemyS);
+
+        // On affiche les sprites des alliés
+
+        JLabel[] imagePList = new JLabel[(p.getTeam().size())];
+        for (int i = 0; i < p.getTeam().size(); i++) {
+            imagePList[i] = p.getTeam().get(i).getImageN();
+        }
+
+        for (int i = 0; i < imagePList.length; i++) {
+            int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+            if (p.getTeam().get(i).getIsDead() == false) {
+                if (i == attacker) {
+                    imagePList[i].setBounds(305, (105 + target * 100), 90, 90);
+                    usedFrame.add(imagePList[i]);
+                    y = y + 100;
+                }
+                else {
+                    imagePList[i].setBounds(x, y, largeur, longueur);
+                    usedFrame.add(imagePList[i]);
+                    y = y + 100;
+                }
+            }
+        }
+
+        JLabel[] imageEList = new JLabel[e.getEnemies().size()];
+        for (int i = 0; i < e.getEnemies().size(); i++) {
+            imageEList[i] = e.getEnemies().get(i).getImageN();
+        }
+
+        for (int i = 0; i < imageEList.length; i++) {
+            int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+            imageEList[i].setBounds(x, y, largeur, longueur);
+            usedFrame.add(imageEList[i]);
+            y = y + 100;
+        }
+
+        String infoBattle = a.getName() + " attacks " + t.getName() + "!";
+
+        JLabel info = new JLabel(infoBattle);
+
+        JButton continueButton = new JButton("Continue ...");
+        continueButton.addActionListener (new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                f.attaque(mainFrame, backgroundFile, attacker, target, p, e, f);
+            }
+        });
+        menuBar.add(continueButton);
+
+        menuBar.add(info);
+        menuBar.setBounds(0, 500, 600, 100);
+        background.add(menuBar);
+        usedFrame.getContentPane().add(background);
+        usedFrame.repaint();
+        usedFrame.revalidate();
+    } 
+
+    // Fonction en cas de double attaque
+
+    public static void attaque(JFrame mainFrame, String backgroundFile, int attacker, int target, Party p, Enemies e, Fight f) {
+        Character a = p.getTeam().get(attacker);
+        Mob t = e.getEnemies().get(target);
+
+        if ((int)(Math.random() * 100) > p.getTeam().get(attacker).getLUCK()) {
+            JFrame usedFrame = mainFrame;
+            usedFrame.getContentPane().removeAll();
+            usedFrame.setLayout(null);
+
+            GamePanel background = new GamePanel();
+            background.setSize(600, 600);
+            background.setLayout(null);
+
+            JLabel backscreen = new JLabel(new ImageIcon(backgroundFile));
+            backscreen.setBounds(0, 0, 600, 500);
+            background.add(backscreen);
+
+            GamePanel menuBar = new GamePanel();
+            menuBar.setLayout(new FlowLayout());
+            menuBar.setSize(600, 100);
+            menuBar.setBackground(Color.WHITE);
+
+            // Les boutons suivants permettent de se repérer pendant le combat
+
+            JButton partyS = new JButton("Party Side");
+            partyS.setBounds(55, 20, 90, 60);
+            usedFrame.add(partyS);
+
+            JButton fightS = new JButton("Fight Scene");
+            fightS.setBounds(255, 20, 90, 60);
+            usedFrame.add(fightS);
+
+            JButton enemyS = new JButton("Enemy Side");
+            enemyS.setBounds(455, 20, 90, 60);
+            usedFrame.add(enemyS);
+
+            // On affiche les sprites des alliés
+
+            JLabel[] imagePList = new JLabel[(p.getTeam().size())];
+            for (int i = 0; i < p.getTeam().size(); i++) {
+                imagePList[i] = p.getTeam().get(i).getImageN();
+            }
+
+            for (int i = 0; i < imagePList.length; i++) {
+                int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                if (p.getTeam().get(i).getIsDead() == false) {
+                    if (i == attacker) {
+                        imagePList[i].setBounds(305, (105 + target * 100), 90, 90);
+                        usedFrame.add(imagePList[i]);
+                        y = y + 100;
+                    }
+                    else {
+                        imagePList[i].setBounds(x, y, largeur, longueur);
+                        usedFrame.add(imagePList[i]);
+                        y = y + 100;
+                    }
+                }
+            }
+
+            JLabel[] imageEList = new JLabel[e.getEnemies().size()];
+            for (int i = 0; i < e.getEnemies().size(); i++) {
+                imageEList[i] = e.getEnemies().get(i).getImageN();
+            }
+
+            for (int i = 0; i < imageEList.length; i++) {
+                int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                imageEList[i].setBounds(x, y, largeur, longueur);
+                usedFrame.add(imageEList[i]);
+                y = y + 100;
+            }
+
+            JLabel combatEffect = new JLabel(new ImageIcon("Images/Hit.png"));
+            combatEffect.setBounds(395, 120 + (100 * target), 60, 60);
+            usedFrame.add(combatEffect);
+
+            int damage = Math.max(a.getATK() - t.getDEF(), 0);
+
+            String infoBattle = a.getName() + " attacks " + t.getName() + " for " + damage + "damages!";
+            t.setActualHP(Math.max(0, t.getActualHP() - damage));
+
+            JLabel info = new JLabel(infoBattle);
+
+            JButton continueButton = new JButton("Continue ...");
+            continueButton.addActionListener (new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    if (t.getActualHP() == 0) defeatedEnemy(mainFrame, backgroundFile, attacker, target, p, e, f);
+                    else {
+                        if (a.getSPEED() >= t.getSPEED() + 5) {
+                            f.attaque(mainFrame, backgroundFile, attacker, target, p, e, f);
+                        }
+                        else {
+                            f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                        }
+                    }
+                }
+            });
+            menuBar.add(continueButton);
+
+            menuBar.add(info);
+            menuBar.setBounds(0, 500, 600, 100);
+            background.add(menuBar);
+            usedFrame.getContentPane().add(background);
+            usedFrame.repaint();
+            usedFrame.revalidate();
+        }
+        else {
+            JFrame usedFrame = mainFrame;
+            usedFrame.getContentPane().removeAll();
+            usedFrame.setLayout(null);
+
+            GamePanel background = new GamePanel();
+            background.setSize(600, 600);
+            background.setLayout(null);
+
+            JLabel backscreen = new JLabel(new ImageIcon(backgroundFile));
+            backscreen.setBounds(0, 0, 600, 500);
+            background.add(backscreen);
+
+            GamePanel menuBar = new GamePanel();
+            menuBar.setLayout(new FlowLayout());
+            menuBar.setSize(600, 100);
+            menuBar.setBackground(Color.WHITE);
+
+            // Les boutons suivants permettent de se repérer pendant le combat
+
+            JButton partyS = new JButton("Party Side");
+            partyS.setBounds(55, 20, 90, 60);
+            usedFrame.add(partyS);
+
+            JButton fightS = new JButton("Fight Scene");
+            fightS.setBounds(255, 20, 90, 60);
+            usedFrame.add(fightS);
+
+            JButton enemyS = new JButton("Enemy Side");
+            enemyS.setBounds(455, 20, 90, 60);
+            usedFrame.add(enemyS);
+
+            // On affiche les sprites des alliés
+
+            JLabel[] imagePList = new JLabel[(p.getTeam().size())];
+            for (int i = 0; i < p.getTeam().size(); i++) {
+                imagePList[i] = p.getTeam().get(i).getImageN();
+            }
+
+            for (int i = 0; i < imagePList.length; i++) {
+                int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                if (p.getTeam().get(i).getIsDead() == false) {
+                    if (i == attacker) {
+                        imagePList[i].setBounds(305, (105 + target * 100), 90, 90);
+                        usedFrame.add(imagePList[i]);
+                        y = y + 100;
+                    }
+                    else {
+                        imagePList[i].setBounds(x, y, largeur, longueur);
+                        usedFrame.add(imagePList[i]);
+                        y = y + 100;
+                    }
+                }
+            }
+
+            JLabel[] imageEList = new JLabel[e.getEnemies().size()];
+            for (int i = 0; i < e.getEnemies().size(); i++) {
+                imageEList[i] = e.getEnemies().get(i).getImageN();
+            }
+
+            for (int i = 0; i < imageEList.length; i++) {
+                int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                imageEList[i].setBounds(x, y, largeur, longueur);
+                usedFrame.add(imageEList[i]);
+                y = y + 100;
+            }
+
+            JLabel combatEffect = new JLabel(new ImageIcon("Images/Hit.png"));
+            combatEffect.setBounds(395, 120 + (100 * target), 60, 60);
+            usedFrame.add(combatEffect);
+
+            int damage = Math.max((a.getATK() - t.getDEF()) * 3, 0);
+
+            String infoBattle = "CRITICAL HIT!!! " + a.getName() + " attacks " + t.getName() + " for " + damage + "damages!";
+            t.setActualHP(Math.max(0, t.getActualHP() - damage));
+
+            JLabel info = new JLabel(infoBattle);
+
+            JButton continueButton = new JButton("Continue ...");
+            continueButton.addActionListener (new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    if (t.getActualHP() == 0) defeatedEnemy(mainFrame, backgroundFile, attacker, target, p, e, f);
+                    else {
+                        if (a.getSPEED() >= t.getSPEED() + 5) {
+                            f.attaque2(mainFrame, backgroundFile, attacker, target, p, e, f);
+                        }
+                        else {
+                            f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                        }
+                    }
+                }
+            });
+            menuBar.add(continueButton);
+
+            menuBar.add(info);
+            menuBar.setBounds(0, 500, 600, 100);
+            background.add(menuBar);
+            usedFrame.getContentPane().add(background);
+            usedFrame.repaint();
+            usedFrame.revalidate();
+        }
+    }
+
+    // Fonction d'attaque pour la deuxième attaque en cas de double-attaque
+
+    public static void attaque2(JFrame mainFrame, String backgroundFile, int attacker, int target, Party p, Enemies e, Fight f) {
+        Character a = p.getTeam().get(attacker);
+        Mob t = e.getEnemies().get(target);
+
+        if ((int)(Math.random() * 100) > p.getTeam().get(attacker).getLUCK()) {
+            JFrame usedFrame = mainFrame;
+            usedFrame.getContentPane().removeAll();
+            usedFrame.setLayout(null);
+
+            GamePanel background = new GamePanel();
+            background.setSize(600, 600);
+            background.setLayout(null);
+
+            JLabel backscreen = new JLabel(new ImageIcon(backgroundFile));
+            backscreen.setBounds(0, 0, 600, 500);
+            background.add(backscreen);
+
+            GamePanel menuBar = new GamePanel();
+            menuBar.setLayout(new FlowLayout());
+            menuBar.setSize(600, 100);
+            menuBar.setBackground(Color.WHITE);
+
+            // Les boutons suivants permettent de se repérer pendant le combat
+
+            JButton partyS = new JButton("Party Side");
+            partyS.setBounds(55, 20, 90, 60);
+            usedFrame.add(partyS);
+
+            JButton fightS = new JButton("Fight Scene");
+            fightS.setBounds(255, 20, 90, 60);
+            usedFrame.add(fightS);
+
+            JButton enemyS = new JButton("Enemy Side");
+            enemyS.setBounds(455, 20, 90, 60);
+            usedFrame.add(enemyS);
+
+            // On affiche les sprites des alliés
+
+            JLabel[] imagePList = new JLabel[(p.getTeam().size())];
+            for (int i = 0; i < p.getTeam().size(); i++) {
+                imagePList[i] = p.getTeam().get(i).getImageN();
+            }
+
+            for (int i = 0; i < imagePList.length; i++) {
+                int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                if (p.getTeam().get(i).getIsDead() == false) {
+                    if (i == attacker) {
+                        imagePList[i].setBounds(305, (105 + target * 100), 90, 90);
+                        usedFrame.add(imagePList[i]);
+                        y = y + 100;
+                    }
+                    else {
+                        imagePList[i].setBounds(x, y, largeur, longueur);
+                        usedFrame.add(imagePList[i]);
+                        y = y + 100;
+                    }
+                }
+            }
+
+            JLabel[] imageEList = new JLabel[e.getEnemies().size()];
+            for (int i = 0; i < e.getEnemies().size(); i++) {
+                imageEList[i] = e.getEnemies().get(i).getImageN();
+            }
+
+            for (int i = 0; i < imageEList.length; i++) {
+                int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                imageEList[i].setBounds(x, y, largeur, longueur);
+                usedFrame.add(imageEList[i]);
+                y = y + 100;
+            }
+
+            JLabel combatEffect = new JLabel(new ImageIcon("Images/Hit.png"));
+            combatEffect.setBounds(395, 120 + (100 * target), 60, 60);
+            usedFrame.add(combatEffect);
+
+            int damage = Math.max(a.getATK() - t.getDEF(), 0);
+
+            String infoBattle = a.getName() + " attacks " + t.getName() + " for " + damage + "damages!";
+            t.setActualHP(Math.max(0, t.getActualHP() - damage));
+
+            JLabel info = new JLabel(infoBattle);
+
+            JButton continueButton = new JButton("Continue ...");
+            continueButton.addActionListener (new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    if (t.getActualHP() == 0) defeatedEnemy(mainFrame, backgroundFile, attacker, target, p, e, f);
+                    else {
+                        f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                    }
+                }
+            });
+            menuBar.add(continueButton);
+
+            menuBar.add(info);
+            menuBar.setBounds(0, 500, 600, 100);
+            background.add(menuBar);
+            usedFrame.getContentPane().add(background);
+            usedFrame.repaint();
+            usedFrame.revalidate();
+        }
+        else {
+            JFrame usedFrame = mainFrame;
+            usedFrame.getContentPane().removeAll();
+            usedFrame.setLayout(null);
+
+            GamePanel background = new GamePanel();
+            background.setSize(600, 600);
+            background.setLayout(null);
+
+            JLabel backscreen = new JLabel(new ImageIcon(backgroundFile));
+            backscreen.setBounds(0, 0, 600, 500);
+            background.add(backscreen);
+
+            GamePanel menuBar = new GamePanel();
+            menuBar.setLayout(new FlowLayout());
+            menuBar.setSize(600, 100);
+            menuBar.setBackground(Color.WHITE);
+
+            // Les boutons suivants permettent de se repérer pendant le combat
+
+            JButton partyS = new JButton("Party Side");
+            partyS.setBounds(55, 20, 90, 60);
+            usedFrame.add(partyS);
+
+            JButton fightS = new JButton("Fight Scene");
+            fightS.setBounds(255, 20, 90, 60);
+            usedFrame.add(fightS);
+
+            JButton enemyS = new JButton("Enemy Side");
+            enemyS.setBounds(455, 20, 90, 60);
+            usedFrame.add(enemyS);
+
+            // On affiche les sprites des alliés
+
+            JLabel[] imagePList = new JLabel[(p.getTeam().size())];
+            for (int i = 0; i < p.getTeam().size(); i++) {
+                imagePList[i] = p.getTeam().get(i).getImageN();
+            }
+
+            for (int i = 0; i < imagePList.length; i++) {
+                int x = 55; int y = 105; int largeur = 90; int longueur = 90;
+                if (p.getTeam().get(i).getIsDead() == false) {
+                    if (i == attacker) {
+                        imagePList[i].setBounds(305, (105 + target * 100), 90, 90);
+                        usedFrame.add(imagePList[i]);
+                        y = y + 100;
+                    }
+                    else {
+                        imagePList[i].setBounds(x, y, largeur, longueur);
+                        usedFrame.add(imagePList[i]);
+                        y = y + 100;
+                    }
+                }
+            }
+
+            JLabel[] imageEList = new JLabel[e.getEnemies().size()];
+            for (int i = 0; i < e.getEnemies().size(); i++) {
+                imageEList[i] = e.getEnemies().get(i).getImageN();
+            }
+
+            for (int i = 0; i < imageEList.length; i++) {
+                int x = 455; int y = 105; int largeur = 90; int longueur = 90;
+                imageEList[i].setBounds(x, y, largeur, longueur);
+                usedFrame.add(imageEList[i]);
+                y = y + 100;
+            }
+
+            JLabel combatEffect = new JLabel(new ImageIcon("Images/Hit.png"));
+            combatEffect.setBounds(395, 120 + (100 * target), 60, 60);
+            usedFrame.add(combatEffect);
+
+            int damage = Math.max((a.getATK() - t.getDEF()) * 3, 0);
+
+            String infoBattle = "CRITICAL HIT!!! " + a.getName() + " attacks " + t.getName() + " for " + damage + "damages!";
+            t.setActualHP(Math.max(0, t.getActualHP() - damage));
+
+            JLabel info = new JLabel(infoBattle);
+
+            JButton continueButton = new JButton("Continue ...");
+            continueButton.addActionListener (new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    if (t.getActualHP() == 0) defeatedEnemy(mainFrame, backgroundFile, attacker, target, p, e, f);
+                    else {
+                        if (a.getSPEED() >= t.getSPEED() + 5) {
+                            f.attaque2(mainFrame, backgroundFile, attacker, target, p, e, f);
+                        }
+                        else {
+                            f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                        }
+                    }
+                }
+            });
+            menuBar.add(continueButton);
+
+            menuBar.add(info);
+            menuBar.setBounds(0, 500, 600, 100);
+            background.add(menuBar);
+            usedFrame.getContentPane().add(background);
+            usedFrame.repaint();
+            usedFrame.revalidate();
+        }
+    }
+
+    public static void defeatedEnemy(JFrame mainFrame, String backgroundFile, int attacker, int target, Party p, Enemies e, Fight f) {
+
     }
 
 
