@@ -442,11 +442,73 @@ public class Fight {
                 usedFrame.repaint();
                 usedFrame.revalidate();
 
+                try { Thread.sleep(500); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
+
                 usedFrame.remove(combatEffect);
-                menuBar.remove(info1);
+
+                usedFrame.repaint();
+                usedFrame.revalidate();
+                
+                menuBar.remove(info2);
+
+                try { Thread.sleep(3000); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
 
                 if (e.getEnemies().get(target).getActualHP() != 0) {
+                    if ((int)(Math.random() * 100) > p.getTeam().get(attacker).getLUCK()) {
+                        usedFrame.add(combatEffect);
+                        String infoBattle3 = p.getTeam().get(attacker).getName() + " attacks " + e.getEnemies().get(target).getName() + " for " + damage + " damages!";
+                        e.getEnemies().get(target).setActualHP(Math.max(e.getEnemies().get(target).getActualHP() - damage, 0));
+                        JLabel info3 = new JLabel(infoBattle3);
+                        menuBar.add(info3);
+        
+                        usedFrame.repaint();
+                        usedFrame.revalidate();
+        
+                        try { Thread.sleep(500); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
+        
+                        usedFrame.remove(combatEffect);
+        
+                        usedFrame.repaint();
+                        usedFrame.revalidate();
+                        
+                        menuBar.remove(info3);
+        
+                        try { Thread.sleep(3000); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
+                    }
+                    
+                    else {
+                        usedFrame.add(combatEffect);
+                        damage = damage * 3;
+                        String infoBattle3 = "CRITICAL HIT!!! " + p.getTeam().get(attacker).getName() + " attacks again " + e.getEnemies().get(target).getName() + " for " + damage + " damages!";
+                        e.getEnemies().get(target).setActualHP(Math.max(e.getEnemies().get(target).getActualHP() - damage, 0));
+                        damage = damage / 3;
+                        JLabel info3 = new JLabel(infoBattle3);
+                        menuBar.add(info3);
 
+                        usedFrame.repaint();
+                        usedFrame.revalidate();
+
+                        try { Thread.sleep(500); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
+
+                        usedFrame.remove(combatEffect);
+
+                        usedFrame.repaint();
+                        usedFrame.revalidate();
+                        
+                        menuBar.remove(info3);
+                    }
+
+                    if (e.getEnemies().get(target).getActualHP() == 0) {
+                        int exp = e.getEnemies().get(target).getExpDrop();
+                        String infoBattle4 = p.getTeam().get(attacker).getName() + " has defeated " + e.getEnemies().get(target).getName() + "!\n" + p.getTeam().get(attacker).getName() + " has earned " + exp + " experience points!";
+                        p.getTeam().get(attacker).earnExp(exp);
+                        e.getEnemies().remove(target);
+                        JLabel info4 = new JLabel(infoBattle4);
+                        menuBar.add(info4);
+
+                        usedFrame.repaint();
+                        usedFrame.revalidate();
+                    }
                 }
             }
 
