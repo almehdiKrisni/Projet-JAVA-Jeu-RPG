@@ -508,6 +508,8 @@ public class Fight {
 
                         usedFrame.repaint();
                         usedFrame.revalidate();
+
+                        try { Thread.sleep(4000); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
                     }
                 }
             }
