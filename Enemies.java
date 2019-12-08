@@ -49,6 +49,15 @@ public class Enemies {
         return text;
     }
 
+    // Retourne la position d'un monstre dans la liste
+
+    public int posMob(Mob m) { 
+        for (int i = 0; i < this.enemies.size(); i++) {
+            if (this.enemies.get(i).equals(m)) return i;
+        }
+        return 0;
+    }
+
     // Supression d'un ennemi de l'équipe adverse (quand il est vaincu)
 
     public void deleteMob(Mob m) { this.enemies.remove(m); }
