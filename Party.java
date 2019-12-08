@@ -11,8 +11,12 @@ import java.awt.event.*;
 import javax.swing.JOptionPane;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.FlowLayout;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Insets;
+import java.awt.font.*;
+import javax.swing.*;
 
 public class Party {
     private ArrayList<Character> Team;
@@ -69,17 +73,30 @@ public class Party {
         return c.getName() + " has joined your team!\n";
     }
 
-    public void addMember(String name, String wannabe) {
-        if (wannabe == "Healer") { Healer h = new Healer(name); this.Team.add(h); this.magicalFighters.add(h); }
-        else if (wannabe == "Mage") { Mage m = new Mage(name); this.Team.add(m); this.magicalFighters.add(m); }
-        else if (wannabe == "Sweeper") { Sweeper s = new Sweeper(name); this.Team.add(s); this.physicalFighters.add(s); }
-        else { Tank t = new Tank(name); this.Team.add(t); this.physicalFighters.add(t); }
+    public void addMember(String name, String wannabe, int c) {
+        String[] M_Sweeper = {"Character_Sprites/M/Sweeper/1.png", "Character_Sprites/M/Sweeper/2.png", "Character_Sprites/M/Sweeper/3.png", "Character_Sprites/M/Sweeper/4.png"};
+        String[] M_Tank = {"Character_Sprites/M/Tank/1.png", "Character_Sprites/M/Tank/2.png", "Character_Sprites/M/Tank/3.png", "Character_Sprites/M/Tank/4.png"};
+        String[] M_Mage = {"Character_Sprites/M/Mage/1.png", "Character_Sprites/M/Mage/2.png", "Character_Sprites/M/Mage/3.png", "Character_Sprites/M/Mage/4.png"};
+        String[] M_Healer = {"Character_Sprites/M/Healer/1.png", "Character_Sprites/M/Healer/2.png", "Character_Sprites/M/Healer/3.png", "Character_Sprites/M/Healer/4.png"};
+
+        String[] F_Sweeper = {"Character_Sprites/F/Sweeper/1.png", "Character_Sprites/F/Sweeper/2.png", "Character_Sprites/F/Sweeper/3.png", "Character_Sprites/F/Sweeper/4.png"};
+        String[] F_Tank = {"Character_Sprites/F/Tank/1.png", "Character_Sprites/F/Tank/2.png", "Character_Sprites/F/Tank/3.png", "Character_Sprites/F/Tank/4.png"};
+        String[] F_Mage = {"Character_Sprites/F/Mage/1.png", "Character_Sprites/F/Mage/2.png", "Character_Sprites/F/Mage/3.png", "Character_Sprites/F/Mage/4.png"};
+        String[] F_Healer = {"Character_Sprites/F/Healer/1.png", "Character_Sprites/F/Healer/2.png", "Character_Sprites/F/Healer/3.png", "Character_Sprites/F/Healer/4.png"};
+
+        if (wannabe == "Healer (M)") { Healer h = new Healer(name); this.Team.add(h); this.magicalFighters.add(h); h.setImageN(new JLabel(new ImageIcon(M_Healer[c]))); }
+        else if (wannabe == "Mage (M)") { Mage m = new Mage(name); this.Team.add(m); this.magicalFighters.add(m); m.setImageN(new JLabel(new ImageIcon(M_Mage[c])));}
+        else if (wannabe == "Sweeper (M)") { Sweeper s = new Sweeper(name); this.Team.add(s); this.physicalFighters.add(s); s.setImageN(new JLabel(new ImageIcon(M_Sweeper[c])));}
+        else if (wannabe == "Tank (M)") { Tank t = new Tank(name); this.Team.add(t); this.physicalFighters.add(t); t.setImageN(new JLabel(new ImageIcon(M_Tank[c])));}
+        else if (wannabe == "Healer (F)") { Healer h = new Healer(name); this.Team.add(h); this.magicalFighters.add(h); h.setImageN(new JLabel(new ImageIcon(F_Healer[c])));}
+        else if (wannabe == "Mage (F)") { Mage m = new Mage(name); this.Team.add(m); this.magicalFighters.add(m); m.setImageN(new JLabel(new ImageIcon(F_Mage[c])));}
+        else if (wannabe == "Sweeper (F)") { Sweeper s = new Sweeper(name); this.Team.add(s); this.physicalFighters.add(s); s.setImageN(new JLabel(new ImageIcon(F_Sweeper[c])));}
+        else { Tank t = new Tank(name); this.Team.add(t); this.physicalFighters.add(t); t.setImageN(new JLabel(new ImageIcon(F_Tank[c])));}
+
     }
 
-    public void addMembers(JFrame inActionFrame) {
+    public int addMembers(JFrame inActionFrame, Utilitaries start) {
         Party party = this;
-
-        JOptionPane.showMessageDialog(null, "When creating your team, keep this in mind :\nSweepers have High Base Attack and Speed but can't take a lot of damage\nTanks have Very High Base HP and Defense but Low Base Speed\nMages' attacks are not affected by the enemy's defense when attacking but are very fragile\nHealers can deal low damage to enemies or heal allies");
 
         JFrame usedFrame = inActionFrame;
         usedFrame.getContentPane().removeAll();
@@ -92,7 +109,7 @@ public class Party {
         JLabel create3 = new JLabel("Character 3");
         JLabel create4 = new JLabel("Character 4");
 
-        String[] choices = {"Healer", "Mage", "Sweeper", "Tank"};
+        String[] choices = {"Healer (M)", "Mage (M)", "Sweeper (M)", "Tank (M)","Healer (F)", "Mage (F)", "Sweeper (F)", "Tank (F)"};
         JComboBox<String> classChoice1 = new JComboBox<String>(choices);
         JComboBox<String> classChoice2 = new JComboBox<String>(choices);
         JComboBox<String> classChoice3 = new JComboBox<String>(choices);
@@ -120,31 +137,46 @@ public class Party {
                 if (enterName1.getText().length() > 0) {
                     String name1 = enterName1.getText().toString();
                     String choice1 = classChoice1.getSelectedItem().toString();
-                    party.addMember(name1, choice1);
+                    party.addMember(name1, choice1, 0);
                 }
 
                 if (enterName2.getText().length() > 0) {
                     String name2 = enterName2.getText().toString();
                     String choice2 = classChoice2.getSelectedItem().toString();
-                    party.addMember(name2, choice2);
+                    party.addMember(name2, choice2, 1);
                 }
 
                 if (enterName3.getText().length() > 0) {
                     String name3 = enterName3.getText().toString();
                     String choice3 = classChoice3.getSelectedItem().toString();
-                    party.addMember(name3, choice3);
+                    party.addMember(name3, choice3, 2);
                 }
 
                 if (enterName4.getText().length() > 0) {
                     String name4 = enterName4.getText().toString();
                     String choice4 = classChoice4.getSelectedItem().toString();
-                    party.addMember(name4, choice4);
+                    party.addMember(name4, choice4, 3);
                 }
 
                 JOptionPane.showMessageDialog(null, "The team has been correctly created!");
 
                 usedFrame.getContentPane().removeAll();
+                usedFrame.setLayout(null);
+
+                JPanel screen = new JPanel();
+                screen.setBackground(Color.BLACK);
+                screen.setLayout(new GridBagLayout());
+                JLabel text = new JLabel("A KrisGAMES Production");
+                text.setForeground(Color.WHITE);
+                screen.add(text);
+                
+                screen.setSize(600, 600);
+
+                usedFrame.getContentPane().add(screen);
                 usedFrame.repaint();
+                usedFrame.revalidate();
+
+                start.setValue(1);
             }
         });
 
@@ -152,7 +184,7 @@ public class Party {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.PAGE_START;
-        constraints.insets = new Insets(10, 10, 10, 10);
+        constraints.insets = new Insets(0, 10, 10, 10);
 
         // Creation du personnage 1
         constraints.gridx = 0;
@@ -174,9 +206,13 @@ public class Party {
         creationPanel.add(classChoice1, constraints);
 
         // Creation du personnage 2
+        constraints.insets = new Insets(20, 10, 10, 10);
+
         constraints.gridx = 0;
         constraints.gridy = 3;
         creationPanel.add(create2, constraints);
+
+        constraints.insets = new Insets(0, 10, 10, 10);
 
         constraints.gridx = 0;
         constraints.gridy = 4;
@@ -193,9 +229,13 @@ public class Party {
         creationPanel.add(classChoice2, constraints);
 
         // Creation du personnage 3
+        constraints.insets = new Insets(20, 10, 10, 10);
+
         constraints.gridy = 6;
         constraints.gridx = 0;
         creationPanel.add(create3, constraints);
+
+        constraints.insets = new Insets(0, 10, 10, 10);
 
         constraints.gridx = 0;
         constraints.gridy = 7;
@@ -212,9 +252,13 @@ public class Party {
         creationPanel.add(classChoice3, constraints);
 
         // Creation du personnage 4
+        constraints.insets = new Insets(20, 10, 10, 10);
+
         constraints.gridy = 9;
         constraints.gridx = 0;
         creationPanel.add(create4, constraints);
+
+        constraints.insets = new Insets(0, 10, 10, 10);
 
         constraints.gridx = 0;
         constraints.gridy = 10;
@@ -241,6 +285,10 @@ public class Party {
         usedFrame.setContentPane(creationPanel);
         usedFrame.repaint();
         usedFrame.revalidate();
+
+        JOptionPane.showMessageDialog(null, "When creating your team, keep this in mind :\nSweepers have High Base Attack and Speed but can't take a lot of damage\nTanks have Very High Base HP and Defense but Low Base Speed\nMages' attacks are not affected by the enemy's defense when attacking but are very fragile\nHealers can deal low damage to enemies or heal allies");
+
+        return 0;
     }
 
     public void addItem(Item i) {
@@ -323,6 +371,14 @@ public class Party {
             else {
                 this.physicalFighters.get(choice).giveWeapon(w);
             }
+        }
+    }
+
+    // Soigner l'équipe
+
+    public void healTeam() {
+        for (Character c : this.Team) {
+            c.setActualHP(c.getHP());
         }
     }
 }

@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 public abstract class Character {
     // Les Statistiques des Personnages
 
@@ -19,6 +21,9 @@ public abstract class Character {
     protected int neededEXP;
     // Le nom du personnage.
     protected String Name;
+    // L'image du personnage en état neutre.
+    protected JLabel imageN;
+    
 
     // Les statistiques minimales que peut avoir un personnage.
     private final static int MIN_HP = 35;
@@ -43,7 +48,8 @@ public abstract class Character {
         this.EXP = START_EXP;
         this.neededEXP = START_neededEXP;
         this.Name = name;
-
+        
+        this.imageN = null;
         this.isDead = false;
         this.actualHP = this.HP;
     }
@@ -73,6 +79,8 @@ public abstract class Character {
 
     public int getActualHP() { return this.actualHP; }
 
+    public JLabel getImageN () { return this.imageN; }
+
     // Partie de controle des statistiques (utiles lors des montée de niveaux, ...)
 
     public void setATK(int atk) { this.ATK = atk; }
@@ -92,6 +100,8 @@ public abstract class Character {
     public void setIsDead(Boolean alive) { this.isDead = alive; }
 
     public void setActualHP (int hp) { this.actualHP = hp; }
+
+    public void setImageN (JLabel image) { this.imageN = image; if (this.imageN == null) System.out.println("Picture error"); }
 
     // Affichage en String du personnage
 

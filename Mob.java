@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 public class Mob {
     // Les statistiques classiques de tout les monstres du jeu.
     private int HP;
@@ -9,6 +11,7 @@ public class Mob {
     private String Name;
     private int expDrop;
     private int teamSPace;
+    private JLabel imageN;
 
     // Les statistiques de base des monstres.
     private static final int BASE_HP = 30;
@@ -20,7 +23,7 @@ public class Mob {
     // Le créateur random de monstre.
 
     public Mob(int lvl) {
-        int teamLevel = lvl - 1;
+        int teamLevel = Math.min(lvl - 1, 0);
         double rand = Math.random();
         if (rand < 0.4) {
             this.Name = "Goblin";
@@ -30,6 +33,7 @@ public class Mob {
             this.SPEED = (int)(BASE_SPEED * 7/5) + 2 * teamLevel;
             this.expDrop = BASE_expDrop;
             this.teamSPace = 1;
+            this.imageN = new JLabel(new ImageIcon("Enemy_Sprites/Goblin.png"));
         }
         else if (rand < 0.6) {
             this.Name = "Giant";
@@ -39,6 +43,7 @@ public class Mob {
             this.SPEED = (int)(BASE_SPEED * 1/5) + (int)(0.5 * teamLevel);
             this.expDrop = (int)(BASE_expDrop * 1.5);
             this.teamSPace = 2;
+            this.imageN = new JLabel(new ImageIcon("Enemy_Sprites/Giant.png"));
         }
         else if (rand < 0.97) {
             this.Name = "Slime";
@@ -48,6 +53,7 @@ public class Mob {
             this.SPEED = (int)(BASE_SPEED) + (int)(1.75 * teamLevel);
             this.expDrop = (int)(BASE_expDrop * 1.5);
             this.teamSPace = 2;
+            this.imageN = new JLabel(new ImageIcon("Enemy_Sprites/Slime.png"));
         }
         else {
             this.Name = "Silver Slime";
@@ -57,13 +63,14 @@ public class Mob {
             this.SPEED = 1;
             this.expDrop = 1000;
             this.teamSPace = 1;
+            this.imageN = new JLabel(new ImageIcon("Enemy_Sprites/Silver_Slime.png"));
         }
-        this.LEVEL = lvl;
+        this.LEVEL = Math.min(lvl, 1);
         this.actualHP = this.HP;
     }
 
     public Mob(int lvl, String name) {
-        int teamLevel = lvl - 1;
+        int teamLevel = Math.min(lvl - 1, 0);
         if (name == "Dragon") {
             this.Name = "Dragon (Dangerous enemy)";
             this.HP = (int)(BASE_HP * 10) + 30 * teamLevel;
@@ -72,6 +79,7 @@ public class Mob {
             this.SPEED = (int)(BASE_SPEED * 0.7) + (int)(1.4 * teamLevel);
             this.expDrop = (int)(BASE_expDrop * 10) + 50 * teamLevel;
             this.teamSPace = 4;
+            this.imageN = new JLabel(new ImageIcon("Enemy_Sprites/Dragon.png"));
         }
         else if (name == "Armored Beast") {
             this.Name = "Armored Beast (Dangerous enemy)";
@@ -81,6 +89,7 @@ public class Mob {
             this.SPEED = (int)(BASE_SPEED * 0.2) + (int)(0.5 * teamLevel);
             this.expDrop = (int)(BASE_expDrop * 10) + 50 * teamLevel;
             this.teamSPace = 4;
+            this.imageN = new JLabel(new ImageIcon("Enemy_Sprites/Armored_Beast.png"));
         }
         else if (name == "Death") {
             this.Name = "Death (Run)";
@@ -100,7 +109,7 @@ public class Mob {
             this.expDrop = (int)(BASE_expDrop * 5) + 50 * teamLevel;
             this.teamSPace = 4;
         }
-        this.LEVEL = lvl;
+        this.LEVEL = Math.min(lvl, 1);
         this.actualHP = this.HP;
     }
 
