@@ -133,6 +133,8 @@ public class Mob {
 
     public int getTeamSpace() { return this.teamSPace; }
 
+    public JLabel getImageN() { return this.imageN; }
+    
     // Les attributeurs de valeurs aux statistiques des monstres (uniquement les HP, pour des raisons triviales)
 
     public void setActualHP(int hp) { this.actualHP = hp; }

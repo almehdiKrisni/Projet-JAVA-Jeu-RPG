@@ -154,16 +154,18 @@ public class Fight {
         menuBar.add(attackButton);
 
         JButton infoButton = new JButton("Team Info");
-        
+        infoButton.addActionListener (new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, p.toString());
+            }
+        });
+
 
         menuBar.setBounds(0, 500, 600, 100);
         background.add(menuBar);
 
         usedFrame.setLayout(null);
         background.setBounds(0, 0, 600, 600);
-
-        //FightMatrixCharacter[] partyList = new FightMatrixCharacter[4];
-        usedFrame.setLayout(null);
 
         // Les boutons suivants permettent de se repérer pendant le combat
 
@@ -179,6 +181,8 @@ public class Fight {
         enemyS.setBounds(455, 20, 90, 60);
         usedFrame.add(enemyS);
 
+        // On ajoute les sprites des alliés (à condition qu'ils ne soient pas à terre) et des ennemis à l'écran
+
         JLabel[] imagePList = new JLabel[(p.getTeam().size())];
         for (int i = 0; i < p.getTeam().size(); i++) {
             imagePList[i] = p.getTeam().get(i).getImageN();
@@ -186,8 +190,22 @@ public class Fight {
 
         int x = 55; int y = 105; int largeur = 90; int longueur = 90;
         for (int i = 0; i < imagePList.length; i++) {
-            imagePList[i].setBounds(x, y, largeur, longueur);
-            usedFrame.add(imagePList[i]);
+            if (p.getTeam().get(i).getIsDead() == false) {
+                imagePList[i].setBounds(x, y, largeur, longueur);
+                usedFrame.add(imagePList[i]);
+                y = y + 100;
+            }
+        }
+
+        JLabel[] imageEList = new JLabel[e.getEnemies().size()];
+        for (int i = 0; i < e.getEnemies().size(); i++) {
+            imageEList[i] = e.getMobInPos(i).getImageN();
+        }
+
+        x = 455; y = 105; largeur = 90; longueur = 90;
+        for (int i = 0; i < imageEList.length; i++) {
+            imageEList[i].setBounds(x, y, largeur, longueur);
+            usedFrame.add(imageEList[i]);
             y = y + 100;
         }
 
