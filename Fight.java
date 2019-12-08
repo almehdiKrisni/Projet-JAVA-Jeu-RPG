@@ -304,7 +304,7 @@ public class Fight {
             JButton button = new JButton(m.toString());
             button.addActionListener (new ActionListener() {
                 public void actionPerformed(ActionEvent a) {
-                    attackTeam(mainFrame, backgroundFile, n.getValue(), Turn, p, e);
+                    attackTeam(mainFrame, backgroundFile, n.getValue(), Turn, p, e, f);
                 }
             });
             menuBar.add(button);
@@ -342,7 +342,7 @@ public class Fight {
 
     // Fonction d'attaque
 
-    public static void attackTeam(JFrame mainFrame, String backgroundFile, int target, int attacker, Party p, Enemies e) {
+    public static void attackTeam(JFrame mainFrame, String backgroundFile, int target, int attacker, Party p, Enemies e, Fight f) {
         JFrame usedFrame = mainFrame;
         usedFrame.getContentPane().removeAll();
 
@@ -509,7 +509,13 @@ public class Fight {
                         usedFrame.repaint();
                         usedFrame.revalidate();
 
-                        try { Thread.sleep(4000); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
+                        JButton follow = new JButton("Next turn");
+                        follow.addActionListener (new ActionListener() {
+                            public void actionPerformed(ActionEvent a) {
+                                if (attacker < p.getTeam().size() - 1) f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker + 1, f);
+                                else System.out.println("THIS IS TE LIMIT");
+                            }
+                        });
                     }
                 }
             }
