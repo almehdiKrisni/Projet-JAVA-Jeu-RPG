@@ -252,6 +252,10 @@ public class Fight {
             y = y + 100;
         }
 
+        JLabel combatEffect = new JLabel(new ImageIcon("Images/Player_Arrow.png"));
+        combatEffect.setBounds(5, 125 + (100 * order), 50, 50);
+        usedFrame.add(combatEffect);
+
         usedFrame.getContentPane().add(background);
         usedFrame.repaint();
         usedFrame.revalidate();
@@ -1077,6 +1081,10 @@ public class Fight {
                 f.enemyAttack(mainFrame, backgroundFile, mob, p, e, f);
             }
         });
+
+        JLabel combatEffect = new JLabel(new ImageIcon("Images/Enemy_Arrow.png"));
+        combatEffect.setBounds(545, 125 + (100 * mob), 50, 50);
+        usedFrame.add(combatEffect);
 
         menuBar.add(info);
         menuBar.add(continueButton);
