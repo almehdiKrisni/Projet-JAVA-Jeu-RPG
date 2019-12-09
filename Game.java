@@ -62,7 +62,7 @@ public class Game {
         System.out.println("Good... Now, let's test your abilities in battle.\nI'll assist you during your battles. Here, I'll let you handle these monstres.\n");
 
         Enemies e1 = new Enemies(p1.getAverageLevel(), (int)(Math.random() * 4 + 1));
-        Fight f1 = new Fight(p1, e1);
+        Fight f1 = new Fight(p1, e1, new Utilitaries());
 
         try { Thread.sleep(1500); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
 

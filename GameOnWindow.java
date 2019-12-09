@@ -87,18 +87,29 @@ public class GameOnWindow {
 
         while (start.getValue() == 0) {
             System.out.println("Waiting for the game to launch");
-            try { Thread.sleep(1000); } catch (InterruptedException e) { System.out.println("Error"); }
+            try { Thread.sleep(10000); } catch (InterruptedException e) { System.out.println("Error"); }
         }
 
-        try { Thread.sleep(1000); } catch (InterruptedException e) { System.out.println("Error"); }
+        try { Thread.sleep(3000); } catch (InterruptedException e) { System.out.println("Error"); }
 
         if (choice.getValue() == 2) {
-            Fight f1 = new Fight(p, new Enemies(p.getAverageLevel(), "Death"));
+            String[] backgrounds = {"Space", "Forest", "UPMC_Couloir"};
 
-            // Il existe differentes type de fonds d'écran pour les combats (il faut remplacer le mot avant '_Background.png' dans les paramètres)
-            // On peut choisir entre : Space, Forest, UPMC_Couloir
+            for (int i = 0; i < 3; i++) {
+                // Il existe differentes type de fonds d'écran pour les combats (il faut remplacer le mot avant '_Background.png' dans les paramètres)
+                // On peut choisir entre : Space, Forest, UPMC_Couloir
+                Utilitaries u = new Utilitaries();
+                Fight f1 = new Fight(p, new Enemies(p.getAverageLevel(), 4), u);
+                int r = (int)(Math.random() * backgrounds.length);
 
-            f1.fightOnScreen(f1, mainFrame, "Images/UPMC_Couloir_Background.png");
+                f1.fightOnScreen(f1, mainFrame, "Images/" + backgrounds[r] + "_Background.png");
+
+                while (u.getValue() == 0) {};
+            }
+            
+
+            
+
         }
     }
 }

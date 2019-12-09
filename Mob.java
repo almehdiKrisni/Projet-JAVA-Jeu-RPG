@@ -15,7 +15,7 @@ public class Mob {
 
     // Les statistiques de base des monstres.
     private static final int BASE_HP = 30;
-    private static final int BASE_ATK = 9;
+    private static final int BASE_ATK = 10;
     private static final int BASE_DEF = 4;
     private static final int BASE_SPEED = 5;
     private static final int BASE_expDrop = 20;
