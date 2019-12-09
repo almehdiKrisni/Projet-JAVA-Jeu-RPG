@@ -44,7 +44,7 @@ public class Enemies {
     public String toString() {
         String text = "";
         for (Mob m : this.enemies) {
-            text = text + m.getName() + " (Level " + m.getLEVEL() + ") + (HP - " + m.getActualHP() + "/" + m.getHP() + ")\n";
+            text = text + m.getName() + " (Level " + m.getLEVEL() + ")  (HP - " + m.getActualHP() + "/" + m.getHP() + ")\n";
         }
         return text;
     }
@@ -53,7 +53,7 @@ public class Enemies {
 
     public int posMob(Mob m) { 
         for (int i = 0; i < this.enemies.size(); i++) {
-            if (this.enemies.get(i).equals(m)) return i;
+            if (this.enemies.get(i) == m) return i;
         }
         return 0;
     }

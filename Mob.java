@@ -16,7 +16,7 @@ public class Mob {
     // Les statistiques de base des monstres.
     private static final int BASE_HP = 30;
     private static final int BASE_ATK = 9;
-    private static final int BASE_DEF = 6;
+    private static final int BASE_DEF = 4;
     private static final int BASE_SPEED = 5;
     private static final int BASE_expDrop = 20;
 
@@ -101,13 +101,14 @@ public class Mob {
             this.teamSPace = 4;
         }
         else {
-            this.Name = "Brigand Boss (Dangerous enemy)";
+            this.Name = "Shrek (Dangerous enemy)";
             this.HP = (int)(BASE_HP * 5) + 20 * teamLevel;
             this.ATK = (int)(BASE_ATK * 2.3) + 4 * teamLevel;
             this.DEF = (int)(BASE_DEF * 3) + 2 * teamLevel;
             this.SPEED = (int)(BASE_SPEED * 1.2) + (int)(1.1 * teamLevel);
             this.expDrop = (int)(BASE_expDrop * 5) + 50 * teamLevel;
             this.teamSPace = 4;
+            this.imageN = new JLabel(new ImageIcon("Enemy_Sprites/Shrek.png"));
         }
         this.LEVEL = Math.min(lvl, 1);
         this.actualHP = this.HP;
