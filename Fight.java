@@ -1301,17 +1301,22 @@ public class Fight {
         JFrame usedFrame = mainFrame;
         usedFrame.getContentPane().removeAll();
 
+        JButton button = new JButton("Close the game");
+        button.addActionListener (new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                usedFrame.dispatchEvent(new WindowEvent(usedFrame, WindowEvent.WINDOW_CLOSING));
+            }
+        });
+        button.setBounds(200, 500, 200, 60);
+        usedFrame.add(button);
+
         JLabel goImage = new JLabel(new ImageIcon("Images/GameOverScreen.png"));
         goImage.setBounds(0, 0, 600, 600);
         usedFrame.setLayout(null);
         usedFrame.getContentPane().add(goImage);
-
+        
         usedFrame.repaint();
         usedFrame.revalidate();
-
-        try { Thread.sleep(5000); } catch (InterruptedException i) { System.out.println("Error in GO sleep"); }
-
-        usedFrame.dispatchEvent(new WindowEvent(usedFrame, WindowEvent.WINDOW_CLOSING));
     }
 
 

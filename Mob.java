@@ -99,6 +99,7 @@ public class Mob {
             this.SPEED = 9999;
             this.expDrop = 1;
             this.teamSPace = 4;
+            this.imageN = new JLabel(new ImageIcon("Enemy_Sprites/Death.png"));
         }
         else {
             this.Name = "Shrek (Dangerous enemy)";
