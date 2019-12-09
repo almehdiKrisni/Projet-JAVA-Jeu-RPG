@@ -1412,6 +1412,7 @@ public class Fight {
         usedFrame.repaint();
         usedFrame.revalidate();
 
+        try { Thread.sleep(3000); } catch (InterruptedException e) { System.out.println("Erreur en fin de combat"); }
         f.ret.setValue(1);
     }
 
