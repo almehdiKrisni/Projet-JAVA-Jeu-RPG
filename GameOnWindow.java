@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
@@ -93,23 +92,19 @@ public class GameOnWindow {
         try { Thread.sleep(3000); } catch (InterruptedException e) { System.out.println("Error"); }
 
         if (choice.getValue() == 2) {
-            String[] backgrounds = {"Space", "Forest", "UPMC_Couloir"};
+            String[] backgrounds = {"Space", "Forest", "UPMC_Couloir", "Bibli"};
 
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 5; i++) {
                 // Il existe differentes type de fonds d'écran pour les combats (il faut remplacer le mot avant '_Background.png' dans les paramètres)
-                // On peut choisir entre : Space, Forest, UPMC_Couloir
+                // On peut choisir entre : Space, Forest, UPMC_Couloir, ...
                 Utilitaries u = new Utilitaries();
-                Fight f1 = new Fight(p, new Enemies(p.getAverageLevel(), 4), u);
+                Fight f1 = new Fight(p, new Enemies(p.getAverageLevel(), "Death"), u);
                 int r = (int)(Math.random() * backgrounds.length);
 
                 f1.fightOnScreen(f1, mainFrame, "Images/" + backgrounds[r] + "_Background.png");
 
                 while (u.getValue() == 0) {};
             }
-            
-
-            
-
         }
     }
 }

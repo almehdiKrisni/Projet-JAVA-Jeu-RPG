@@ -1,3 +1,16 @@
+import javax.swing.JLabel;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.awt.GridBagLayout;
+import java.awt.event.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
+import java.awt.Insets;
+
 public class Sweeper extends Physical {
     protected final String subClass = "Sweeper";
 
@@ -6,6 +19,15 @@ public class Sweeper extends Physical {
         this.ATK = (int)(this.ATK * 1.3);
         this.SPEED = (int)(this.SPEED * 1.5);
         this.DEF = (int)(this.DEF * 0.8);
+    }
+
+    public Sweeper(String name, String fileImage) {
+        super(name);
+        this.ATK = (int)(this.ATK * 1.5);
+        this.SPEED = (int)(this.SPEED * 1.5);
+        this.LUCK = 3;
+
+        this.imageN = new JLabel(new ImageIcon("Images/" + name + "_Sprite.png"));
     }
 
     // Partie de récupération des informations des personnages

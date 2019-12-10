@@ -381,4 +381,12 @@ public class Party {
             c.setActualHP(c.getHP());
         }
     }
+
+    public Boolean isTeamAtFullHP() {
+        for (int i = 0; i < this.Team.size(); i++) {
+            if (this.Team.get(i).getActualHP() == this.Team.get(i).getHP()) {}
+            else return false;
+        }
+        return true;
+    }
 }

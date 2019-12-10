@@ -40,15 +40,4 @@ public class GamePanel extends JPanel {
         usedFrame.repaint();
         usedFrame.revalidate();
     }
-
-    // All of the panels below are Story-related panels
-
-    public static void Ch1Pt1Panel1_Story(JFrame usedFrame, Party p) {
-        usedFrame.getContentPane().removeAll();
-
-        GamePanel mainP = new GamePanel();
-        mainP.setSize(600, 600);
-    }
-
-
 }
