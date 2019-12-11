@@ -86,13 +86,16 @@ public class GameOnWindow {
 
         while (start.getValue() == 0) {
             System.out.println("Waiting for the game to launch");
-            try { Thread.sleep(10000); } catch (InterruptedException e) { System.out.println("Error"); }
+            try { Thread.sleep(1000); } catch (InterruptedException e) { System.out.println("Error"); }
         }
 
         try { Thread.sleep(3000); } catch (InterruptedException e) { System.out.println("Error"); }
 
         if (choice.getValue() == 1) {
-
+            StoryWindow sw = new StoryWindow();
+            System.out.println("Hello");
+            
+            sw.ch1(mainFrame, p);
         }
 
         else {

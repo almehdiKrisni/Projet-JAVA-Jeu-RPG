@@ -24,6 +24,7 @@ public class Party {
     private ArrayList<Magic> magicalFighters;
     private Inventory inventory;
     private ArrayList<Weapon> armory;
+    private int money;
 
     // Je limite l'équipe à 4 membres
 
@@ -37,8 +38,15 @@ public class Party {
         this.physicalFighters = new ArrayList<Physical>();
         this.magicalFighters = new ArrayList<Magic>();
         this.armory = new ArrayList<Weapon>();
+        this.money = 0;
     }
 
+    // Méthode pour get et set l'argent possédé par l'équipe
+
+    public int getMoney() { return this.money; }
+
+    public void setMoney(int coins) { this.money = coins; }
+    
     // Méthodes de la classe (ajout de personnages ou d'objets)
 
     public void addMember() {
@@ -275,7 +283,7 @@ public class Party {
         creationPanel.add(classChoice4, constraints);
 
         // Bouton de validation des choix
-        
+
         creationPanel.add(new JLabel(" "));
         creationPanel.add(createButton);
 
