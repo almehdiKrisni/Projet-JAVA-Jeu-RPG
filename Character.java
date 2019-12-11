@@ -59,11 +59,11 @@ public abstract class Character {
 
     public int getHP() { return this.HP; }
 
-    public int getATK() { return this.ATK; }
+    public abstract int getATK();
 
     public int getDEF() { return this.DEF; }
 
-    public int getSPEED() { return this.SPEED; }
+    public abstract int getSPEED();
 
     public int getLUCK() { return this.LUCK; }
 

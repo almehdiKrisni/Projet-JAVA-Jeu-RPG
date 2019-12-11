@@ -284,6 +284,7 @@ public class Fight {
             int recovery = Math.min(heal, c.getHP() - c.getActualHP());
             text = text + p.getTeam().get(i).getName() + " has recovered " + recovery + " HP.\n";
             c.setActualHP(Math.min(c.getActualHP() + heal, c.getHP()));
+            if (c.getIsDead()) c.setIsDead(false);
         }
 
         JFrame usedFrame = mainFrame;
@@ -1331,11 +1332,6 @@ public class Fight {
     }
 
 
-
-
-
-
-
     // En cas de victoire contre un adversaire
 
     public static void defeatedEnemy(JFrame mainFrame, String backgroundFile, int attacker, int target, Party p, Enemies e, Fight f) {
@@ -1508,6 +1504,14 @@ public class Fight {
     }
 
     public static void endOfFight(JFrame usedFrame, Fight f) {
+        for (int i = 0; i < f.getParty().getTeam().size(); i++) {
+            Character c = f.getParty().getTeam().get(i);
+            if (c.getIsDead()) {
+                c.setIsDead(false);
+                c.setActualHP(1);
+            }
+        }
+
         usedFrame.getContentPane().removeAll();
 
         GamePanel panel = new GamePanel();
@@ -1526,7 +1530,6 @@ public class Fight {
         usedFrame.repaint();
         usedFrame.revalidate();
 
-        try { Thread.sleep(3000); } catch (InterruptedException e) { System.out.println("Erreur en fin de combat"); }
         f.ret.setValue(1);
     }
 

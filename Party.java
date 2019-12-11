@@ -275,11 +275,8 @@ public class Party {
         creationPanel.add(classChoice4, constraints);
 
         // Bouton de validation des choix
-        constraints.gridx = 0;
-        constraints.gridy = 12;
-        creationPanel.add(new JLabel(""));
-
-        constraints.gridx = 1;
+        
+        creationPanel.add(new JLabel(" "));
         creationPanel.add(createButton);
 
         usedFrame.setContentPane(creationPanel);
@@ -287,6 +284,95 @@ public class Party {
         usedFrame.revalidate();
 
         JOptionPane.showMessageDialog(null, "When creating your team, keep this in mind :\nSweepers have High Base Attack and Speed but can't take a lot of damage\nTanks have Very High Base HP and Defense but Low Base Speed\nMages' attacks are not affected by the enemy's defense when attacking but are very fragile\nHealers can deal low damage to enemies or heal allies");
+    }
+
+    public static void soloAddMembers(JFrame mainFrame, Party p, Utilitaries u) {
+        Party party = p;
+
+        JFrame usedFrame = mainFrame;
+        usedFrame.getContentPane().removeAll();
+        usedFrame.repaint();
+
+        JLabel create1 = new JLabel("Your character");
+        String[] choices = {"Healer (M)", "Mage (M)", "Sweeper (M)", "Tank (M)","Healer (F)", "Mage (F)", "Sweeper (F)", "Tank (F)"};
+        JComboBox<String> classChoice1 = new JComboBox<String>(choices);
+        JTextField enterName1 = new JTextField(15);
+        JLabel enterYourName1 = new JLabel("Enter your name");
+        JLabel choiceMessage1 = new JLabel("Select your class");
+        JButton createButton = new JButton("Start the game");
+
+        createButton.addActionListener (new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (enterName1.getText().length() > 0) {
+                    String name1 = enterName1.getText().toString();
+                    String choice1 = classChoice1.getSelectedItem().toString();
+                    party.addMember(name1, choice1, 0);
+
+                    JOptionPane.showMessageDialog(null, "I wish you good luck. Trust me, you're going to need it.");
+
+                    usedFrame.getContentPane().removeAll();
+                    usedFrame.setLayout(null);
+
+                    JPanel screen = new JPanel();
+                    screen.setBackground(Color.BLACK);
+                    screen.setLayout(new GridBagLayout());
+                    JLabel text = new JLabel("A KrisGAMES Production");
+                    text.setForeground(Color.WHITE);
+                    screen.add(text);
+                    
+                    screen.setSize(600, 600);
+
+                    usedFrame.getContentPane().add(screen);
+                    usedFrame.repaint();
+                    usedFrame.revalidate();
+
+                    u.setValue(1);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "You must choose a name. Everyone has a name...");
+                }
+            }
+        });
+
+        JPanel creationPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.anchor = GridBagConstraints.PAGE_START;
+        constraints.insets = new Insets(0, 10, 10, 10);
+
+        // Creation du personnage 1
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        creationPanel.add(create1, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        creationPanel.add(enterYourName1, constraints);
+
+        constraints.gridx = 1;
+        creationPanel.add(enterName1, constraints);
+
+        constraints.gridy = 2;
+        constraints.gridx = 0;
+        creationPanel.add(choiceMessage1, constraints);
+
+        constraints.gridx = 1;
+        creationPanel.add(classChoice1, constraints);
+
+        // Bouton de validation des choix
+
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        creationPanel.add(new JLabel(" "));
+        
+        constraints.gridx = 2;
+        creationPanel.add(createButton);
+
+        usedFrame.setContentPane(creationPanel);
+        usedFrame.repaint();
+        usedFrame.revalidate();
+
+        JOptionPane.showMessageDialog(null, "In Story Mode, you can only have one member in your team when you start. Other allies will join you as the story progress.\n\nWhen creating your character, keep this in mind :\nSweepers have High Base Attack and Speed but can't take a lot of damage\nTanks have Very High Base HP and Defense but Low Base Speed\nMages' attacks are not affected by the enemy's defense when attacking but are very fragile\nHealers can deal low damage to enemies or heal allies");
     }
 
     public void addItem(Item i) {

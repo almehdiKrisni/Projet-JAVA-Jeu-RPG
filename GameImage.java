@@ -32,7 +32,7 @@ public class GameImage extends JLabel {
         JButton startButton = new JButton("Story Mode");
         startButton.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                p.addMembers(mainFrame, start, p);
+                p.soloAddMembers(mainFrame, p, start);
                 System.out.println("Story Mode");
                 u.setValue(1);
             }

@@ -74,7 +74,7 @@ public class Mob {
         if (name == "Dragon") {
             this.Name = "Dragon (Dangerous enemy)";
             this.HP = (int)(BASE_HP * 10) + 30 * teamLevel;
-            this.ATK = (int)(BASE_ATK * 4) + 4 * teamLevel;
+            this.ATK = (int)(BASE_ATK * 3.5) + 4 * teamLevel;
             this.DEF = (int)(BASE_DEF * 2) + 2 * teamLevel;
             this.SPEED = (int)(BASE_SPEED * 0.7) + (int)(1.4 * teamLevel);
             this.expDrop = (int)(BASE_expDrop * 10) + 50 * teamLevel;
@@ -84,7 +84,7 @@ public class Mob {
         else if (name == "Armored Beast") {
             this.Name = "Armored Beast (Dangerous enemy)";
             this.HP = (int)(BASE_HP * 20) + 50 * teamLevel;
-            this.ATK = (int)(BASE_ATK * 2) + 4 * teamLevel;
+            this.ATK = (int)(BASE_ATK * 2.8) + 4 * teamLevel;
             this.DEF = (int)(BASE_DEF * 3) + 2 * teamLevel;
             this.SPEED = (int)(BASE_SPEED * 0.2) + (int)(0.5 * teamLevel);
             this.expDrop = (int)(BASE_expDrop * 10) + 50 * teamLevel;
@@ -103,7 +103,7 @@ public class Mob {
         }
         else {
             this.Name = "Shrek (Dangerous enemy)";
-            this.HP = (int)(BASE_HP * 5) + 20 * teamLevel;
+            this.HP = (int)(BASE_HP * 8) + 20 * teamLevel;
             this.ATK = (int)(BASE_ATK * 2.3) + 4 * teamLevel;
             this.DEF = (int)(BASE_DEF * 3) + 2 * teamLevel;
             this.SPEED = (int)(BASE_SPEED * 1.2) + (int)(1.1 * teamLevel);

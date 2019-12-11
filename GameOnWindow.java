@@ -91,31 +91,34 @@ public class GameOnWindow {
 
         try { Thread.sleep(3000); } catch (InterruptedException e) { System.out.println("Error"); }
 
-        if (choice.getValue() == 2) {
-            String[] backgrounds = {"Space", "Forest", "UPMC_Couloir", "Bibli"};
+        if (choice.getValue() == 1) {
 
-            for (int i = 0; i < 5; i++) {
+        }
+
+        else {
+            String[] backgrounds = {"Space", "Forest", "UPMC_Couloir", "Bibli"};
+            String[] bossFights = {"Shrek", "Armored Beast", "Dragon", "Death"};
+
+            for (int i = 1; i <= 20; i++) {
                 // Il existe differentes type de fonds d'écran pour les combats (il faut remplacer le mot avant '_Background.png' dans les paramètres)
                 // On peut choisir entre : Space, Forest, UPMC_Couloir, ...
 
                 Fight f1;
-                int r;
-                Utilitaries u;
+                int r = (int)(Math.random() * backgrounds.length);
+                Utilitaries u = new Utilitaries();
 
-                if (i % 5 == 0) {
-                    u = new Utilitaries();
+                if ((i % 5) != 0) {
                     f1 = new Fight(p, new Enemies(p.getAverageLevel(), 4), u);
-                    r = (int)(Math.random() * backgrounds.length);
                 }
                 else {
-                    u = new Utilitaries();
-                    f1 = new Fight(p, new Enemies(p.getAverageLevel(), "Death"), u);
-                    r = (int)(Math.random() * backgrounds.length);
+                    f1 = new Fight(p, new Enemies(p.getAverageLevel(), bossFights[i / 5]), u);
                 }
 
                 f1.fightOnScreen(f1, mainFrame, "Images/" + backgrounds[r] + "_Background.png");
 
                 while (u.getValue() == 0) {};
+
+                try { Thread.sleep(3000); } catch (InterruptedException e) { System.out.println("Error"); }
             }
         }
     }

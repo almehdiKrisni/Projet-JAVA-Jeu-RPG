@@ -13,6 +13,12 @@ public abstract class Magic extends Character {
 
     public abstract void actionCombat(Enemies enemies);
 
+    // Méthode pour recevoir l'attaque d'un personnage
+
+    public int getATK() { return this.ATK; }
+
+    public int getSPEED() { return this.SPEED; }
+
     // Partie d'affichage des informations des personnages
 
     public abstract String toString();
