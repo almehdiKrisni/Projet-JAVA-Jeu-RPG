@@ -32,7 +32,7 @@ public class GameImage extends JLabel {
         JButton startButton = new JButton("Story Mode");
         startButton.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                p.addMembers(mainFrame, start);
+                p.addMembers(mainFrame, start, p);
                 System.out.println("Story Mode");
                 u.setValue(1);
             }
@@ -44,7 +44,7 @@ public class GameImage extends JLabel {
         JButton versusButton = new JButton("Versus Mode");
         versusButton.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                p.addMembers(mainFrame, start);
+                p.addMembers(mainFrame, start, p);
                 System.out.println("Versus Mode");
                 u.setValue(2);
             }

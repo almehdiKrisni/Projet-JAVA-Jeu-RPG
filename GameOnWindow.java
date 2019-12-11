@@ -97,9 +97,21 @@ public class GameOnWindow {
             for (int i = 0; i < 5; i++) {
                 // Il existe differentes type de fonds d'écran pour les combats (il faut remplacer le mot avant '_Background.png' dans les paramètres)
                 // On peut choisir entre : Space, Forest, UPMC_Couloir, ...
-                Utilitaries u = new Utilitaries();
-                Fight f1 = new Fight(p, new Enemies(p.getAverageLevel(), "Death"), u);
-                int r = (int)(Math.random() * backgrounds.length);
+
+                Fight f1;
+                int r;
+                Utilitaries u;
+
+                if (i % 5 == 0) {
+                    u = new Utilitaries();
+                    f1 = new Fight(p, new Enemies(p.getAverageLevel(), 4), u);
+                    r = (int)(Math.random() * backgrounds.length);
+                }
+                else {
+                    u = new Utilitaries();
+                    f1 = new Fight(p, new Enemies(p.getAverageLevel(), "Death"), u);
+                    r = (int)(Math.random() * backgrounds.length);
+                }
 
                 f1.fightOnScreen(f1, mainFrame, "Images/" + backgrounds[r] + "_Background.png");
 

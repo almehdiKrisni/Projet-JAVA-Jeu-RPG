@@ -95,8 +95,8 @@ public class Party {
 
     }
 
-    public int addMembers(JFrame inActionFrame, Utilitaries start) {
-        Party party = this;
+    public static void addMembers(JFrame inActionFrame, Utilitaries start, Party p) {
+        Party party = p;
 
         JFrame usedFrame = inActionFrame;
         usedFrame.getContentPane().removeAll();
@@ -287,8 +287,6 @@ public class Party {
         usedFrame.revalidate();
 
         JOptionPane.showMessageDialog(null, "When creating your team, keep this in mind :\nSweepers have High Base Attack and Speed but can't take a lot of damage\nTanks have Very High Base HP and Defense but Low Base Speed\nMages' attacks are not affected by the enemy's defense when attacking but are very fragile\nHealers can deal low damage to enemies or heal allies");
-
-        return 0;
     }
 
     public void addItem(Item i) {
