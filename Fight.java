@@ -186,6 +186,15 @@ public class Fight {
         });
         menuBar.add(attackButton);
 
+        JButton useItemButton = new JButton("Use Item");
+        attackButton.addActionListener (new ActionListener() {
+            public void actionPerformed(ActionEvent a) {
+                if (p.getInventory().getStuff().size() == 0) JOptionPane.showMessageDialog(null, "You don't have any items... It's time to fight like a man!");
+                else f.useItem(mainFrame, backgroundFile, p, e, order, f);
+            }
+        });
+        menuBar.add(useItemButton);
+
         JButton restButton = new JButton("Rest");
         restButton.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent a) {
@@ -490,6 +499,7 @@ public class Fight {
 
         JFrame usedFrame = mainFrame;
         usedFrame.getContentPane().removeAll();
+        usedFrame.setLayout(null);
 
         GamePanel background = new GamePanel();
         background.setSize(600, 600);
@@ -536,6 +546,12 @@ public class Fight {
         });
         useButton.setBounds(310, 300, 120, 40);
         background.add(useButton);
+
+        background.setBounds(0, 0, 600, 600);
+        usedFrame.add(background);
+
+        usedFrame.repaint();
+        usedFrame.revalidate();
     }
 
     // Fonction du choix de la cible pour les alliés

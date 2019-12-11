@@ -6,6 +6,8 @@ public class Inventory {
     private int Size;
     private ArrayList<Item> Stuff;
 
+    private static final int limitSize = 20;
+
     public Inventory() {
         this.Size = 0;
         this.Stuff = new ArrayList<Item>();
@@ -20,9 +22,14 @@ public class Inventory {
     // Modificateurs de valeurs
 
     public void addItem(Item item) {
-        this.Stuff.add(item);
-        this.Size = this.Stuff.size();
-        JOptionPane.showMessageDialog(null, "You have received " + item.getName() + ".\n" + item.toString());
+        if (this.Size == limitSize) {
+            JOptionPane.showMessageDialog(null, "You have found a " + item.getName() + ".\nBut your inventory is full...");
+        }
+        else {
+            this.Stuff.add(item);
+            this.Size = this.Stuff.size();
+            JOptionPane.showMessageDialog(null, "You have received " + item.getName() + ".\n" + item.toString());
+        }
     }
 
     public void useItem(Item i) {
