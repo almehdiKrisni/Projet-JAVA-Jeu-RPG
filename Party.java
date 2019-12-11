@@ -47,6 +47,8 @@ public class Party {
 
     public void setMoney(int coins) { this.money = coins; }
     
+    public void addItemG(Item item) { this.inventory.addItem(item); }
+
     // Méthodes de la classe (ajout de personnages ou d'objets)
 
     public void addMember() {

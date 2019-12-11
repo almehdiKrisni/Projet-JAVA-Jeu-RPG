@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import javax.swing.*;
 
 public class Mage extends Magic {
     private final String subClass = "Mage";
@@ -8,6 +9,17 @@ public class Mage extends Magic {
         this.ATK = (int)(this.ATK * 1.3);
         this.SPEED = (int)(this.SPEED * 0.8);
         this.DEF = (int)(this.DEF * 0.8);
+    }
+
+    public Mage(String name, String fileImage) {
+        super(name);
+        
+        this.ATK = (int)(this.ATK * 1.5);
+        this.SPEED = (int)(this.SPEED * 1.2);
+        this.DEF = (int)(this.DEF * 0.9);
+        this.LUCK = 3;
+
+        this.imageN = new JLabel(new ImageIcon("Images/" + name + "_Sprite.png"));
     }
 
     // Partie de récupération des informations des personnages

@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Inventory {
     private int Size;
     private ArrayList<Item> Stuff;
@@ -20,6 +22,12 @@ public class Inventory {
     public void addItem(Item item) {
         this.Stuff.add(item);
         this.Size = this.Stuff.size();
+        JOptionPane.showMessageDialog(null, "You have received " + item.getName() + ".\n" + item.toString());
+    }
+
+    public void useItem(Item i) {
+        this.Stuff.remove(i);
+        this.Size = this.Stuff.size();
     }
 
     // Affichage de l'inventaire
@@ -39,5 +47,20 @@ public class Inventory {
             text = text + i.getName() + " x " + n + "\n";
         }
         return text;
+    }
+
+    // On récupère un objet via son nom et on le retire également de la meme maniere (lors des combats)
+
+    public Item findItem(String name) {
+        for (Item i : this.Stuff) {
+            if (i.getName() == name) return i;
+        }
+        return null;
+    }
+
+    public void deleteItem(String name) {
+        for (Item i : this.Stuff) {
+            if (i.getName() == name) this.Stuff.remove(i);
+        }
     }
 }

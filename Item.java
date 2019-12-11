@@ -1,15 +1,25 @@
 public abstract class Item {
-    protected String Name;
+    private String name;
+    private int HPrecovery;
 
-    public Item(String name) {
-        this.Name = name;
+    // Le constructeur des objets servant à récupérer des HP ou réanimer des alliés
+
+    public Item(String name, int level, int recovery) {
+        this.name = name + " (Level " + level + ")"; 
+        this.HPrecovery = recovery * level;
     }
 
-    // Accesseurs aux noms de l'objet
+    // Méthodes d'accès aux valeurs
 
-    public String getName() { return this.Name; }
+    public int getHPRecovery() { return this.HPrecovery; }
 
-    // Méethode abstraite de toString (redéfinie dans les sous-classes)
+    public String getName() { return this.name; }
 
-    public abstract String toString();
+    // Méthode toString de l'objet
+
+    public String toString() { return this.name; }
+
+    public String info() {
+        return "Item name - " + this.name + "\nAllow a character to recover " + this.HPrecovery + " HP.\n";
+    }
 }

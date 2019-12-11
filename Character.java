@@ -26,7 +26,7 @@ public abstract class Character {
     
 
     // Les statistiques minimales que peut avoir un personnage.
-    private final static int MIN_HP = 35;
+    private final static int MIN_HP = 45;
     private final static int MIN_ATK = 10;
     private final static int MIN_DEF = 5;
     private final static int MIN_SPEED = 7;
@@ -39,7 +39,7 @@ public abstract class Character {
     protected boolean isDead;
 
     public Character(String name) {
-        this.HP = (int)(Math.random() * (MIN_HP * 0.3) + MIN_HP);
+        this.HP = (int)(Math.random() * (MIN_HP * 0.2) + MIN_HP);
         this.ATK = (int)(Math.random() * (MIN_ATK * 0.5) + MIN_ATK);
         this.DEF = (int)(Math.random() * (MIN_DEF * 0.3) + MIN_DEF);
         this.SPEED = (int)(Math.random() * (MIN_SPEED * 0.5) + MIN_DEF);

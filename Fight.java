@@ -190,7 +190,7 @@ public class Fight {
         restButton.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent a) {
                 if (c.getActualHP() == c.getHP()) JOptionPane.showMessageDialog(null, c.getName() + " is already at full HP!");
-                else f.healSelf(mainFrame, backgroundFile, p, e, order, f);
+                else f.healSelf(mainFrame, backgroundFile, p, e, order, f, 0);
             }
         });
         menuBar.add(restButton);
@@ -379,11 +379,22 @@ public class Fight {
         JOptionPane.showMessageDialog(null, text);
     }
 
-    public static void healSelf(JFrame mainFrame, String backgroundFile, Party p, Enemies e, int attacker, Fight f) {
+    public static void healSelf(JFrame mainFrame, String backgroundFile, Party p, Enemies e, int attacker, Fight f, int reco) {
         Character c = p.getTeam().get(attacker);
-        int heal = c.getHP() / 2;
-        int recovery = Math.min(heal, c.getHP() - c.getActualHP());
-        c.setActualHP(Math.min(c.getActualHP() + heal, c.getHP()));
+        
+        int heal;
+        int recovery;
+
+        if (reco != 0) {
+            heal = reco;
+            recovery = Math.min(heal, c.getHP() - c.getActualHP());
+            c.setActualHP(Math.min(c.getActualHP() + heal, c.getHP()));
+        }
+        else {
+            heal = c.getHP() / 6;
+            recovery = Math.min(heal, c.getHP() - c.getActualHP());
+            c.setActualHP(Math.min(c.getActualHP() + heal, c.getHP()));
+        }
 
         JFrame usedFrame = mainFrame;
         usedFrame.getContentPane().removeAll();
@@ -472,7 +483,60 @@ public class Fight {
         usedFrame.revalidate();
     }
 
+    // Fonction pour utiliser les objets
 
+    public static void useItem(JFrame mainFrame, String backgroundFile, Party p, Enemies e, int order, Fight f) {
+        Character c = p.getTeam().get(order);
+
+        JFrame usedFrame = mainFrame;
+        usedFrame.getContentPane().removeAll();
+
+        GamePanel background = new GamePanel();
+        background.setSize(600, 600);
+        background.setLayout(null);
+
+        JLabel sprite = c.getImageN();
+        sprite.setBounds(30, 30, 90, 90);
+        background.add(sprite);
+
+        JLabel info = new JLabel("Name - " + c.getName() + "     HP - (" + c.getActualHP() + "/" + c.getHP() + ")");
+        info.setBounds(150, 60, 300, 30);
+        background.add(info);
+
+        ArrayList<Item> itemL = p.getInventory().getStuff();
+        String[] itemList = new String[itemL.size()];
+
+        for (int i = 0; i < itemL.size(); i++) {
+            itemList[i] = itemL.get(i).getName();
+        }
+
+        JComboBox boxItem = new JComboBox<String>(itemList);
+        boxItem.setBounds(170, 300, 120, 40);
+        background.add(boxItem);
+
+        JButton infoButton = new JButton("Item info");
+        infoButton.addActionListener (new ActionListener() {
+            public void actionPerformed(ActionEvent a) {
+                String itemSelected = boxItem.getSelectedItem().toString();
+                Item itemChoice = p.getInventory().findItem(itemSelected);
+                JOptionPane.showMessageDialog(null, itemChoice.info());
+            }
+        });
+        infoButton.setBounds(270, 380, 60, 40);
+        background.add(infoButton);
+
+        JButton useButton = new JButton("Use Item");
+        useButton.addActionListener (new ActionListener() {
+            public void actionPerformed(ActionEvent a) {
+                String itemSelected = boxItem.getSelectedItem().toString();
+                Item itemChoice = p.getInventory().findItem(itemSelected);
+                int reco = itemChoice.getHPRecovery();
+                f.healSelf(mainFrame, backgroundFile, p, e, order, f, reco);
+            }
+        });
+        useButton.setBounds(310, 300, 120, 40);
+        background.add(useButton);
+    }
 
     // Fonction du choix de la cible pour les alliés
 

@@ -75,7 +75,7 @@ public class Game {
 
         // Après la fin du combat
 
-        System.out.println("Good, good... Looks like we might have a chance after all. I'm impressed by the way you and your team handled this fight.\nBut don't get ahead of yourself, the monsters you've faced were quite weak compared to the ones near my hometown.\n");
+        /*System.out.println("Good, good... Looks like we might have a chance after all. I'm impressed by the way you and your team handled this fight.\nBut don't get ahead of yourself, the monsters you've faced were quite weak compared to the ones near my hometown.\n");
         System.out.println("Excuse me, Mr.Invincible. Next time, why don't you handle these monsters all by yourself. (1)\nDo you have any potions? (2)\n");
 
         int choice1 = scan.nextInt(); System.out.println();
@@ -93,7 +93,7 @@ public class Game {
             System.out.println("Here, take these but make sure to stay alive during the next fights... I have plans for you.\n");
             HealingItem h1 = new HealingItem("Potion", 1, 20);
             for (int a1 = 0; a1 < 3; a1++) p1.addItem(h1);
-        }
+        }*/
         
     }
 }

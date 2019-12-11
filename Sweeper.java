@@ -21,11 +21,13 @@ public class Sweeper extends Physical {
         this.DEF = (int)(this.DEF * 0.8);
     }
 
-    public Sweeper(String name, String fileImage) {
+    public Sweeper(String name, String fileImage, Weapon weapon) {
         super(name);
+        
         this.ATK = (int)(this.ATK * 1.5);
         this.SPEED = (int)(this.SPEED * 1.5);
         this.LUCK = 3;
+        this.weapon = weapon;
 
         this.imageN = new JLabel(new ImageIcon("Images/" + name + "_Sprite.png"));
     }
