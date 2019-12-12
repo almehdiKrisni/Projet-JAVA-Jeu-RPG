@@ -94,7 +94,7 @@ public class GameOnWindow {
         if (choice.getValue() == 1) {
             StoryWindow sw = new StoryWindow();
             System.out.println("Hello");
-            
+
             sw.ch1(mainFrame, p);
         }
 
@@ -102,7 +102,7 @@ public class GameOnWindow {
             String[] backgrounds = {"Space", "Forest", "UPMC_Couloir", "Bibli"};
             String[] bossFights = {"Shrek", "Armored Beast", "Dragon", "Death"};
 
-            for (int i = 1; i <= 20; i++) {
+            for (int i = 1; i <= 12; i++) {
                 // Il existe differentes type de fonds d'écran pour les combats (il faut remplacer le mot avant '_Background.png' dans les paramètres)
                 // On peut choisir entre : Space, Forest, UPMC_Couloir, ...
 
@@ -110,11 +110,11 @@ public class GameOnWindow {
                 int r = (int)(Math.random() * backgrounds.length);
                 Utilitaries u = new Utilitaries();
 
-                if ((i % 5) != 0) {
+                if ((i % 3) != 0) {
                     f1 = new Fight(p, new Enemies(p.getAverageLevel(), 4), u);
                 }
                 else {
-                    f1 = new Fight(p, new Enemies(p.getAverageLevel(), bossFights[i / 5]), u);
+                    f1 = new Fight(p, new Enemies(p.getAverageLevel(), bossFights[(i / 3) - 1]), u);
                 }
 
                 f1.fightOnScreen(f1, mainFrame, "Images/" + backgrounds[r] + "_Background.png");

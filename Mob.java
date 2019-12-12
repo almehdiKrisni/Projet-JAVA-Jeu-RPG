@@ -83,7 +83,7 @@ public class Mob {
         }
         else if (name == "Armored Beast") {
             this.Name = "Armored Beast (Dangerous enemy)";
-            this.HP = (int)(BASE_HP * 20) + 50 * teamLevel;
+            this.HP = (int)(BASE_HP * 15) + 50 * teamLevel;
             this.ATK = (int)(BASE_ATK * 2.8) + 4 * teamLevel;
             this.DEF = (int)(BASE_DEF * 3) + 2 * teamLevel;
             this.SPEED = (int)(BASE_SPEED * 0.2) + (int)(0.5 * teamLevel);

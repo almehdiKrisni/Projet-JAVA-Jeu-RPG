@@ -518,7 +518,7 @@ public class Fight {
         background.add(sprite);
 
         JLabel info = new JLabel("Name - " + c.getName() + "     HP - (" + c.getActualHP() + "/" + c.getHP() + ")");
-        info.setBounds(150, 60, 300, 30);
+        info.setBounds(150, 60, 200, 30);
         background.add(info);
 
         ArrayList<Item> itemL = p.getInventory().getStuff();
@@ -542,6 +542,24 @@ public class Fight {
         });
         infoButton.setBounds(240, 380, 120, 40);
         background.add(infoButton);
+
+        JButton returnButton = new JButton("Return");
+        returnButton.addActionListener (new ActionListener() {
+            public void actionPerformed(ActionEvent a) {
+                f.basicFightScreen(mainFrame, backgroundFile, p, e, order, f);
+            }
+        });
+        returnButton.setBounds(400, 60, 100, 30);
+        background.add(returnButton);
+
+        String[] listPotions = {"Images/P1.png", "Images/P2.png", "Images/P3.png"};
+        int x = 0; int y = 450; int largeur = 100; int longueur = 100;
+        for (int i = 0; i < 11; i++) {
+            JLabel imageP = new JLabel(new ImageIcon(listPotions[(int)(Math.random() * 3)]));
+            imageP.setBounds(x, y, largeur, longueur);
+            background.add(imageP);
+            x = x + 50;
+        }
 
         JButton useButton = new JButton("Use Item");
         useButton.addActionListener (new ActionListener() {
@@ -645,6 +663,14 @@ public class Fight {
             i++;
             menuBar.add(button);
         }
+
+        JButton returnButton = new JButton("Return");
+        returnButton.addActionListener (new ActionListener() {
+            public void actionPerformed(ActionEvent a) {
+                f.basicFightScreen(mainFrame, backgroundFile, p, e, attacker, f);
+            }
+        });
+        menuBar.add(returnButton);
 
         menuBar.setBounds(0, 500, 600, 100);
         background.add(menuBar);
@@ -1561,7 +1587,7 @@ public class Fight {
 
         // On affiche un message de victoire dans le menu
 
-        int expG = (int)(Math.random() * 0.6 + 0.7) * 3 * (p.getAverageLevel() + 1);
+        int expG = (int)((Math.random() * 0.6 + 0.7) * 3 * (p.getAverageLevel() + 1));
         JLabel message;
         double r = Math.random();
         if (r < 0.33) {

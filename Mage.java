@@ -31,7 +31,7 @@ public class Mage extends Magic {
     // Partie d'affichage des personnages
 
     public String toString() {
-        return "Name - " + this.Name + "\tLEVEL - " + this.LEVEL + "\nClass - " + this.MainClass + "\tSpecialized Class - " + this.subClass + "\nHP  - " + this.actualHP + "/" + this.HP +"\tATK - " + this.ATK + "\tSPD - " + this.SPEED + "\nDEF - " + this.DEF + " \tLCK - " + this.LUCK + " \t(" + this.EXP + "/" + this.neededEXP + ")\n";
+        return "Name - " + this.Name + "\tLEVEL - " + this.LEVEL + "       Class - " + this.MainClass + "       Specialized Class - " + this.subClass + "\nHP  - " + this.actualHP + "/" + this.HP +"       ATK - " + this.ATK + "       SPD - " + this.SPEED + "\nDEF - " + this.DEF + "       LCK - " + this.LUCK + "       (" + this.EXP + "/" + this.neededEXP + ")\n";
     }
 
     // Action en combat du personnage
@@ -132,6 +132,7 @@ public class Mage extends Magic {
     public String levelUpForWindow() {
         this.EXP = 0;
         this.neededEXP = (int)(this.neededEXP * 1.5);
+        this.LEVEL++;
 
         String text = this.Name + " has leveled up!\n";
         int bhp = (int)(Math.random() * 3);

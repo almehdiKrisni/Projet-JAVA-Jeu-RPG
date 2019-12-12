@@ -17,7 +17,7 @@ public class Tank extends Physical {
     // Partie de l'affichage des personnages
 
     public String toString() {
-        String text = "Name - " + this.Name + "\tLEVEL - " + this.LEVEL + "\nClass - " + this.MainClass + "\tSpecialized Class - " + this.subClass + "\nHP  - " + this.actualHP + "/" + this.HP +"\tATK - " + this.ATK + "\tSPD - " + this.SPEED + "\nDEF - " + this.DEF + " \tLCK - " + this.LUCK + " \t(" + this.EXP + "/" + this.neededEXP + ")\n";
+        String text = "Name - " + this.Name + "       LEVEL - " + this.LEVEL + "\nClass - " + this.MainClass + "       Specialized Class - " + this.subClass + "\nHP  - " + this.actualHP + "/" + this.HP +"       ATK - " + this.ATK + "       SPD - " + this.SPEED + "\nDEF - " + this.DEF + "       LCK - " + this.LUCK + "       (" + this.EXP + "/" + this.neededEXP + ")\n";
         if (this.getWeapon() != null) {
             return text + "Equiped Weapon - " + this.getWeapon().getName() +"\n";
         }
@@ -55,6 +55,7 @@ public class Tank extends Physical {
     public String levelUpForWindow() {
         this.EXP = 0;
         this.neededEXP = (int)(this.neededEXP * 1.5);
+        this.LEVEL++;
 
         String text = this.Name + " has leveled up!\n";
         int bhp = (int)(Math.random() * 3);

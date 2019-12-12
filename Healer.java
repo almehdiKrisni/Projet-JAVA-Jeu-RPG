@@ -113,6 +113,7 @@ public class Healer extends Magic {
 
     public String levelUpForWindow() {
         this.EXP = 0;
+        this.LEVEL++;
         this.neededEXP = (int)(this.neededEXP * 1.5);
 
         String text = this.Name + " has leveled up!\n";
@@ -139,6 +140,6 @@ public class Healer extends Magic {
     // Partie d'affichage des personnages
 
     public String toString() {
-        return "Name - " + this.Name + "\tLEVEL - " + this.LEVEL + "\nClass - " + this.MainClass + "\tSpecialized Class - " + this.subClass + "\nHP  - " + this.actualHP + "/" + this.HP +"\tATK - " + this.ATK + "\tSPD - " + this.SPEED + "\nDEF - " + this.DEF + " \tLCK - " + this.LUCK + " \t(" + this.EXP + "/" + this.neededEXP + ")\n";
+        return "Name - " + this.Name + "       LEVEL - " + this.LEVEL + "\nClass - " + this.MainClass + "       Specialized Class - " + this.subClass + "\nHP  - " + this.actualHP + "/" + this.HP +"       ATK - " + this.ATK + "       SPD - " + this.SPEED + "\nDEF - " + this.DEF + "       LCK - " + this.LUCK + "       (" + this.EXP + "/" + this.neededEXP + ")\n";
     }
 }
