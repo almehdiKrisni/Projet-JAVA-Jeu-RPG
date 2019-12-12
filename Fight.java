@@ -187,9 +187,10 @@ public class Fight {
         menuBar.add(attackButton);
 
         JButton useItemButton = new JButton("Use Item");
-        attackButton.addActionListener (new ActionListener() {
+        useItemButton.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent a) {
-                if (p.getInventory().getStuff().size() == 0) JOptionPane.showMessageDialog(null, "You don't have any items... It's time to fight like a man!");
+                if (p.getInventory().getSize() == 0) JOptionPane.showMessageDialog(null, "You don't have any items... It's time to fight like a man!");
+                else if (c.getActualHP() == c.getHP()) JOptionPane.showMessageDialog(null, "You're already at full HP... Would be a shame to waste an item.");
                 else f.useItem(mainFrame, backgroundFile, p, e, order, f);
             }
         });
@@ -216,7 +217,7 @@ public class Fight {
             JButton healTeamButton = new JButton("Heal Party");
             healTeamButton.addActionListener (new ActionListener() {
                 public void actionPerformed(ActionEvent a) {
-                    if (p.isTeamAtFullHP()) f.healTeam(mainFrame, backgroundFile, p, e, order, f);
+                    if (p.isTeamAtFullHP() == false) f.healTeam(mainFrame, backgroundFile, p, e, order, f);
                     else JOptionPane.showMessageDialog(null, "All the party members are at full HP.");
                 }
             });
@@ -286,14 +287,16 @@ public class Fight {
 
     public static void healTeam(JFrame mainFrame, String backgroundFile, Party p, Enemies e, int attacker, Fight f) {
         Character c = p.getTeam().get(attacker);
-        int heal = c.getATK() / 2;
+        int heal = (int)(c.getATK() * 0.5);
+        int recovery;
 
         String text = "";
         for (int i = 0; i < p.getTeam().size(); i++) {
-            int recovery = Math.min(heal, c.getHP() - c.getActualHP());
+            Character cara = p.getTeam().get(i);
+            recovery = Math.min(heal, cara.getHP() - cara.getActualHP());
             text = text + p.getTeam().get(i).getName() + " has recovered " + recovery + " HP.\n";
             c.setActualHP(Math.min(c.getActualHP() + heal, c.getHP()));
-            if (c.getIsDead()) c.setIsDead(false);
+            if (c.getIsDead() == true) c.setIsDead(false);
         }
 
         JFrame usedFrame = mainFrame;
@@ -423,7 +426,12 @@ public class Fight {
 
         // On ajoute les boutons au menu de combat
 
-        JLabel info = new JLabel(c.getName() + " has recovered " + recovery + " HP. (" + c.getActualHP() + "/" + c.getHP() + ")");
+        String text = "";
+
+        if (reco != 0) text = c.getName() + " has recovered " + recovery + " HP after using an item. (" + c.getActualHP() + "/" + c.getHP() + ")";
+        else text = c.getName() + " has recovered " + recovery + " HP. (" + c.getActualHP() + "/" + c.getHP() + ")";
+
+        JLabel info = new JLabel(text);
         menuBar.add(info);
         JButton continueButton = new JButton("Continue ...");
         continueButton.addActionListener (new ActionListener() {
@@ -492,7 +500,7 @@ public class Fight {
         usedFrame.revalidate();
     }
 
-    // Fonction pour utiliser les objets
+    // Fonction pour utiliser les objets de soin
 
     public static void useItem(JFrame mainFrame, String backgroundFile, Party p, Enemies e, int order, Fight f) {
         Character c = p.getTeam().get(order);
@@ -521,7 +529,7 @@ public class Fight {
         }
 
         JComboBox boxItem = new JComboBox<String>(itemList);
-        boxItem.setBounds(170, 300, 120, 40);
+        boxItem.setBounds(120, 300, 170, 40);
         background.add(boxItem);
 
         JButton infoButton = new JButton("Item info");
@@ -532,7 +540,7 @@ public class Fight {
                 JOptionPane.showMessageDialog(null, itemChoice.info());
             }
         });
-        infoButton.setBounds(270, 380, 60, 40);
+        infoButton.setBounds(240, 380, 120, 40);
         background.add(infoButton);
 
         JButton useButton = new JButton("Use Item");
@@ -541,10 +549,11 @@ public class Fight {
                 String itemSelected = boxItem.getSelectedItem().toString();
                 Item itemChoice = p.getInventory().findItem(itemSelected);
                 int reco = itemChoice.getHPRecovery();
+                p.getInventory().useItem(itemChoice);;
                 f.healSelf(mainFrame, backgroundFile, p, e, order, f, reco);
             }
         });
-        useButton.setBounds(310, 300, 120, 40);
+        useButton.setBounds(310, 300, 170, 40);
         background.add(useButton);
 
         background.setBounds(0, 0, 600, 600);
@@ -1566,12 +1575,15 @@ public class Fight {
         }
         menuBar.add(message);
         JButton continueButton = new JButton("Continue ...");
+
+
         continueButton.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 for (Character c : p.getTeam()) {
                     c.setEXP(Math.min(c.getNeededEXP(), c.getEXP() + expG));
                     if (c.getEXP() >= c.neededEXP) JOptionPane.showMessageDialog(null, c.levelUpForWindow());
                 }
+                p.receiveItemVictory();
                 f.endOfFight(mainFrame, f);
             }
         });

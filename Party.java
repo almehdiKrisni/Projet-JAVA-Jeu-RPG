@@ -477,10 +477,42 @@ public class Party {
     }
 
     public Boolean isTeamAtFullHP() {
+        Boolean cond = true;
+
         for (int i = 0; i < this.Team.size(); i++) {
-            if (this.Team.get(i).getActualHP() == this.Team.get(i).getHP()) {}
-            else return false;
+            Character c = this.Team.get(i);
+            if (c.getActualHP() != c.getHP()) cond = false;
         }
-        return true;
+        return cond;
+    }
+
+    // On crée une fonction permettant de récupérer des objets après une victoire lors d'un combat
+
+    public void receiveItemVictory() {
+        int n = (int)(Math.random() * 3);
+        if (n == 0) JOptionPane.showMessageDialog(null, "You haven't received any item after this fight...");
+        else {
+            for (int i = 0; i < n; i++) {
+                double r = Math.random();
+                if (r < 0.3) {
+                    this.addItemG(new Item("Potion", 1, 20));
+                }
+                else if (r < 0.55) {
+                    this.addItemG(new Item("Potion", 2, 20));
+                }
+                else if (r < 0.75) {
+                    this.addItemG(new Item("Potion", 3, 20));
+                }
+                else if (r < 0.9) {
+                    this.addItemG(new Item("Elixir", 1, 50));
+                }
+                else if (r < 0.97) {
+                    this.addItemG(new Item("Elixir", 2, 50));
+                }
+                else {
+                    this.addItemG(new Item("Elixir", 3, 50));
+                }
+            }
+        }
     }
 }

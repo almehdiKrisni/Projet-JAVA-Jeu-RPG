@@ -23,12 +23,12 @@ public class Inventory {
 
     public void addItem(Item item) {
         if (this.Size == limitSize) {
-            JOptionPane.showMessageDialog(null, "You have found a " + item.getName() + ".\nBut your inventory is full...");
+            JOptionPane.showMessageDialog(null, "You have found one " + item.getName() + ".\nBut your inventory is full...");
         }
         else {
             this.Stuff.add(item);
             this.Size = this.Stuff.size();
-            JOptionPane.showMessageDialog(null, "You have received " + item.getName() + ".\n" + item.toString());
+            JOptionPane.showMessageDialog(null, "You have received " + item.getName() + ".\n" + item.getDesc());
         }
     }
 

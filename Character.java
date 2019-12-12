@@ -26,8 +26,8 @@ public abstract class Character {
     
 
     // Les statistiques minimales que peut avoir un personnage.
-    private final static int MIN_HP = 45;
-    private final static int MIN_ATK = 10;
+    private final static int MIN_HP = 35;
+    private final static int MIN_ATK = 9;
     private final static int MIN_DEF = 5;
     private final static int MIN_SPEED = 7;
     private final static int MIN_LEVEL = 1;
