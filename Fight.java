@@ -295,8 +295,8 @@ public class Fight {
             Character cara = p.getTeam().get(i);
             recovery = Math.min(heal, cara.getHP() - cara.getActualHP());
             text = text + p.getTeam().get(i).getName() + " has recovered " + recovery + " HP.\n";
-            c.setActualHP(Math.min(c.getActualHP() + heal, c.getHP()));
-            if (c.getIsDead() == true) c.setIsDead(false);
+            cara.setActualHP(Math.min(c.getActualHP() + heal, cara.getHP()));
+            if (cara.getIsDead() == true) cara.setIsDead(false);
         }
 
         JFrame usedFrame = mainFrame;
@@ -1377,7 +1377,7 @@ public class Fight {
 
         JButton fightS = new JButton("Fight Scene");
         fightS.setBounds(255, 20, 90, 60);
-        usedFrame.add(fightS);
+        usedFrame.add(fightS);  
 
         JButton enemyS = new JButton("Enemy Side");
         enemyS.setBounds(455, 20, 90, 60);
