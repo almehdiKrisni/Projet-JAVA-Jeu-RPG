@@ -31,7 +31,7 @@ public class Mage extends Magic {
     // Partie d'affichage des personnages
 
     public String toString() {
-        return "Name - " + this.Name + "\tLEVEL - " + this.LEVEL + "       Class - " + this.MainClass + "       Specialized Class - " + this.subClass + "\nHP  - " + this.actualHP + "/" + this.HP +"       ATK - " + this.ATK + "       SPD - " + this.SPEED + "\nDEF - " + this.DEF + "       LCK - " + this.LUCK + "       (" + this.EXP + "/" + this.neededEXP + ")\n";
+        return "Name - " + this.Name + "\tLEVEL - " + this.LEVEL + "       Class - " + this.MainClass + "       Specialized Class - " + this.subClass + "\nHP  - " + this.actualHP + "/" + this.HP +"       ATK - " + this.getATK() + "       SPD - " + this.getSPEED() + "\nDEF - " + this.getDEF() + "       LCK - " + this.LUCK + "       (" + this.EXP + "/" + this.neededEXP + ")\n";
     }
 
     // Action en combat du personnage

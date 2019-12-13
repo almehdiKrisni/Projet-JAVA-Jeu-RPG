@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.ArrayList;
 
 public abstract class Character {
     // Les Statistiques des Personnages
@@ -23,13 +24,15 @@ public abstract class Character {
     protected String Name;
     // L'image du personnage en état neutre.
     protected JLabel imageN;
+    // Liste des buffs des personnages.
+    protected ArrayList<Buff> buffList;
     
 
     // Les statistiques minimales que peut avoir un personnage.
-    private final static int MIN_HP = 35;
-    private final static int MIN_ATK = 9;
+    private final static int MIN_HP = 38;
+    private final static int MIN_ATK = 10;
     private final static int MIN_DEF = 5;
-    private final static int MIN_SPEED = 7;
+    private final static int MIN_SPEED = 8;
     private final static int MIN_LEVEL = 1;
     private final static int START_EXP = 0;
     private final static int START_neededEXP = 100;
@@ -48,6 +51,7 @@ public abstract class Character {
         this.EXP = START_EXP;
         this.neededEXP = START_neededEXP;
         this.Name = name;
+        this.buffList = new ArrayList<Buff>();
         
         this.imageN = null;
         this.isDead = false;
@@ -61,7 +65,13 @@ public abstract class Character {
 
     public abstract int getATK();
 
-    public int getDEF() { return this.DEF; }
+    public int getDEF() { 
+        int buffD = 0;
+        for (Buff buff : this.buffList) {
+            if (buff.boostsDEF()) buffD = buffD + buff.getDEFBuff();
+        }
+        return this.DEF + buffD;
+    }
 
     public abstract int getSPEED();
 
@@ -79,7 +89,9 @@ public abstract class Character {
 
     public int getActualHP() { return this.actualHP; }
 
-    public JLabel getImageN () { return this.imageN; }
+    public JLabel getImageN() { return this.imageN; }
+
+    public ArrayList<Buff> getBuffList() { return this.buffList; }
 
     // Partie de controle des statistiques (utiles lors des montée de niveaux, ...)
 
@@ -139,6 +151,12 @@ public abstract class Character {
             this.EXP = 0;
             this.levelUP();
         }
+    }
+
+    // Méthode pour ajouter des buffs à un personnage
+
+    public void addBuff(Buff b) {
+        this.buffList.add(b);
     }
 
 }

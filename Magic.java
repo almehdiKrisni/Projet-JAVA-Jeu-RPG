@@ -15,7 +15,13 @@ public abstract class Magic extends Character {
 
     // Méthode pour recevoir l'attaque d'un personnage
 
-    public int getATK() { return this.ATK; }
+    public int getATK() { 
+        int buffA = 0;
+        for (Buff buff : this.buffList) {
+            if (buff.boostsATK()) buffA = buffA + buff.getATKBuff();
+        }
+        return buffA + this.ATK;
+    }
 
     public int getSPEED() { return this.SPEED; }
 

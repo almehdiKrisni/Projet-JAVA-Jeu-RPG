@@ -140,6 +140,6 @@ public class Healer extends Magic {
     // Partie d'affichage des personnages
 
     public String toString() {
-        return "Name - " + this.Name + "       LEVEL - " + this.LEVEL + "\nClass - " + this.MainClass + "       Specialized Class - " + this.subClass + "\nHP  - " + this.actualHP + "/" + this.HP +"       ATK - " + this.ATK + "       SPD - " + this.SPEED + "\nDEF - " + this.DEF + "       LCK - " + this.LUCK + "       (" + this.EXP + "/" + this.neededEXP + ")\n";
+        return "Name - " + this.Name + "       LEVEL - " + this.LEVEL + "\nClass - " + this.MainClass + "       Specialized Class - " + this.subClass + "\nHP  - " + this.actualHP + "/" + this.HP +"       ATK - " + this.getATK() + "       SPD - " + this.getSPEED() + "\nDEF - " + this.getDEF() + "       LCK - " + this.LUCK + "       (" + this.EXP + "/" + this.neededEXP + ")\n";
     }
 }

@@ -490,28 +490,51 @@ public class Party {
 
     public void receiveItemVictory() {
         int n = (int)(Math.random() * 3);
-        if (n == 0) JOptionPane.showMessageDialog(null, "You haven't received any item after this fight...");
+        if (n == 0) JOptionPane.showMessageDialog(null, "You haven't received any healing item after this fight...");
         else {
             for (int i = 0; i < n; i++) {
                 double r = Math.random();
                 if (r < 0.3) {
-                    this.addItemG(new Item("Potion", 1, 20));
+                    this.addItemG(new HealingItem("Potion", 1, 20));
                 }
                 else if (r < 0.55) {
-                    this.addItemG(new Item("Potion", 2, 20));
+                    this.addItemG(new HealingItem("Potion", 2, 20));
                 }
                 else if (r < 0.75) {
-                    this.addItemG(new Item("Potion", 3, 20));
+                    this.addItemG(new HealingItem("Potion", 3, 20));
                 }
                 else if (r < 0.9) {
-                    this.addItemG(new Item("Elixir", 1, 50));
+                    this.addItemG(new HealingItem("Elixir", 1, 40));
                 }
                 else if (r < 0.97) {
-                    this.addItemG(new Item("Elixir", 2, 50));
+                    this.addItemG(new HealingItem("Elixir", 2, 40));
                 }
                 else {
-                    this.addItemG(new Item("Elixir", 3, 50));
+                    this.addItemG(new HealingItem("Elixir", 3, 40));
                 }
+            }
+        }
+        int n2 = (int)(Math.random() * 3);
+        if (n2 == 0) JOptionPane.showMessageDialog(null, "You haven't received any buffers after this fight...");
+        else {
+            double r = Math.random();
+            if (r < 0.33) {
+                double r2 = Math.random();
+                if (r2 < 0.33) this.addItemG(new Buff(5, 0, 0, 1));
+                else if (r2 < 0.66) this.addItemG(new Buff(5, 0, 0, 2));
+                else this.addItemG(new Buff(5, 0, 0, 3));
+            }
+            else if (r < 0.66) {
+                double r2 = Math.random();
+                if (r2 < 0.33) this.addItemG(new Buff(0, 5, 0, 1));
+                else if (r2 < 0.66) this.addItemG(new Buff(0, 5, 0, 2));
+                else this.addItemG(new Buff(0, 5, 0, 3));
+            }
+            else {
+                double r2 = Math.random();
+                if (r2 < 0.33) this.addItemG(new Buff(0, 0, 5, 1));
+                else if (r2 < 0.66) this.addItemG(new Buff(0, 0, 5, 2));
+                else this.addItemG(new Buff(0, 0, 5, 3));
             }
         }
     }
