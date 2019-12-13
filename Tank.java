@@ -5,9 +5,9 @@ public class Tank extends Physical {
         super(name);
         this.HP = (int)(this.HP * 1.6);
         this.actualHP = this.HP;
-        this.DEF = (int)(this.DEF * 2.2);
-        this.ATK = (int)(this.ATK * 0.8);
-        this.SPEED = (int)(this.SPEED * 0.5);
+        this.DEF = (int)(this.DEF * 2.1);
+        this.ATK = (int)(this.ATK * 1.2);
+        this.SPEED = (int)(this.SPEED * 0.4);
     }
 
     // Partie de récupération des informations des personnages
