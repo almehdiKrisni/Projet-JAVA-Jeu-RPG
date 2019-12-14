@@ -117,13 +117,37 @@ public abstract class Physical extends Character {
     // Méthode pour recevoir l'attaque d'un personnage
 
     public int getATK() {
-        if (this.weapon == null) return this.ATK;
-        else return this.ATK + this.weapon.getMigth();
+        if (this.weapon == null) {
+            int buffA = 0;
+            for (Buff buff : this.buffList) {
+                if (buff.boostsATK()) buffA = buffA + buff.getATKBuff();
+            }
+            return buffA + this.ATK;
+        }
+        else {
+            int buffA = 0;
+            for (Buff buff : this.buffList) {
+                if (buff.boostsATK()) buffA = buffA + buff.getATKBuff();
+            }
+            return buffA + this.ATK + this.weapon.getMigth();
+        }
     }
 
     public int getSPEED() {
-        if (this.weapon == null) return this.SPEED;
-        else return this.SPEED - this.weapon.getWeigth();
+        if (this.weapon == null) {
+            int buffS = 0;
+            for (Buff buff : this.buffList) {
+                if (buff.boostsSPD()) buffS = buffS + buff.getSPDBuff();
+            }
+            return buffS + this.SPEED;
+        }
+        else {
+            int buffS = 0;
+            for (Buff buff : this.buffList) {
+                if (buff.boostsSPD()) buffS = buffS + buff.getSPDBuff();
+            }
+            return buffS + this.SPEED - this.weapon.getWeigth();
+        }
     }
 
     // Partie d'affichage des informations des personnages

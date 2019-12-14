@@ -142,6 +142,7 @@ public class Fight {
 
     public static void basicFightScreen(JFrame mainFrame, String backgroundFile, Party p, Enemies e, int order, Fight f) {
         // On ajoute le fond de combat et la barre de menu
+        System.out.println("Fight start");
 
         if (p.getTeam().get(order).getIsDead() == true) {
             System.out.println("Here");

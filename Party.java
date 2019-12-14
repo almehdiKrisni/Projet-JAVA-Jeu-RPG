@@ -296,20 +296,37 @@ public class Party {
         JOptionPane.showMessageDialog(null, "When creating your team, keep this in mind :\nSweepers have High Base Attack and Speed but can't take a lot of damage\nTanks have Very High Base HP and Defense but Low Base Speed\nMages' attacks are not affected by the enemy's defense when attacking but are very fragile\nHealers can deal low damage to enemies or heal allies");
     }
 
-    public static void soloAddMembers(JFrame mainFrame, Party p, Utilitaries u) {
+    public static void addThreeMembers(JFrame inActionFrame, Utilitaries start, Party p) {
         Party party = p;
 
-        JFrame usedFrame = mainFrame;
+        JFrame usedFrame = inActionFrame;
         usedFrame.getContentPane().removeAll();
         usedFrame.repaint();
 
-        JLabel create1 = new JLabel("Your character");
+        // On cree les espaces pour la création de tout les personnages
+
+        JLabel create1 = new JLabel("Character 1");
+        JLabel create2 = new JLabel("Character 2");
+        JLabel create3 = new JLabel("Character 3");
+
         String[] choices = {"Healer (M)", "Mage (M)", "Sweeper (M)", "Tank (M)","Healer (F)", "Mage (F)", "Sweeper (F)", "Tank (F)"};
         JComboBox<String> classChoice1 = new JComboBox<String>(choices);
+        JComboBox<String> classChoice2 = new JComboBox<String>(choices);
+        JComboBox<String> classChoice3 = new JComboBox<String>(choices);
+
         JTextField enterName1 = new JTextField(15);
-        JLabel enterYourName1 = new JLabel("Enter your name");
-        JLabel choiceMessage1 = new JLabel("Select your class");
-        JButton createButton = new JButton("Start the game");
+        JTextField enterName2 = new JTextField(15);
+        JTextField enterName3 = new JTextField(15);
+
+        JLabel enterYourName1 = new JLabel("Enter the name");
+        JLabel enterYourName2 = new JLabel("Enter the name");
+        JLabel enterYourName3 = new JLabel("Enter the name");
+
+        JLabel choiceMessage1 = new JLabel("Select the class");
+        JLabel choiceMessage2 = new JLabel("Select the class");
+        JLabel choiceMessage3 = new JLabel("Select the class");
+
+        JButton createButton = new JButton("Create the team");
 
         createButton.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -317,30 +334,39 @@ public class Party {
                     String name1 = enterName1.getText().toString();
                     String choice1 = classChoice1.getSelectedItem().toString();
                     party.addMember(name1, choice1, 0);
-
-                    JOptionPane.showMessageDialog(null, "I wish you good luck. Trust me, you're going to need it.");
-
-                    usedFrame.getContentPane().removeAll();
-                    usedFrame.setLayout(null);
-
-                    JPanel screen = new JPanel();
-                    screen.setBackground(Color.BLACK);
-                    screen.setLayout(new GridBagLayout());
-                    JLabel text = new JLabel("A KrisGAMES Production");
-                    text.setForeground(Color.WHITE);
-                    screen.add(text);
-                    
-                    screen.setSize(600, 600);
-
-                    usedFrame.getContentPane().add(screen);
-                    usedFrame.repaint();
-                    usedFrame.revalidate();
-
-                    u.setValue(1);
                 }
-                else {
-                    JOptionPane.showMessageDialog(null, "You must choose a name. Everyone has a name...");
+
+                if (enterName2.getText().length() > 0) {
+                    String name2 = enterName2.getText().toString();
+                    String choice2 = classChoice2.getSelectedItem().toString();
+                    party.addMember(name2, choice2, 1);
                 }
+
+                if (enterName3.getText().length() > 0) {
+                    String name3 = enterName3.getText().toString();
+                    String choice3 = classChoice3.getSelectedItem().toString();
+                    party.addMember(name3, choice3, 2);
+                }
+
+                JOptionPane.showMessageDialog(null, "The team has been correctly created!");
+
+                usedFrame.getContentPane().removeAll();
+                usedFrame.setLayout(null);
+
+                JPanel screen = new JPanel();
+                screen.setBackground(Color.BLACK);
+                screen.setLayout(new GridBagLayout());
+                JLabel text = new JLabel("A KrisGAMES Production");
+                text.setForeground(Color.WHITE);
+                screen.add(text);
+                
+                screen.setSize(600, 600);
+
+                usedFrame.getContentPane().add(screen);
+                usedFrame.repaint();
+                usedFrame.revalidate();
+
+                start.setValue(1);
             }
         });
 
@@ -369,20 +395,68 @@ public class Party {
         constraints.gridx = 1;
         creationPanel.add(classChoice1, constraints);
 
-        // Bouton de validation des choix
+        // Creation du personnage 2
+        constraints.insets = new Insets(20, 10, 10, 10);
+
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        creationPanel.add(create2, constraints);
+
+        constraints.insets = new Insets(0, 10, 10, 10);
+
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        creationPanel.add(enterYourName2, constraints);
 
         constraints.gridx = 1;
-        constraints.gridy = 0;
+        creationPanel.add(enterName2, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 5;
+        creationPanel.add(choiceMessage2, constraints);
+
+        constraints.gridx = 1;
+        creationPanel.add(classChoice2, constraints);
+
+        // Creation du personnage 3
+        constraints.insets = new Insets(20, 10, 10, 10);
+
+        constraints.gridy = 6;
+        constraints.gridx = 0;
+        creationPanel.add(create3, constraints);
+
+        constraints.insets = new Insets(0, 10, 10, 10);
+
+        constraints.gridx = 0;
+        constraints.gridy = 7;
+        creationPanel.add(enterYourName3, constraints);
+
+        constraints.gridx = 1;
+        creationPanel.add(enterName3, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 8;
+        creationPanel.add(choiceMessage3, constraints);
+
+        constraints.gridx = 1;
+        creationPanel.add(classChoice3, constraints);
+
+        // Bouton de validation des choix
+
         creationPanel.add(new JLabel(" "));
-        
-        constraints.gridx = 2;
         creationPanel.add(createButton);
 
         usedFrame.setContentPane(creationPanel);
         usedFrame.repaint();
         usedFrame.revalidate();
 
-        JOptionPane.showMessageDialog(null, "In Story Mode, you can only have one member in your team when you start. Other allies will join you as the story progress.\n\nWhen creating your character, keep this in mind :\nSweepers have High Base Attack and Speed but can't take a lot of damage\nTanks have Very High Base HP and Defense but Low Base Speed\nMages' attacks are not affected by the enemy's defense when attacking but are very fragile\nHealers can deal low damage to enemies or heal allies");
+        JOptionPane.showMessageDialog(null, "When creating your team, keep this in mind :\nSweepers have High Base Attack and Speed but can't take a lot of damage\nTanks have Very High Base HP and Defense but Low Base Speed\nMages' attacks are not affected by the enemy's defense when attacking but are very fragile\nHealers can deal low damage to enemies or heal allies");
+    }
+
+    public void addChrom() {
+        Character c = new Sweeper("Chrom", "Images/", new Weapon(8, 2, "Falchion", null));
+        this.Team.add(c);
+        JOptionPane.showMessageDialog(null, "Chrom has joined your team!");
     }
 
     public void addItem(Item i) {
@@ -473,6 +547,7 @@ public class Party {
     public void healTeam() {
         for (Character c : this.Team) {
             c.setActualHP(c.getHP());
+            if (c.getIsDead()) c.setIsDead(false);
         }
     }
 

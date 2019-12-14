@@ -23,7 +23,13 @@ public abstract class Magic extends Character {
         return buffA + this.ATK;
     }
 
-    public int getSPEED() { return this.SPEED; }
+    public int getSPEED() {
+        int buffS = 0;
+        for (Buff buff : this.buffList) {
+            if (buff.boostsSPD()) buffS = buffS + buff.getSPDBuff();
+        }
+        return buffS + this.SPEED;
+    }
 
     // Partie d'affichage des informations des personnages
 
